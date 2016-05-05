@@ -1,0 +1,10 @@
+0 3 * * * php ~/productHacking/RegisterCoreTask.php > ~/log/log_RegisterCoreTask.txt 2>&1 2
+0 4 * * * php ~/Hacking/coreTask/cronUpdateTask.php > ~/log/cronPromotionDaily.txt 2>&1 &
+0 3 * * 1 php ~/productHacking/WeekCoreTask.php > ~/log/log_weekCoreTask.txt 2>&1 2
+0 2 * * 1 php ~/productHacking/RetainWeekCoreTask.php > ~/log/log_retainWeek.txt 2>&1 2
+0 1 1 */1 * php ~/productHacking/MonthCoreTask.php > ~/log/log_MonthCoreTask.txt 2>&1 2
+0 1 1 */1 * php ~/productHacking/RetainMonthCoreTask.php > ~/log/log_retainMonth.txt 2>&1 2
+0 5 * * * php ~/productHacking/SummationActivities.php > ~/log/log_summation.txt 2>&1 2
+0 2 * * * php ~/Hacking/coreTask/cronUserDaily.php > ~/log/cronDaily.txt 2>&1 2
+0 1 * * 1 php ~/Hacking/coreTask/cronWeekUpdateTask.php > ~/log/cronRetainWeekly.txt 2>&1 2
+0 1 1 */1 * php ~/Hacking/coreTask/cronUserMonthly.php > ~/log/cronUserMonthly.txt 2>&1 2
