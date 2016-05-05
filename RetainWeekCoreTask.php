@@ -50,7 +50,7 @@ class RetainWeekCoreTask extends RetainForWeek
         $paramsKey = $this->getIsRetainWeekParamsKey($isRetain);
         if (empty($paramsKey)) {
             echo "UnCatch the paramsKey from isRetain, Please check ! \n";
-            return;
+            return false;
         }
         $items = array(
             $paramsKey[1] => $retainWeekCT,

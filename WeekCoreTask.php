@@ -36,5 +36,6 @@ class WeekCoreTask extends CoreTaskQuery
             echo "==== " . $params['create_on'] . " week Insert " . self::USER_WEEK_BASE_TASK_TABLE . " Success !!! \n";
         }
     }
-
 }
+$weekRetain = new WeekCoreTask();
+$weekRetain->insertWeekBaseTaskCnt();
