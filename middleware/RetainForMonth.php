@@ -36,6 +36,10 @@ class RetainForMonth
         foreach ($retainItems as $item) {
             $userIdCollection[] = $item['uid'];
         }
+        if (empty($userIdCollection)) {
+            echo "UnCatch Month retain \n";
+            return 0;
+        }
         $visitEnd = $visitDate->getTimestamp() + ($visitMonthDays -1) * 86400;
         $visitStart = $visitDate->getTimestamp();
         return $this->getRetainMonthCount($userIdCollection, $visitStart, $visitEnd);
