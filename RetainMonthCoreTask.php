@@ -20,8 +20,9 @@ class RetainMonthCoreTask extends RetainForMonth
 
     public function updateRetainMonthForMonth($isRetainMonth = 0)
     {
-        $timestamp = time();
-        $date = new \DateTime(date('Y-m-01'));
+        $current = new \DateTime();
+        $nextMonth = $current->modify("+1 month");
+        $date = new \DateTime(date('Y-m-01', $nextMonth));
         $pointDate = clone $date;
         $visitDate = clone $date;
         $pointDate->modify("-$isRetainMonth months");
