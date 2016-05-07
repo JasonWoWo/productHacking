@@ -27,7 +27,15 @@ class RetainMonthCoreTask extends RetainForMonth
         $pointDate->modify("-$isRetainMonth months");
         $visitDate->modify("-1 month"); 
         $retainMonthUnCT = $this->baseRetainMonthly($pointDate, $visitDate, -1, 5);
+        if (empty($retainMonthUnCT)) {
+            echo "UnCatch isRetainMonthUnCT value, Please Check! \n";
+            return false;
+        }
         $retainMonthCT = $this->baseRetainMonthly($pointDate, $visitDate, 6, 10);
+        if (empty($retainMonthCT)) {
+            echo "UnCatch isRetainMonthCT value, Please Check! \n";
+            return false;
+        }
         $paramsKey = $this->getIsRetainMonthParamsKey($isRetainMonth);
         $paramsList = array(
             $paramsKey[1] => $retainMonthCT,
