@@ -42,7 +42,8 @@ class RetainMonthCoreTask extends RetainForMonth
             $paramsKey[1] => $retainMonthCT,
             $paramsKey[2] => $retainMonthUnCT
         );
-        $monthLabelString = $pointDate->format('Y-m-d');
+        $monthLabelString ="'" . $pointDate->format('Y-m-d') . "'";
+        echo $monthLabelString . "\n";
         if ($this->checkCurrentDateData(self::USER_MONTH_BASE_TASK_TABLE, $monthLabelString)) {
             $where = array('create_on' => $monthLabelString);
             $updateQuery = $this->common->updateParamsQuery(self::USER_MONTH_BASE_TASK_TABLE, $paramsList, $where);

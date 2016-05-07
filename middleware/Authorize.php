@@ -125,7 +125,7 @@ class Authorize
         $deviceSix = 0;
         $deviceTen = 0;
         foreach ($authorize as $item) {
-            $createOn = 'UnCatch';
+            $createOn = date('Y-m-d');
             $userId = isset($item['uid']) ? $item['uid'] : '-1';
             if ($userId != -1) {
                 $createOn = $this->getUserCreateOn($userId);
