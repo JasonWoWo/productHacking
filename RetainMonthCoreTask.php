@@ -22,7 +22,7 @@ class RetainMonthCoreTask extends RetainForMonth
     {
         $current = new \DateTime();
         $nextMonth = $current->modify("+1 month");
-        $date = new \DateTime(date('Y-m-01', $nextMonth));
+        $date = new \DateTime(date('Y-m-01', $nextMonth->getTimestamp()));
         $pointDate = clone $date;
         $visitDate = clone $date;
         $pointDate->modify("-$isRetainMonth months");
