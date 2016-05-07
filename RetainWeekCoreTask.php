@@ -60,7 +60,8 @@ class RetainWeekCoreTask extends RetainForWeek
             $paramsKey[1] => $retainWeekCT,
             $paramsKey[2] => $retainWeekUnCT
         );
-        $loginIn = $nextDate->modify("-$isRetain days")->format('Y-m-d');
+        $distance = $isRetain + 1;
+        $loginIn = $nextDate->modify("-$distance days")->format('Y-m-d');
         $loginInString = "'" . $loginIn . "'";
         if ($this->checkCurrentDateData(self::USER_WEEK_BASE_TASK_TABLE, $loginInString)) {
             $where = array('create_on' => $loginInString);
