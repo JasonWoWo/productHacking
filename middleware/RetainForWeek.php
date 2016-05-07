@@ -34,6 +34,10 @@ class RetainForWeek
         foreach ($retainItems as $item) {
             $userIdCollection[] = $item['uid'];
         }
+        if (empty($userIdCollection)) {
+            echo "UnCatch week retain \n";
+            return 0;
+        }
         $visitEnd = $timestamp - 86400;
         $visitStart = $timestamp - $isRetain * 86400;
         return $this->getRetainCount($userIdCollection, $visitStart, $visitEnd);

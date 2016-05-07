@@ -33,7 +33,7 @@ class WeekCoreTask extends CoreTaskQuery
         $insertSql = $this->common->insertParamsQuery(self::USER_WEEK_BASE_TASK_TABLE, $paramsList);
         $query = $this->common->fetchCakeStatQuery($insertSql);
         if ($query) {
-            echo "==== " . $params['create_on'] . " week Insert " . self::USER_WEEK_BASE_TASK_TABLE . " Success !!! \n";
+            echo "==== " . $paramsList['create_on'] . " week Insert " . self::USER_WEEK_BASE_TASK_TABLE . " Success !!! \n";
         }
     }
 }
