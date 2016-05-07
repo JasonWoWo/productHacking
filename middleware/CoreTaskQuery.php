@@ -198,6 +198,7 @@ WHERE
 GROUP BY 
 	u.id
         ", $joinBlock, $currentTable, $loginStartString, $loginEndString, $loginStartString, $loginEndString);
+        echo $querySql . " \n";
         $result = $this->connectObj->fetchAssoc($querySql);
         foreach ($result as &$item) {
             if ($item['cnt'] == 1) {

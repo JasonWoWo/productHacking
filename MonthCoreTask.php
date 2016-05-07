@@ -24,7 +24,9 @@ class MonthCoreTask extends CoreTaskQuery
         $dateTime = new \DateTime(date('Y-m-d', $timeStamp));
         $precedingMonth = clone $dateTime;
         $days = date('t', $precedingMonth->modify('-1 month')->getTimestamp());
-        $params = $this->fetchBirthLevelUsers($dateTime->getTimestamp(), $days, 30);
+        $isRetainDays = intval($days) - 1;
+        $dateTime->modify('-1 day');
+        $params = $this->fetchBirthLevelUsers($dateTime->getTimestamp(), $isRetainDays, 30);
         $paramsList = array(
             'create_on' => "'". $precedingMonth->format('Y-m-d') ."'",
             'month_core_task_cnt' => $params['birth_cnt_rank_0610'] + $params['birth_cnt_rank_1000'],

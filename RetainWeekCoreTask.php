@@ -35,14 +35,18 @@ class RetainWeekCoreTask extends RetainForWeek
     public function updateRetainForWeek($extendStamp = 0, $isRetain = 0)
     {
         $timestamp = empty($extendStamp) ? time() : $extendStamp;
-        $currentDate = strtotime(date('Y-m-d', $timestamp));
-
-        $retainWeekCT = $this->baseRetainWeekly($currentDate, 7, 7, 6, 1000);
+        $currentDate = new \DateTime(date('Y-m-d', $timestamp));
+        $nextDate = clone $currentDate;
+        $weekdays = date("N", $currentDate->getTimestamp());
+        $nextWeekDistance = 8 - $weekdays;
+        $nextDate->modify("+$nextWeekDistance days");
+        echo $nextDate->format('Y-m-d') . "\n";
+        $retainWeekCT = $this->baseRetainWeekly($nextDate->getTimestamp(), $isRetain, 7, 6, 1000);
         if (empty($retainWeekCT)) {
             echo "UnCatch isRetainWeekCT value, Please Check! \n";
             return false;
         }
-        $retainWeekUnCT = $this->baseRetainWeekly($currentDate, 7, 7, -1, 5);
+        $retainWeekUnCT = $this->baseRetainWeekly($nextDate->getTimestamp(), $isRetain, 7, -1, 5);
         if (empty($retainWeekUnCT)) {
             echo "UnCatch isRetainWeekUnCT value, Please Check! \n";
             return false;
@@ -56,8 +60,8 @@ class RetainWeekCoreTask extends RetainForWeek
             $paramsKey[1] => $retainWeekCT,
             $paramsKey[2] => $retainWeekUnCT
         );
-        $loginIn = $currentDate - $isRetain * 86400;
-        $loginInString = "'" . date('Y-m-d', $loginIn) . "'";
+        $loginIn = $nextDate->modify("-$isRetain days")->format('Y-m-d');
+        $loginInString = "'" . $loginIn . "'";
         if ($this->checkCurrentDateData(self::USER_WEEK_BASE_TASK_TABLE, $loginInString)) {
             $where = array('create_on' => $loginInString);
             $updateQuery = $this->common->updateParamsQuery(self::USER_WEEK_BASE_TASK_TABLE, $items, $where);

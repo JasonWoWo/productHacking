@@ -21,7 +21,7 @@ class RetainMonthCoreTask extends RetainForMonth
     public function updateRetainMonthForMonth($isRetainMonth = 0)
     {
         $timestamp = time();
-        $date = new \DateTime(date('Y-m-d', $timestamp));
+        $date = new \DateTime(date('Y-m-01'));
         $pointDate = clone $date;
         $visitDate = clone $date;
         $pointDate->modify("-$isRetainMonth months");

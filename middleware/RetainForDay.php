@@ -34,10 +34,13 @@ class RetainForDay
         foreach ($retainItems as $item) {
             $userIdCollection[] = $item['uid'];
         }
-        return $this->getRetainWeekCount($userIdCollection, $loginEndStamp);
+        if (empty($userIdCollection)) {
+            return 0;
+        }
+        return $this->getRetainDailyCount($userIdCollection, $loginEndStamp);
     }
 
-    public function getRetainWeekCount($userIdItems = array(), $loginEndStamp = 0)
+    public function getRetainDailyCount($userIdItems = array(), $loginEndStamp = 0)
     {
         $userIdString = implode(',', $userIdItems);
         $currentString = "TO_DAYS('" . date('Y-m-d', $loginEndStamp) . "')";
