@@ -35,7 +35,7 @@ class MonthCoreTask extends CoreTaskQuery
         $insertSql = $this->common->insertParamsQuery(self::MONTH_TABLE_NAME, $paramsList);
         $query = $this->common->fetchCakeStatQuery($insertSql);
         if ($query) {
-            echo "==== " . $params['create_on'] . " month Insert " . self::MONTH_TABLE_NAME . " Success !!! \n";
+            echo "==== " . $paramsList['create_on'] . " month Insert " . self::MONTH_TABLE_NAME . " Success !!! \n";
         }
     }
 }
