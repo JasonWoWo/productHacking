@@ -29,6 +29,7 @@ class Authorize
             $resultList[] = $result;
             $defaultTableNumber += 1;
         }
+        $this->deviceInfo = $resultList;
     }
 
     public function currentDevice($table, $currentStamp = 0)
@@ -125,8 +126,8 @@ class Authorize
         $deviceTen = 0;
         foreach ($authorize as $item) {
             $createOn = date('Y-m-d');
-            $userId = isset($item['uid']) ? $item['uid'] : '-1';
-            if ($userId != -1) {
+            $userId = $item['uid'];
+            if ($userId != -1 or $userId != 0) {
                 $createOn = $this->getUserCreateOn($userId);
             }
             echo $item['udid'] . ";" . $userId . ";" . $createOn . ";" . $item['brand_name']. ";" .
@@ -144,7 +145,7 @@ class Authorize
 
     public function getUserCreateOn($userId = 0)
     {
-        $querySql = sprintf("SELECT DATE_FORMAT(u.create_on, '%Y-%m-%d') AS create_on FROM oibirthday.users AS u WHERE u.id = %d", intval($userId));
+        $querySql = "SELECT DATE_FORMAT(u.create_on, '%Y-%m-%d') AS create_on FROM oibirthday.users AS u WHERE u.id =" . intval($userId);
         $result = $this->connectObj->fetchCnt($querySql);
         return $result['create_on'];
     }
