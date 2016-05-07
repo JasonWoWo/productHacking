@@ -38,7 +38,6 @@ class Authorize
         $querySql = sprintf("
         SELECT s.udid, s.birthcnt, s.product_sk, v.version_code , b.brand_name, m.model_name
                FROM %s AS s 
-               LEFT JOIN oibirthday.users AS u ON u.udid = s.udid
                LEFT JOIN oistatistics.st_dim_brand AS b ON b.brand_sk = s.brand_sk
                LEFT JOIN oistatistics.st_dim_model AS m ON m.model_sk = s.model_sk
                LEFT JOIN oistatistics.st_dim_date AS d ON s.create_date_sk = d.date_sk 
