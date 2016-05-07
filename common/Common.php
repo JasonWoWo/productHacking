@@ -286,10 +286,10 @@ class Common
             $updateList['dct_lt'] = new MongoInt64(strtotime($param['create_on']));
         } elseif ($forward == 7) {
             //每周周一
-            $updateList['wct_lt'] = new MongoInt64($currentDate->getTimestamp());
+            $updateList['wct_lt'] = new MongoInt64(strtotime($param['create_on']));
         } elseif ($forward == 30) {
             //每月1号执行
-            $updateList['mct_lt'] = new MongoInt64($currentDate->getTimestamp());
+            $updateList['mct_lt'] = new MongoInt64(strtotime($param['create_on']));
         } elseif ($forward == 17) {
             // 每天执行 更新7天累积完成核心任务数量 例如 5月4号 更新 4月27日的7天累积核心任务人数
             $updateList['sst_lt'] = new MongoInt64($currentDate->modify('-6 days')->getTimestamp());
