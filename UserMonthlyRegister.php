@@ -25,7 +25,7 @@ class UserMonthlyRegister extends UserRegisterQuery
         $dateTime = new \DateTime(date('Y-m-d', $timeStamp));
         $precedingMonth = clone $dateTime;
         $days = date('t', $precedingMonth->modify('-1 month')->getTimestamp());
-        $isRetainDays = intval($days) - 1;
+        $isRetainDays = intval($days);
 
         $params = $this->getCurrentRankRegisterCnt($dateTime->getTimestamp(), $isRetainDays);
         $monthParams = array(
