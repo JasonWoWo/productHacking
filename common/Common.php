@@ -308,4 +308,11 @@ class Common
         }
         return $ret;
     }
+
+    public function calculateLoginIn($currentStamp = 0, $isRetain = 0)
+    {
+        $loginInStamp = $currentStamp - $isRetain * 86400;
+        $loginInString = "'" . date('Y-m-d', $loginInStamp) . "'";
+        return $loginInString;
+    }
 }
