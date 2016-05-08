@@ -22,7 +22,10 @@ class UserRegisterQuery
         $currentDate = date('Y-m-d', $currentStamp);
         $loginEndDate = $this->connectObj->calculateLoginIn($currentStamp);
         $loginEndSting = "TO_DAYS(" . $loginEndDate . ")";
-        $loginStartDate = $this->connectObj->calculateLoginIn($currentStamp, $isRetain - 1);   // 7  =>  6
+        $loginStartDate = $loginEndDate;
+        if ($isRetain) {
+            $loginStartDate = $this->connectObj->calculateLoginIn($currentStamp, $isRetain - 1);   // 7  =>  6
+        }
         $loginStartString = "TO_DAYS(" . $loginStartDate . ")";
         $sql = sprintf("
         SELECT 
@@ -36,6 +39,7 @@ WHERE
             $tableName,
             $loginStartString,
             $loginEndSting);
+        echo $sql . " \n";
         $query = $this->connectObj->fetchCnt($sql);
         return array(
             'create_on' => "'" . $currentDate . "'",
