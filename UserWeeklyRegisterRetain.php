@@ -55,10 +55,10 @@ class UserWeeklyRegisterRetain extends UserRegisterRetainQuery
         if ($this->checkCurrentDateData(self::USER_TABLE_WEEKLY_NAME, $loginIn)) {
             $where = array('create_on' => $loginInString);
             $updateQuery = $this->common->updateParamsQuery(self::USER_TABLE_WEEKLY_NAME, $updateParams, $where);
-//            $query = $this->common->fetchCakeStatQuery($updateQuery);
-//            if ($query) {
-//                echo " === " . $loginInString . " week isRetain : " . $isRetain . " success !!! \n";
-//            }
+            $query = $this->common->fetchCakeStatQuery($updateQuery);
+            if ($query) {
+                echo " === " . $loginInString . " week isRetain : " . $isRetain . " success !!! \n";
+            }
         }
     }
 }

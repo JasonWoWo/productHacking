@@ -29,10 +29,10 @@ class UserDailyRegister extends UserRegisterQuery
             'user_cnt' => $params['user_rank_cnt']
         );
         $insertSql = $this->common->insertParamsQuery(self::USER_TABLE_DAILY_NAME, $dailyParams);
-//        $query = $this->common->fetchCakeStatQuery($insertSql);
-//        if ($query) {
-//            echo "==== " . $dailyParams['create_on'] . " Daily Insert " . self::USER_TABLE_DAILY_NAME . " Success !!! \n";
-//        }
+        $query = $this->common->fetchCakeStatQuery($insertSql);
+        if ($query) {
+            echo "==== " . $dailyParams['create_on'] . " Daily Insert " . self::USER_TABLE_DAILY_NAME . " Success !!! \n";
+        }
     }
 }
 $userDailyRegister = new UserDailyRegister();

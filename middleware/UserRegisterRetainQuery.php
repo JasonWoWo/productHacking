@@ -23,13 +23,9 @@ class UserRegisterRetainQuery
         $loginEndStamp = $pointDate->getTimestamp() + ($pointMonthDays - 1) * 86400;
         $loginStartString = "TO_DAYS('" . $pointDate->format('Y-m-d') . "')";
         $loginEndString = "TO_DAYS('" . date('Y-m-d', $loginEndStamp) . "')";
-        echo $loginStartString . "\n";
-        echo $loginEndString . "\n";
         $visitEnd = $visitDate->getTimestamp() + ($visitMonthDays -1) * 86400;
         $visitStartString = "TO_DAYS('" . $visitDate->format('Y-m-d') . "')";
         $visitEndString = "TO_DAYS('" . date('Y-m-d', $visitEnd) . "')";
-        echo $visitStartString . "\n";
-        echo $visitEndString . "\n";
         $sql = sprintf("
         SELECT 
 	COUNT(*) AS cnt 
@@ -45,6 +41,7 @@ WHERE
             $loginEndString,
             $visitStartString,
             $visitEndString);
+        echo $sql . "\n";
         $query = $this->connectObj->fetchCnt($sql);
         return $query['cnt'];
     }
@@ -52,15 +49,19 @@ WHERE
     public function getCurrentRankRegisterRetainCnt($currentStamp = 0, $isRetain = 0, $minCycle = 0)
     {
         $currentDate = date('Y-m-d', $currentStamp);
-        $endRank = $isRetain + 1;
-        $loginEndDate = $this->connectObj->calculateLoginIn($currentStamp, $endRank);
-        $loginEndString = "TO_DAYS(" . $loginEndDate . ")";
+        $visitDate = new \DateTime($currentDate);
+        $visitDate->modify('-1 days');
+        $loginEndDate = $this->connectObj->calculateLoginIn($currentStamp, $isRetain);
         $startRank = $isRetain + $minCycle;
         $loginStartDate = $this->connectObj->calculateLoginIn($currentStamp, $startRank);
         $loginStartString = "TO_DAYS(" . $loginStartDate . ")";
-        $visitDate = new \DateTime($currentDate);
-        $visitDate->modify('-1 days');
-        $visitStartDate = $this->connectObj->calculateLoginIn($currentStamp, $minCycle);
+
+        $visitStartDate = $visitDate->format('Y-m-d');
+        if ($minCycle) {
+            $loginEndDate = $this->connectObj->calculateLoginIn($visitDate->getTimestamp(), $isRetain);
+            $visitStartDate = $this->connectObj->calculateLoginIn($currentStamp, $minCycle);
+        }
+        $loginEndString = "TO_DAYS(" . $loginEndDate . ")";
         $visitStartString = "TO_DAYS(" . $visitStartDate . ")";
         $visitEndString = "TO_DAYS('" . $visitDate->format('Y-m-d') . "')";
         $sql = sprintf("
@@ -78,6 +79,7 @@ WHERE
             $loginEndString,
             $visitStartString,
             $visitEndString);
+        echo $sql . "\n";
         $query = $this->connectObj->fetchCnt($sql);
         return $query['cnt'];
     }

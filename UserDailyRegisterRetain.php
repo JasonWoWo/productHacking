@@ -37,7 +37,6 @@ class UserDailyRegisterRetain extends UserRegisterRetainQuery
         $timestamp = empty($extendStamp) ? time() : $extendStamp;
         $currentDate = date('Y-m-d', $timestamp);
         $params = $this->getCurrentRankRegisterRetainCnt($timestamp, $isRetain);
-
         $paramKey = $this->getIsRetainDailyParamsKey($isRetain);
         $secondCnt = array(
             $paramKey => $params,
@@ -46,10 +45,10 @@ class UserDailyRegisterRetain extends UserRegisterRetainQuery
         if ($this->checkCurrentDateData(self::USER_TABLE_DAILY_NAME, $loginIn)) {
             $where = array('create_on' => $loginIn);
             $updateQuery = $this->common->updateParamsQuery(self::USER_TABLE_DAILY_NAME, $secondCnt, $where);
-//            $query = $this->common->fetchCakeStatQuery($updateQuery);
-//            if ($query) {
-//                echo " === " . $currentDate . " week isRetain : " . $isRetain . " success !!! \n";
-//            }
+            $query = $this->common->fetchCakeStatQuery($updateQuery);
+            if ($query) {
+                echo " === " . $currentDate . " week isRetain : " . $isRetain . " success !!! \n";
+            }
         }
     }
 }

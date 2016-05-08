@@ -26,18 +26,18 @@ class UserMonthlyRegister extends UserRegisterQuery
         $precedingMonth = clone $dateTime;
         $days = date('t', $precedingMonth->modify('-1 month')->getTimestamp());
         $isRetainDays = intval($days);
-
+        $dateTime->modify('-1 day');
         $params = $this->getCurrentRankRegisterCnt($dateTime->getTimestamp(), $isRetainDays);
         $monthParams = array(
             'create_on' => "'" . $precedingMonth->format('Y-m-d') ."'",
             'month_user_cnt' => $params['user_rank_cnt'],
         );
         $insertSql = $this->common->insertParamsQuery(self::USER_TABLE_MONTHLY_NAME, $monthParams);
-//        $query = $this->common->fetchCakeStatQuery($insertSql);
-//        if ($query) {
-//            echo "==== " . $monthParams['create_on'] . " month Insert " . self::USER_TABLE_MONTHLY_NAME . " Success !!! \n";
-//        }
+        $query = $this->common->fetchCakeStatQuery($insertSql);
+        if ($query) {
+            echo "==== " . $monthParams['create_on'] . " month Insert " . self::USER_TABLE_MONTHLY_NAME . " Success !!! \n";
+        }
     }
 }
 $userMonthRegister = new UserMonthlyRegister();
-$userMonthRegister->insertCurrentMonthRegisterCnt(1462099210);
+$userMonthRegister->insertCurrentMonthRegisterCnt();

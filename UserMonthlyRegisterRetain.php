@@ -50,10 +50,10 @@ class UserMonthlyRegisterRetain extends UserRegisterRetainQuery
         if ($this->checkCurrentDateData(self::USER_TABLE_MONTHLY_NAME, $monthLabelString)) {
             $where = array('create_on' => $monthLabelString);
             $updateQuery = $this->common->updateParamsQuery(self::USER_TABLE_MONTHLY_NAME, $updateParams, $where);
-//            $query = $this->common->fetchCakeStatQuery($updateQuery);
-//            if ($query) {
-//                echo " === " . $monthLabelString . " month isRetain : " . $isRetainMonth . " success !!! \n";
-//            }
+            $query = $this->common->fetchCakeStatQuery($updateQuery);
+            if ($query) {
+                echo " === " . $monthLabelString . " month isRetain : " . $isRetainMonth . " success !!! \n";
+            }
         }
     }
 }

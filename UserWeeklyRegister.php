@@ -23,17 +23,18 @@ class UserWeeklyRegister extends UserRegisterQuery
     {
         $timeStamp = empty($extendTimeStamp) ? time() : $extendTimeStamp;
         $dateTime = new \DateTime(date('Y-m-d', $timeStamp));
+        $dateTime->modify("-1 day");
         $params = $this->getCurrentRankRegisterCnt($dateTime->getTimestamp(), 7);
         $weekParams = array(
             'create_on' => "'" . $dateTime->modify('-1 day')->format('Y-m-d') ."'",
             'week_user_cnt' => $params['user_rank_cnt'],
         );
         $insertSql = $this->common->insertParamsQuery(self::USER_TABLE_WEEKLY_NAME, $weekParams);
-//        $query = $this->common->fetchCakeStatQuery($insertSql);
-//        if ($query) {
-//            echo "==== " . $params['create_on'] . " week Insert " . self::USER_TABLE_WEEKLY_NAME . " Success !!! \n";
-//        }
+        $query = $this->common->fetchCakeStatQuery($insertSql);
+        if ($query) {
+            echo "==== " . $params['create_on'] . " week Insert " . self::USER_TABLE_WEEKLY_NAME . " Success !!! \n";
+        }
     }
 }
 $userWeekRegister = new UserWeeklyRegister();
-$userWeekRegister->insertCurrentWeekRegisterCnt(1462185610);
+$userWeekRegister->insertCurrentWeekRegisterCnt();
