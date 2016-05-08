@@ -24,7 +24,7 @@ class UserRegisterQuery
         $loginEndSting = "TO_DAYS(" . $loginEndDate . ")";
         $loginStartDate = $loginEndDate;
         if ($isRetain) {
-            $loginStartDate = $this->connectObj->calculateLoginIn($currentStamp, $isRetain - 1);   // 7  =>  6
+            $loginStartDate = $this->connectObj->calculateLoginIn($currentStamp, $isRetain);   // 7  =>  6
         }
         $loginStartString = "TO_DAYS(" . $loginStartDate . ")";
         $sql = sprintf("

@@ -23,10 +23,9 @@ class UserWeeklyRegister extends UserRegisterQuery
     {
         $timeStamp = empty($extendTimeStamp) ? time() : $extendTimeStamp;
         $dateTime = new \DateTime(date('Y-m-d', $timeStamp));
-        $dateTime->modify("-1 day");
         $params = $this->getCurrentRankRegisterCnt($dateTime->getTimestamp(), 7);
         $weekParams = array(
-            'create_on' => $params['create_on'],
+            'create_on' => "'" . $dateTime->modify('-1 day')->format('Y-m-d') ."'",
             'week_user_cnt' => $params['user_rank_cnt'],
         );
         $insertSql = $this->common->insertParamsQuery(self::USER_TABLE_WEEKLY_NAME, $weekParams);
