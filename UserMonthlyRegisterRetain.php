@@ -21,7 +21,6 @@ class UserMonthlyRegisterRetain extends UserRegisterRetainQuery
 
     public function updateMonthRegisterRetainCnt()
     {
-        $this->updateBaseRankRegisterRetainCnt(1);
         $this->updateBaseRankRegisterRetainCnt(2);
         $this->updateBaseRankRegisterRetainCnt(3);
         $this->updateBaseRankRegisterRetainCnt(4);
@@ -30,6 +29,7 @@ class UserMonthlyRegisterRetain extends UserRegisterRetainQuery
         $this->updateBaseRankRegisterRetainCnt(7);
         $this->updateBaseRankRegisterRetainCnt(8);
         $this->updateBaseRankRegisterRetainCnt(9);
+        $this->updateBaseRankRegisterRetainCnt(10);
     }
     
     // 每天执行月注册用户的留存数据

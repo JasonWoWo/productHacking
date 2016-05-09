@@ -120,15 +120,15 @@ WHERE
     public function getIsRetainMonthParamsKey($isRetain)
     {
         $paramsKeys = array(
-            1 => 'first_month_user_cnt',
-            2 => 'second_month_user_cnt',
-            3 => 'third_month_user_cnt',
-            4 => 'fourth_month_user_cnt',
-            5 => 'fifth_month_user_cnt',
-            6 => 'sixth_month_user_cnt',
-            7 => 'seventh_month_user_cnt',
-            8 => 'eighth_month_user_cnt',
-            9 => 'ninth_month_user_cnt',
+            2 => 'first_month_user_cnt',
+            3 => 'second_month_user_cnt',
+            4 => 'third_month_user_cnt',
+            5 => 'fourth_month_user_cnt',
+            6 => 'fifth_month_user_cnt',
+            7 => 'sixth_month_user_cnt',
+            8 => 'seventh_month_user_cnt',
+            9 => 'eighth_month_user_cnt',
+            10 => 'ninth_month_user_cnt',
         );
         return $paramsKeys[$isRetain];
     }
