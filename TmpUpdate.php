@@ -9,12 +9,22 @@
 include __DIR__ ."/middleware/CoreTaskQuery.php";
 class TmpUpdate extends CoreTaskQuery
 {
+    // 记得删除
     public $common;
 
     public function __construct()
     {
         $this->common = new Common();
         parent::__construct($this->common);
+    }
+    
+    public function updatel()
+    {
+        $sql = "UPDATE oicakestat.user_core_task_retain_weekly_statis SET first_week_core_task_cnt = 3620 WHERE create_on = '2016-05-01'";
+        $query0 = $this->common->fetchCakeStatQuery($sql);
+        if ($query0) {
+            echo "==== tmp Insert 2016-05-06 Success !!! \n";
+        }
     }
 
     public function update()
@@ -63,4 +73,4 @@ class TmpUpdate extends CoreTaskQuery
 
 }
 $tmp = new TmpUpdate();
-$tmp->update();
+$tmp->updatel();
