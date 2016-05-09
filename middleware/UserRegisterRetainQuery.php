@@ -56,7 +56,7 @@ WHERE
         $loginStartDate = $this->connectObj->calculateLoginIn($currentStamp, $startRank);
         $loginStartString = "TO_DAYS(" . $loginStartDate . ")";
 
-        $visitStartDate = $visitDate->format('Y-m-d');
+        $visitStartDate = "'" .$visitDate->format('Y-m-d') . "'";
         if ($minCycle) {
             $loginEndDate = $this->connectObj->calculateLoginIn($visitDate->getTimestamp(), $isRetain);
             $visitStartDate = $this->connectObj->calculateLoginIn($currentStamp, $minCycle);
@@ -93,6 +93,8 @@ WHERE
             $tableName,
             $dayString
         );
+        echo $sql . "\n";
+        return;
         $query = $this->connectObj->fetchCnt($sql);
         if ($query['cnt']) {
             return true;
