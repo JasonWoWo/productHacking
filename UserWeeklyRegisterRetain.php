@@ -52,7 +52,7 @@ class UserWeeklyRegisterRetain extends UserRegisterRetainQuery
         $distance = $isRetain + 1;
         $loginIn = $nextDate->modify("-$distance days")->format('Y-m-d');
         $loginInString = "'" . $loginIn . "'";
-        if ($this->checkCurrentDateData(self::USER_TABLE_WEEKLY_NAME, $loginIn)) {
+        if ($this->checkCurrentDateData(self::USER_TABLE_WEEKLY_NAME, $loginInString)) {
             $where = array('create_on' => $loginInString);
             $updateQuery = $this->common->updateParamsQuery(self::USER_TABLE_WEEKLY_NAME, $updateParams, $where);
             $query = $this->common->fetchCakeStatQuery($updateQuery);
