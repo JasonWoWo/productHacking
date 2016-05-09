@@ -45,6 +45,7 @@ class UserWeeklyRegisterRetain extends UserRegisterRetainQuery
         $nextWeekDistance = 8 - $weekdays;
         $nextDate->modify("+$nextWeekDistance days");
         $paramCnt = $this->getCurrentRankRegisterRetainCnt($nextDate->getTimestamp(), $isRetain, 7);
+        echo $paramCnt . "\n";
         $paramKey = $this->getIsRetainWeekParamsKey($isRetain);
         $updateParams = array(
             $paramKey => $paramCnt,

@@ -94,7 +94,6 @@ WHERE
             $dayString
         );
         echo $sql . "\n";
-        return;
         $query = $this->connectObj->fetchCnt($sql);
         if ($query['cnt']) {
             return true;
