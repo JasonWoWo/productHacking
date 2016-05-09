@@ -32,6 +32,7 @@ class UserMonthlyRegisterRetain extends UserRegisterRetainQuery
         $this->updateBaseRankRegisterRetainCnt(9);
     }
     
+    // 每天执行月注册用户的留存数据
     public function updateBaseRankRegisterRetainCnt($isRetainMonth = 0)
     {
         $current = new \DateTime();

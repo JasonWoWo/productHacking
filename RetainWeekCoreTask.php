@@ -32,6 +32,7 @@ class RetainWeekCoreTask extends RetainForWeek
         $this->updateRetainForWeek($extendStamp, 63);
     }
     
+    //每天执行周完成核心任务的留存数据
     public function updateRetainForWeek($extendStamp = 0, $isRetain = 0)
     {
         $timestamp = empty($extendStamp) ? time() : $extendStamp;

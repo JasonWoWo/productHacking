@@ -18,6 +18,7 @@ class UserDailyRegister extends UserRegisterQuery
         parent::__construct($this->common);
     }
 
+    // 每天完成注册用户数据
     public function insertCurrentUserDaily($extendTimeStamp = 0)
     {
         $timeStamp = empty($extendTimeStamp) ? time() : $extendTimeStamp;

@@ -35,6 +35,7 @@ class UserWeeklyRegisterRetain extends UserRegisterRetainQuery
 
     }
     
+    // 每天执行周注册用户的留存数据
     public function updateBaseRankRegisterRetainCnt($extendStamp = 0, $isRetain = 0)
     {
         $timestamp = empty($extendStamp) ? time() : $extendStamp;

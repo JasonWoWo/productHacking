@@ -19,6 +19,7 @@ class UserMonthlyRegister extends UserRegisterQuery
         parent::__construct($this->common);
     }
 
+    // 每月1日执行上月完成注册用户数据
     public function insertCurrentMonthRegisterCnt($extendTimeStamp = 0)
     {
         $timeStamp = empty($extendTimeStamp) ? time() : $extendTimeStamp;

@@ -18,6 +18,7 @@ class MonthCoreTask extends CoreTaskQuery
         parent::__construct($this->common);
     }
 
+    // 每月1号执行上月完成核心任务数据
     public function insertMonthTaskCnt($extendTimeStamp = 0)
     {
         $timeStamp = empty($extendTimeStamp) ? time() : $extendTimeStamp;

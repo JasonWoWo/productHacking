@@ -28,6 +28,7 @@ class RetainDailyCoreTask extends RetainForDay
         $this->updateRetainForDay($extendStamp, 90);
     }
 
+    // 每天执行当日完成核心任务的留存数据
     public function updateRetainForDay($extendStamp = 0, $isRetain = 0)
     {
         $timestamp = empty($extendStamp) ? time() : $extendStamp;

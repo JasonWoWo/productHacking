@@ -18,6 +18,7 @@ class RetainMonthCoreTask extends RetainForMonth
         parent::__construct($this->common);
     }
 
+    //每天执行月完成核心任务的留存数据
     public function updateRetainMonthForMonth($isRetainMonth = 0)
     {
         $current = new \DateTime();

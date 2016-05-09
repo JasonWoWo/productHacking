@@ -32,6 +32,7 @@ class UserDailyRegisterRetain extends UserRegisterRetainQuery
         echo "========== userDailyRetainUpdate end ===== \n";
     }
 
+    // 每天执行注册用户的留存数据
     public function updateBaseRegisterRetainCnt($extendStamp = 0, $isRetain = 0)
     {
         $timestamp = empty($extendStamp) ? time() : $extendStamp;

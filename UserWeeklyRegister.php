@@ -19,6 +19,7 @@ class UserWeeklyRegister extends UserRegisterQuery
         parent::__construct($this->common);
     }
 
+    // 每周周1完成注册用户数据
     public function insertCurrentWeekRegisterCnt($extendTimeStamp = 0)
     {
         $timeStamp = empty($extendTimeStamp) ? time() : $extendTimeStamp;
