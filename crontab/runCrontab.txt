@@ -11,3 +11,4 @@
 0 6 * * * php ~/productHacking/UserDailyRegisterRetain.php > ~/log/log_UserDailyRegisterRetain.txt 2>&1 2
 0 6 * * * php ~/productHacking/UserWeeklyRegisterRetain.php > ~/log/log_UserWeeklyRegisterRetain.txt 2>&1 2
 0 6 * * * php ~/productHacking/UserMonthlyRegisterRetain.php > ~/log/log_UserMonthlyRegisterRetain.txt 2>&1 2
+0 4 * * * php ~/Hacking/coreTask/cronUpdateTask.php > ~/log/log_cronPromotionDaily.txt 2>&1 &
