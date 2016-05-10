@@ -24,11 +24,12 @@ class UserBirthdayStat extends BirthdayRegisterQuery
         $maxUserId = $this->getMaxUserId();
         $birthdayTableCnt = intval($maxUserId / self::DEFAULT_USER_MAX_COUNT);
         $defaultTable = 0;
-        while ($defaultTable <= $birthdayTableCnt) {
-            $this->getPointDayBirthdayUserCnt($defaultTable);
+        $total = 0;
+        while ($defaultTable <= 1) {
+            $total += $this->getPointDayBirthdayUserCnt($defaultTable);
             $defaultTable = $defaultTable + 1;
         }
-        echo  "Summation On 2016-05-10 : " . $this->getSummation() . " \n";
+        echo  "Summation On 2016-05-10 : " . $total . " \n";
     }
 }
 $userBirthday = new UserBirthdayStat();
