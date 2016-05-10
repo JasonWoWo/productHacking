@@ -29,7 +29,7 @@ class BirthdayRegisterQuery extends Common
         foreach ($queryLunarClass as $key => $value) {
             $currentCount += $this->getProductSk($key, $value);
         }
-
+        echo "currentTable " . $table . " Summation :" . $currentCount . "\n";
         return $currentCount;
     }
 
