@@ -47,7 +47,7 @@ class RetainAuthorizeRegister extends Authorize
         $paramKey = $this->getAuthorizeKey($isRetain);
         $paramList = array(
             $paramKey[1] => $param['android'],
-            $paramKey[2] => $params['iphone'],
+            $paramKey[2] => $param['iphone'],
         );
         $updateQuery = $this->common->updateParamsQuery(self::USER_REGISTER_AUTHORIZE, $paramList, $where);
         $query = $this->common->fetchCakeStatQuery($updateQuery);
