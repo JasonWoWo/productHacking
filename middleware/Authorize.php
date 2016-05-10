@@ -19,6 +19,33 @@ class Authorize
     {
         $this->connectObj = $common;
     }
+    
+    public function getRegisterAuthorize($currentTime = 0)
+    {
+        $defaultTableNumber = 0;
+        $resultList = array();
+        while ($defaultTableNumber < 8) {
+            $result = $this->deviceRegisterAuthorize($defaultTableNumber, $currentTime);
+            $resultList[] = $result;
+            $defaultTableNumber += 1;
+        }
+        $this->deviceInfo = $resultList;
+    }
+    
+    public function deviceRegisterAuthorize($table, $currentStamp = 0)
+    {
+        $currentTable = 'oistatistics.st_devices_' . $table;
+        $dayString = "TO_DAYS('" . date('Y-m-d', $currentStamp) . "')";
+        $querySql = sprintf("
+        SELECT s.udid, s.birthcnt, s.product_sk, u.userId
+               FROM %s AS s
+               LEFT JOIN oibirthday.users AS u ON u.udid = s.udid
+               LEFT JOIN oistatistics.st_dim_date AS d ON s.create_date_sk = d.date_sk 
+               WHERE TO_DAYS(d.datevalue) = %s AND TO_DAYS(u.create_on) = %s", $currentTable, $dayString, $dayString);
+        echo $querySql . " \n";
+        $result = $this->connectObj->fetchAssoc($querySql);
+        return $result;
+    }
 
     public function fetch_new_device($currentTime = 0)
     {
@@ -89,6 +116,40 @@ class Authorize
         }
         $this->device = $list;
     }
+    
+    public function getPlatformAuthorizeOn()
+    {
+        if (empty($this->device['on'])) {
+            return array();
+        }
+        $platform = $this->departPlatform($this->device['on']);
+        return $platform;
+    }
+    
+    public function departPlatform($authorize = array())
+    {
+        $androidCnt = 0;
+        $iphoneCnt = 0;
+        $otherCnt = 0;
+        $authorizeCnt = 0;
+        foreach ($authorize as $item) {
+            $authorizeCnt += 1;
+            if ($item['product_sk'] == 1001) {
+                $iphoneCnt += 1;
+            } elseif ($item['product_sk'] == 1002) {
+                $androidCnt += 1;
+            } else {
+                $otherCnt += 1;
+            }
+        }
+        return array(
+            'android' => $androidCnt,
+            'iphone' => $iphoneCnt,
+            'platform' => $authorizeCnt
+        );
+    }
+    
+    
 
     public function printData()
     {
