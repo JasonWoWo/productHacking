@@ -26,16 +26,16 @@ class RegisterAuthorize extends Authorize
         $this->getMongoAuthorize();
         $paramList = $this->getPlatformCntList();
         $paramList['create_on'] = "'". $current->format('Y-m-d') ."'";
-        if (empty($param)) {
+        if (empty($paramList)) {
             echo "==== UnCatch Authorize On Open Please Check! \n";
             return;
         }
-        $param['create_on'] = "'" . $current->format('Y-m-d') ."'";
+        $paramList['create_on'] = "'" . $current->format('Y-m-d') ."'";
         $insertSql = $this->common->insertParamsQuery(self::USER_REGISTER_AUTHORIZE, $paramList);
-//        $query = $this->common->fetchCakeStatQuery($insertSql);
-//        if ($query) {
-//            echo "==== " . $param['create_on'] . " authorize Insert " . self::USER_REGISTER_AUTHORIZE . " Success !!! \n";
-//        }
+        $query = $this->common->fetchCakeStatQuery($insertSql);
+        if ($query) {
+            echo "==== " . $paramList['create_on'] . " authorize Insert " . self::USER_REGISTER_AUTHORIZE . " Success !!! \n";
+        }
     }
 }
 $authorize = new RegisterAuthorize();

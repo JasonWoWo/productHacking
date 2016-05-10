@@ -38,8 +38,9 @@ class RetainAuthorizeRegister extends Authorize
         $result = $this->common->fetchAssoc($selectQuery);
         if (empty($result)) {
             echo "UnCatch the result where create_on :" . $login . "In " . self::USER_REGISTER_AUTHORIZE . " \n";
+            return ;
         }
-        $this->getRegisterAuthorize(strtotime($login));
+        $this->getRegisterAuthorize(strtotime(str_replace("'", " ", $login)));
         $this->getMongoAuthorize();
         $this->getAuthorize();
         $param = $this->getPlatformAuthorizeOn();
@@ -49,10 +50,10 @@ class RetainAuthorizeRegister extends Authorize
             $paramKey[2] => $params['iphone'],
         );
         $updateQuery = $this->common->updateParamsQuery(self::USER_REGISTER_AUTHORIZE, $paramList, $where);
-//        $query = $this->common->fetchCakeStatQuery($updateQuery);
-//        if ($query) {
-//            echo " === " . $login . " DeviceAuthorize isRetain : " . $isRetain . " success !!! \n";
-//        }
+        $query = $this->common->fetchCakeStatQuery($updateQuery);
+        if ($query) {
+            echo " === " . $login . " DeviceAuthorize isRetain : " . $isRetain . " success !!! \n";
+        }
     }
 
     public function getAuthorizeKey($isRetain)
@@ -78,3 +79,5 @@ class RetainAuthorizeRegister extends Authorize
         return $paramsKey[$isRetain];
     }
 }
+$retainRetainAuthorize = new RetainAuthorizeRegister();
+$retainRetainAuthorize->updateAuthorize();

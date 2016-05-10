@@ -197,7 +197,16 @@ class Common
         $groupByString = implode(' , ', $groupBy);
         $orderByString = implode(' , ', $orderByList);
         $currentTable = 'oicakestat.' . $tableName;
-        $sql = "SELECT " . $contentString . " FROM " . $currentTable . " WHERE " . $whereString . " GROUP BY " . $groupByString . " ORDER BY " . $orderByString . " LIMIT " . $limit;
+        $sql = "SELECT " . $contentString . " FROM " . $currentTable . " WHERE " . $whereString;
+        if (!empty($groupByString)) {
+            $sql .=  " GROUP BY " . $groupByString;
+        }
+        if (!empty($orderByString)) {
+            $sql .= " ORDER BY " . $orderByString;
+        }
+        if (!empty($limit)) {
+            $sql .= " LIMIT " . $limit;
+        }
         echo $sql . " \n";
         return $sql;
     }
