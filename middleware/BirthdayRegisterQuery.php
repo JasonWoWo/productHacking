@@ -39,21 +39,21 @@ class BirthdayRegisterQuery extends Common
         foreach ($queryResult as $queryItem) {
             $device = $queryItem['device'];
             if ($device == 0) {
-                $queryDevice[0][] = $queryItem['udid'];
+                $queryDevice[0][] = "'" . $queryItem['udid'] . "'";
             } elseif ($device == 1) {
-                $queryDevice[1][] = $queryItem['udid'];
+                $queryDevice[1][] = "'" . $queryItem['udid'] . "'";
             } elseif ($device == 2) {
-                $queryDevice[2][] = $queryItem['udid'];
+                $queryDevice[2][] = "'" . $queryItem['udid'] . "'";
             } elseif ($device == 3) {
-                $queryDevice[3][] = $queryItem['udid'];
+                $queryDevice[3][] = "'" . $queryItem['udid'] . "'";
             } elseif ($device == 4) {
-                $queryDevice[4][] = $queryItem['udid'];
+                $queryDevice[4][] = "'" . $queryItem['udid'] . "'";
             } elseif ($device == 5) {
-                $queryDevice[5][] = $queryItem['udid'];
+                $queryDevice[5][] = "'" . $queryItem['udid'] . "'";
             } elseif ($device == 6) {
-                $queryDevice[6][] = $queryItem['udid'];
+                $queryDevice[6][] = "'" . $queryItem['udid'] . "'";
             } else {
-                $queryDevice[7][] = $queryItem['udid'];
+                $queryDevice[7][] = "'" . $queryItem['udid'] . "'";
             }
         }
         return $queryDevice;
