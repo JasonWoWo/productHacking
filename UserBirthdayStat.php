@@ -25,7 +25,7 @@ class UserBirthdayStat extends BirthdayRegisterQuery
         $birthdayTableCnt = intval($maxUserId / self::DEFAULT_USER_MAX_COUNT);
         $defaultTable = 0;
         $total = 0;
-        while ($defaultTable <= 1) {
+        while ($defaultTable <= $birthdayTableCnt) {
             $total += $this->getPointDayBirthdayUserCnt($defaultTable);
             $defaultTable = $defaultTable + 1;
         }

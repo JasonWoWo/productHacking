@@ -65,7 +65,7 @@ class BirthdayRegisterQuery extends Common
         $udidList = implode(',', $udids);
         $currentTableName = 'oistatistics.st_devices_' . $table;
         $query = "SELECT COUNT(*) AS cnt FROM " . $currentTableName ." AS s WHERE s.udid IN ( " . $udidList . " ) AND s.product_sk = 1002";
-        echo $query . " \n";
+//        echo $query . " \n";
         $result = $this->connectObj->fetchCnt($query);
         return $result['cnt'];
     }
