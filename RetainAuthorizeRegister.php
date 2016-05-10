@@ -23,6 +23,7 @@ class RetainAuthorizeRegister extends Authorize
         $currentDate = new \DateTime();
         $currentDate->modify('-1 day');
         $currentTimestamp = $currentDate->getTimestamp();
+        $this->updateBaseAuthorize($currentTimestamp, 0);
         $this->updateBaseAuthorize($currentTimestamp, 1);
         $this->updateBaseAuthorize($currentTimestamp, 2);
         $this->updateBaseAuthorize($currentTimestamp, 3);
@@ -57,6 +58,10 @@ class RetainAuthorizeRegister extends Authorize
     public function getAuthorizeKey($isRetain)
     {
         $paramsKey = array(
+            0 => array(
+                1 => 'zero_android_authorize',
+                2 => 'zero_iphone_authorize',
+            ),
             1 => array(
                 1 => 'first_android_authorize',
                 2 => 'first_iphone_authorize',

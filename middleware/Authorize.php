@@ -14,6 +14,8 @@ class Authorize
     public $deviceInfo = array();
 
     public $device = array();
+    
+    public $platformCntList = array();
 
     public function __construct(Common $common)
     {
@@ -37,7 +39,7 @@ class Authorize
         $currentTable = 'oistatistics.st_devices_' . $table;
         $dayString = "TO_DAYS('" . date('Y-m-d', $currentStamp) . "')";
         $querySql = sprintf("
-        SELECT s.udid, s.birthcnt, s.product_sk, u.userId
+        SELECT s.udid, s.birthcnt, s.product_sk, u.id AS userId
                FROM %s AS s
                LEFT JOIN oibirthday.users AS u ON u.udid = s.udid
                LEFT JOIN oistatistics.st_dim_date AS d ON s.create_date_sk = d.date_sk 
@@ -78,6 +80,9 @@ class Authorize
 
     public function getMongoAuthorize()
     {
+        $androidTotal = 0;
+        $iphoneTotal = 0;
+        $otherPlatformTotal = 0;
         $collection = $this->connectObj->fetchDeviceInfoCollection();
         foreach ($this->deviceInfo as &$listItem) {
             foreach ($listItem as &$item) {
@@ -87,9 +92,26 @@ class Authorize
                 if ($list) {
                     $item['authorize'] = $list['combineAuthorizeStatus'];
                 }
+                if ($item['product_sk'] == 1001) {
+                    $iphoneTotal += 1;
+                } elseif ($item['product_sk'] == 1002) {
+                    $androidTotal += 1;
+                } else {
+                    $otherPlatformTotal += 1;
+                }
                 $item['uid'] = isset($list['uid']) ? $list['uid'] : 0;
             }
         }
+        $this->platformCntList = array(
+            'iphone_cnt' => $iphoneTotal,
+            'android_cnt' => $androidTotal,
+            'platform_cnt' => $otherPlatformTotal
+        );
+    }
+    
+    public function getPlatformCntList()
+    {
+        return $this->platformCntList;
     }
 
 

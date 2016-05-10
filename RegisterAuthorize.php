@@ -24,13 +24,8 @@ class RegisterAuthorize extends Authorize
         $current->modify('-1 days');
         $this->getRegisterAuthorize($current->getTimestamp());
         $this->getMongoAuthorize();
-        $this->getAuthorize();
-        $param = $this->getPlatformAuthorizeOn();
-        $paramList = array(
-            'android_cnt' => $param['android'],
-            'iphone_cnt' => $param['iphone'],
-            'platform_cnt' => $param['platform']
-        );
+        $paramList = $this->getPlatformCntList();
+        $paramList['create_on'] = "'". $current->format('Y-m-d') ."'";
         if (empty($param)) {
             echo "==== UnCatch Authorize On Open Please Check! \n";
             return;
