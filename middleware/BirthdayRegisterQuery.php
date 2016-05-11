@@ -150,7 +150,7 @@ class BirthdayRegisterQuery extends Common
         $currentTableName = 'oistatistics.st_devices_' . $table;
         $query = "SELECT COUNT(*) AS cnt FROM " . $currentTableName ." AS s 
         LEFT JOIN oistatistics.st_dim_brand AS b ON s.brand_sk = b.brand_sk 
-        WHERE s.udid IN ( ". $udidsList . " ) AND b,brand_sk IN ( " . $brandList . ")";
+        WHERE s.udid IN ( ". $udidsList . " ) AND b.brand_sk IN ( " . $brandList . ")";
         echo $query . "\n";
         $brandCount = $this->connectObj->fetchCnt($query);
         return $brandCount['cnt'];
