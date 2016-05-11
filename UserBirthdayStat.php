@@ -19,14 +19,14 @@ class UserBirthdayStat extends BirthdayRegisterQuery
         parent::__construct($this->common);
     }
 
-    public function getPointUserCnt()
+    public function getPointUserCnt($productSk = 1002)
     {
         $maxUserId = $this->getMaxUserId();
         $birthdayTableCnt = intval($maxUserId / self::DEFAULT_USER_MAX_COUNT);
         $defaultTable = 0;
         $total = 0;
         while ($defaultTable <= $birthdayTableCnt) {
-            $total += $this->getPointDayBirthdayUserCnt($defaultTable);
+            $total += $this->getPointDayBirthdayUserCnt($defaultTable, $productSk);
             $defaultTable = $defaultTable + 1;
         }
         echo  "Summation On 2016-05-10 : " . $total . " \n";
