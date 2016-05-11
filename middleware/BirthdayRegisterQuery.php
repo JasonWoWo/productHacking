@@ -74,6 +74,7 @@ class BirthdayRegisterQuery extends Common
     {
         $currentBrandListCnt = array(
             'iphone_cnt' => 0,
+            'xiaomi_cnt' =>0,
             'meizu_cnt' => 0,
             'huawei_cnt' => 0,
             'vivo_cnt' => 0,
@@ -83,6 +84,7 @@ class BirthdayRegisterQuery extends Common
         );
         $currentLunarBrandListCnt = array(
             'iphone_cnt' => 0,
+            'xiaomi_cnt' =>0,
             'meizu_cnt' => 0,
             'huawei_cnt' => 0,
             'vivo_cnt' => 0,
@@ -104,7 +106,7 @@ class BirthdayRegisterQuery extends Common
         }
 
         $brandList = $this->summationDeviceCnt($currentBrandListCnt, $currentLunarBrandListCnt);
-        echo "== iphone_cnt: " . $brandList['iphone_cnt'] . " == meizu_cnt: " . $brandList['meizu_cnt'] . " == huawei_cnt: " . $brandList['huawei_cnt'] .
+        echo "== xiaomi_cnt: " . $brandList['xiaomi_cnt'] . " == meizu_cnt: " . $brandList['meizu_cnt'] . " == huawei_cnt: " . $brandList['huawei_cnt'] .
             " == vivo_cnt: " . $brandList['vivo_cnt'] . " == samsung_cnt: " . $brandList['samsung_cnt'] . " == oppo_cnt: " . $brandList['oppo_cnt'] . 
             " == zte_cnt: " . $brandList['zte_cnt'] . " \n";
         return $brandList;
@@ -113,6 +115,7 @@ class BirthdayRegisterQuery extends Common
     public function summationDeviceCnt($currentBrands = array(), $summationBrands = array())
     {
         $currentBrands['iphone_cnt'] += $summationBrands['iphone_cnt'];
+        $currentBrands['xiaomi_cnt'] += $summationBrands['xiaomi_cnt'];
         $currentBrands['meizu_cnt'] += $summationBrands['meizu_cnt'];
         $currentBrands['huawei_cnt'] += $summationBrands['huawei_cnt'];
         $currentBrands['vivo_cnt'] += $summationBrands['vivo_cnt'];
@@ -125,6 +128,7 @@ class BirthdayRegisterQuery extends Common
     public function fetchBrandsListCount($table = 0, $udids = array())
     {
         $iphoneCnt = $this->getBrandCount($table, $udids, array(355)); //iphone brand_sk = 355
+        $xiaomiCnt = $this->getBrandCount($table, $udids, array(3)); //iphone brand_sk = 355
         $meizuCnt = $this->getBrandCount($table, $udids, array(9)); //meizu brand_sk = 9
         $huaweiCnt = $this->getBrandCount($table, $udids, array(3397, 19)); // huawei brand_sk = 19 honor brand_sk = 3397
         $vivoCnt = $this->getBrandCount($table, $udids, array(1440)); // vivo brand_sk = 1440
@@ -133,6 +137,7 @@ class BirthdayRegisterQuery extends Common
         $zteCnt = $this->getBrandCount($table, $udids, array(17));  // zte中兴 brand_sk = 14
         return array(
             'iphone_cnt' => $iphoneCnt,
+            'xiaomi_cnt' => $xiaomiCnt,
             'meizu_cnt' => $meizuCnt,
             'huawei_cnt' => $huaweiCnt,
             'vivo_cnt' => $vivoCnt,
@@ -151,7 +156,6 @@ class BirthdayRegisterQuery extends Common
         $query = "SELECT COUNT(*) AS cnt FROM " . $currentTableName ." AS s 
         LEFT JOIN oistatistics.st_dim_brand AS b ON s.brand_sk = b.brand_sk 
         WHERE s.udid IN ( ". $udidsList . " ) AND b.brand_sk IN ( " . $brandList . ")";
-        echo $query . "\n";
         $brandCount = $this->connectObj->fetchCnt($query);
         return $brandCount['cnt'];
     }

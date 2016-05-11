@@ -23,6 +23,7 @@ class UserBrandBirthdayStat extends BirthdayRegisterQuery
     {
         $summationBrandCnt = array(
             'iphone_cnt' => 0,
+            'xiaomi_cnt' =>0,
             'meizu_cnt' => 0,
             'huawei_cnt' => 0,
             'vivo_cnt' => 0,
@@ -38,7 +39,7 @@ class UserBrandBirthdayStat extends BirthdayRegisterQuery
             $summationBrandCnt = $this->summationDeviceCnt($summationBrandCnt, $currentBrandCnt);
             $defaultTable += 1;
         }
-        echo "== iphone_cnt: " . $summationBrandCnt['iphone_cnt'] . " == meizu_cnt: " . $summationBrandCnt['meizu_cnt'] . " == huawei_cnt: " . $summationBrandCnt['huawei_cnt'] .
+        echo "== xiaomi_cnt: " . $summationBrandCnt['xiaomi_cnt'] . " == meizu_cnt: " . $summationBrandCnt['meizu_cnt'] . " == huawei_cnt: " . $summationBrandCnt['huawei_cnt'] .
             " == vivo_cnt: " . $summationBrandCnt['vivo_cnt'] . " == samsung_cnt: " . $summationBrandCnt['samsung_cnt'] . " == oppo_cnt: " . $summationBrandCnt['oppo_cnt'] .
             " == zte_cnt: " . $summationBrandCnt['zte_cnt'] . " \n";
     }
