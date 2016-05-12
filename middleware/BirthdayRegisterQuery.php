@@ -113,7 +113,7 @@ class BirthdayRegisterQuery extends Common
             $deviceBrandList =  $this->fetchBrandsListCount($key, $value);
             $currentBrandListCnt = $this->summationDeviceCnt($currentBrandListCnt, $deviceBrandList);
         }
-        $solarDate = new \Octinn\Lib\Date\SolarDate($currentYear, $currentMonth, $currentDay);
+//        $solarDate = new \Octinn\Lib\Date\SolarDate($currentYear, $currentMonth, $currentDay);
         $queryLunarResult = $this->currentBirthdayTable($table, 4, 5, 1);
         $queryLunarClass = $this->getClassDevice($queryLunarResult);
         foreach ($queryLunarClass as $key => $value) {
