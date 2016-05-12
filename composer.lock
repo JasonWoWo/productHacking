@@ -1,0 +1,50 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "This file is @generated automatically"
+    ],
+    "hash": "bd328235bd2a5ac8e215a82215dee1ba",
+    "content-hash": "315bb4bafe612a1820aa960063abcc2d",
+    "packages": [
+        {
+            "name": "octinn/calendar",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "ssh://git@gitlab.octinn.com/server/calendar.git",
+                "reference": "02b6ad5f712db64301d3633eecac0693d8bba7f4"
+            },
+            "require": {
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Octinn\\Lib\\Date\\": "src/"
+                }
+            },
+            "authors": [
+                {
+                    "name": "shaojie",
+                    "email": "shaojie@octinn.com"
+                }
+            ],
+            "description": "Solar and Lunar Date lib",
+            "time": "2015-08-21 10:14:20"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": {
+        "octinn/calendar": 20
+    },
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": []
+}

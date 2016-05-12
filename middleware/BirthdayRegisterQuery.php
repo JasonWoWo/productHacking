@@ -6,6 +6,7 @@
  * Date: 16/5/10
  * Time: 下午5:51
  */
+require __DIR__ .'/../vendor/autoload.php';
 include __DIR__.'/../common/Common.php';
 class BirthdayRegisterQuery extends Common
 {
@@ -19,12 +20,20 @@ class BirthdayRegisterQuery extends Common
     public function getPointDayBirthdayUserCnt($table = 0, $productSk = 1002)
     {
         $currentCount = 0;
-        $queryResult = $this->currentBirthdayTable($table, 5, 10, 0);
+        $currentDate = new \DateTime();
+        $currentDate->modify('-1 day');
+        $currentYear = intval($currentDate->format('Y'));
+        $currentMonth = intval($currentDate->format('m'));
+        $currentDay = intval($currentDate->format('d'));
+        $queryResult = $this->currentBirthdayTable($table, $currentMonth, $currentDay, 0);
         $queryClass = $this->getClassDevice($queryResult);
         foreach ($queryClass as $key => $value) {
             $currentCount += $this->getProductSk($key, $value, $productSk);
         }
-        $queryLunarResult = $this->currentBirthdayTable($table, 4, 4, 1);
+//        $lunarDate = new \Octinn\Lib\Date\LunarDate($currentYear, $currentMonth, $currentDay);
+//        $solarDate = $lunarDate->toSolarDate()->toDateTime();
+        $queryLunarResult = $this->currentBirthdayTable($table, 4, 5, 1);
+//        $queryLunarResult = $this->currentBirthdayTable($table, intval($solarDate->format('m')), intval($solarDate->format('d')), 1);
         $queryLunarClass = $this->getClassDevice($queryLunarResult);
         foreach ($queryLunarClass as $key => $value) {
             $currentCount += $this->getProductSk($key, $value, $productSk);
@@ -92,13 +101,20 @@ class BirthdayRegisterQuery extends Common
             'oppo_cnt' => 0,
             'zte_cnt' => 0
         );
-        $queryResult = $this->currentBirthdayTable($table, 5, 10, 0);
+        $currentDate = new \DateTime();
+        $currentDate->modify('-1 day');
+        $currentYear = intval($currentDate->format('Y'));
+        $currentMonth = intval($currentDate->format('m'));
+        $currentDay = intval($currentDate->format('d'));
+//        $queryResult = $this->currentBirthdayTable($table, $currentMonth, $currentDay, 0);
+        $queryResult = $this->currentBirthdayTable($table, 5, 11, 0);
         $queryClass = $this->getClassDevice($queryResult);
         foreach ($queryClass as $key => $value) {
             $deviceBrandList =  $this->fetchBrandsListCount($key, $value);
             $currentBrandListCnt = $this->summationDeviceCnt($currentBrandListCnt, $deviceBrandList);
         }
-        $queryLunarResult = $this->currentBirthdayTable($table, 4, 4, 1);
+        $solarDate = new \Octinn\Lib\Date\SolarDate($currentYear, $currentMonth, $currentDay);
+        $queryLunarResult = $this->currentBirthdayTable($table, 4, 5, 1);
         $queryLunarClass = $this->getClassDevice($queryLunarResult);
         foreach ($queryLunarClass as $key => $value) {
             $deviceLunarBrandList = $this->fetchBrandsListCount($key, $value);

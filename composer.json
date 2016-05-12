@@ -1,0 +1,13 @@
+{
+    "name": "user/hacking",
+    "description": "octinn register growth hacking",
+    "require": {
+        "octinn/calendar": "dev-master"
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "ssh://git@gitlab.octinn.com/server/calendar.git"
+        }
+    ]
+}

@@ -11,6 +11,8 @@ class UserBrandBirthdayStat extends BirthdayRegisterQuery
 {
     const DEFAULT_USER_MAX_COUNT = 50000;
 
+    const BRAND_DAILY_REMINDER_STAT = 'stat_daily_brand_reminder_statis';
+
     public $common;
 
     public function __construct()
@@ -31,6 +33,15 @@ class UserBrandBirthdayStat extends BirthdayRegisterQuery
             'oppo_cnt' => 0,
             'zte_cnt' => 0
         );
+        $params = array('id');
+        $current = new \DateTime();
+        $where = array('create_on' => "'" . $current->modify('-1 day')->format('Y-m-d') ."'");
+        $selectQuery = $this->common->selectParamsQuery(self::BRAND_DAILY_REMINDER_STAT, $params, $where);
+        $result = $this->common->fetchAssoc($selectQuery);
+        if (empty($result)) {
+            echo "UnCatch the result where create_on :" . $where['create_on'] . "In " . self::BRAND_DAILY_REMINDER_STAT . " \n";
+            return ;
+        }
         $maxUserId = $this->getMaxUserId();
         $birthdayTableCnt = intval($maxUserId / self::DEFAULT_USER_MAX_COUNT);
         $defaultTable = 0;
@@ -38,6 +49,11 @@ class UserBrandBirthdayStat extends BirthdayRegisterQuery
             $currentBrandCnt = $this->getPointDayBrandBirthdayUserCnt($defaultTable);
             $summationBrandCnt = $this->summationDeviceCnt($summationBrandCnt, $currentBrandCnt);
             $defaultTable += 1;
+        }
+        $updateQuery = $this->common->updateParamsQuery(self::BRAND_DAILY_REMINDER_STAT, $summationBrandCnt, $where);
+        $query = $this->common->fetchCakeStatQuery($updateQuery);
+        if ($query) {
+            echo " ===UserBrandBirthdayStat " . $current->format('Y-m-d') . " Update brands success !!! \n";
         }
         echo "== xiaomi_cnt: " . $summationBrandCnt['xiaomi_cnt'] . " == meizu_cnt: " . $summationBrandCnt['meizu_cnt'] . " == huawei_cnt: " . $summationBrandCnt['huawei_cnt'] .
             " == vivo_cnt: " . $summationBrandCnt['vivo_cnt'] . " == samsung_cnt: " . $summationBrandCnt['samsung_cnt'] . " == oppo_cnt: " . $summationBrandCnt['oppo_cnt'] .
