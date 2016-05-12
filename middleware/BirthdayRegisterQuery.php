@@ -147,7 +147,8 @@ class BirthdayRegisterQuery extends Common
         $xiaomiCnt = $this->getBrandCount($table, $udids, array(3)); //iphone brand_sk = 355
         $meizuCnt = $this->getBrandCount($table, $udids, array(9)); //meizu brand_sk = 9
         $huaweiCnt = $this->getBrandCount($table, $udids, array(3397, 19)); // huawei brand_sk = 19 honor brand_sk = 3397
-        $vivoCnt = $this->getBrandCount($table, $udids, array(1440)); // vivo brand_sk = 1440
+        $vivoArray = $this->fuckVivo();
+        $vivoCnt = $this->getBrandCount($table, $udids, $vivoArray); // vivo brand_sk = 1440
         $samsungCnt = $this->getBrandCount($table, $udids, array(4)); // samsung brand_sk = 4
         $oppoCnt = $this->getBrandCount($table, $udids, array(18)); // oppo brand_sk = 18
         $zteCnt = $this->getBrandCount($table, $udids, array(17));  // zte中兴 brand_sk = 14
@@ -162,6 +163,17 @@ class BirthdayRegisterQuery extends Common
             'zte_cnt' => $zteCnt
         );
 
+    }
+
+    public function fuckVivo()
+    {
+        $vivoArray = array();
+        $query = "SELECT brand_sk  FROM `st_dim_brand` WHERE `brand_name` LIKE '%vivo%'";
+        $result = $this->connectObj->fetchAssoc($query);
+        foreach ($result as $item) {
+            $vivoArray[] = $item['brand_sk'];
+        }
+        return $vivoArray;
     }
 
     public function getBrandCount($table = 0, $udids = array(), $brands = array())

@@ -50,6 +50,7 @@ class UserBrandBirthdayStat extends BirthdayRegisterQuery
             $summationBrandCnt = $this->summationDeviceCnt($summationBrandCnt, $currentBrandCnt);
             $defaultTable += 1;
         }
+        unset($summationBrandCnt['iphone_cnt']);
         $updateQuery = $this->common->updateParamsQuery(self::BRAND_DAILY_REMINDER_STAT, $summationBrandCnt, $where);
         $query = $this->common->fetchCakeStatQuery($updateQuery);
         if ($query) {
