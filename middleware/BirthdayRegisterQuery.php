@@ -67,7 +67,6 @@ class BirthdayRegisterQuery extends Common
             }
         }
         return $queryDevice;
-
     }
 
     public function getProductSk($table = 0, $udids = array(), $productSk = 1002)
