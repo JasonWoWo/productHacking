@@ -45,7 +45,7 @@ class UserRegisterQuery
             );
         }
 
-        $userItems = $this->fetchSelectQueryList($tableName, $loginStartString, $loginEndDate);
+        $userItems = $this->fetchSelectQueryList($tableName, $loginStartString, $loginEndString);
         $userDeviceItems = $this->getClassDevice($userItems);
         return $userDeviceItems;
     }
