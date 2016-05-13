@@ -148,7 +148,7 @@ class BirthdayRegisterQuery extends Common
         $meizuCnt = $this->getBrandCount($table, $udids, array(9)); //meizu brand_sk = 9
         $huaweiCnt = $this->getBrandCount($table, $udids, array(3397, 19)); // huawei brand_sk = 19 honor brand_sk = 3397
         $vivoArray = $this->fuckVivo();
-        $vivoCnt = $this->getBrandCount($table, $udids, $vivoArray); // vivo brand_sk = 1440
+        $vivoCnt = $this->getfuckVivoModelCount($table, $udids, $vivoArray); // vivo is bitch
         $samsungCnt = $this->getBrandCount($table, $udids, array(4)); // samsung brand_sk = 4
         $oppoCnt = $this->getBrandCount($table, $udids, array(18)); // oppo brand_sk = 18
         $zteCnt = $this->getBrandCount($table, $udids, array(17));  // zte中兴 brand_sk = 14
@@ -168,12 +168,24 @@ class BirthdayRegisterQuery extends Common
     public function fuckVivo()
     {
         $vivoArray = array();
-        $query = "SELECT brand_sk  FROM `st_dim_brand` WHERE `brand_name` LIKE '%vivo%'";
+        $query = "SELECT model_sk  FROM `oistatistics`.`st_dim_model` WHERE `model_name` LIKE '%vivo%'";
         $result = $this->connectObj->fetchAssoc($query);
         foreach ($result as $item) {
-            $vivoArray[] = $item['brand_sk'];
+            $vivoArray[] = $item['model_sk'];
         }
         return $vivoArray;
+    }
+
+    public function getfuckVivoModelCount($table = 0, $udids = array(), $models = array())
+    {
+        $udidsList = implode(',', $udids);
+        $modelsList = implode(',', $models);
+        $currentTableName = 'oistatistics.st_devices_' . $table;
+        $query = "SELECT COUNT(*) AS cnt FROM " . $currentTableName ." AS s 
+        LEFT JOIN oistatistics.st_dim_model AS m ON s.model_sk = m.models_sk 
+        WHERE s.udid IN ( ". $udidsList . " ) AND m.model_sk IN ( " . $modelsList . ")";
+        $brandCount = $this->connectObj->fetchCnt($query);
+        return $brandCount['cnt'];
     }
 
     public function getBrandCount($table = 0, $udids = array(), $brands = array())
