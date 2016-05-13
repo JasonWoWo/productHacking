@@ -106,8 +106,8 @@ class BirthdayRegisterQuery extends Common
         $currentYear = intval($currentDate->format('Y'));
         $currentMonth = intval($currentDate->format('m'));
         $currentDay = intval($currentDate->format('d'));
-//        $queryResult = $this->currentBirthdayTable($table, $currentMonth, $currentDay, 0);
-        $queryResult = $this->currentBirthdayTable($table, 5, 11, 0);
+        $queryResult = $this->currentBirthdayTable($table, $currentMonth, $currentDay, 0);
+//        $queryResult = $this->currentBirthdayTable($table, 5, 11, 0);
         $queryClass = $this->getClassDevice($queryResult);
         foreach ($queryClass as $key => $value) {
             $deviceBrandList =  $this->fetchBrandsListCount($key, $value);
