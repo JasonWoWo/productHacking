@@ -14,3 +14,6 @@
 0 4 * * * php ~/Hacking/coreTask/cronUpdateTask.php > ~/log/log_cronPromotionDaily.txt 2>&1 2
 0 3 * * * php ~/productHacking/RegisterAuthorize.php > ~/log/log_RegisterAuthorize.txt 2>&1 2
 0 4 * * * php ~/productHacking/RetainAuthorizeRegister.php > ~/log/log_RetainAuthorizeRegister.txt 2>&1 2
+0 5 * * * python /opt/scripts/statspy/stat_reminder_statis.py > ~/log/log_statReminderStatis.txt 2>&1 2
+0 6 * * * php ~/productHacking/UserBrandBirthdayStat.php > ~/log/log_userBrandBirthdayStat.txt 2>&1 2
+0 6 * * * php ~/productHacking/UserBirthdayStat.php > ~/log/log_userBirthdayStat.txt 2>&1 2
