@@ -13,7 +13,7 @@
             "source": {
                 "type": "git",
                 "url": "ssh://git@gitlab.octinn.com/server/calendar.git",
-                "reference": "02b6ad5f712db64301d3633eecac0693d8bba7f4"
+                "reference": "b7fa78ea8fe62943fd2e38e225c4fbfcf939aa37"
             },
             "require": {
                 "php": ">=5.4.0"
@@ -34,7 +34,7 @@
                 }
             ],
             "description": "Solar and Lunar Date lib",
-            "time": "2015-08-21 10:14:20"
+            "time": "2016-05-13 06:47:24"
         }
     ],
     "packages-dev": [],
