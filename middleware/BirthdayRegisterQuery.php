@@ -6,7 +6,7 @@
  * Date: 16/5/10
  * Time: 下午5:51
  */
-require __DIR__ .'/../vendor/autoload.php';
+//require __DIR__ .'/../vendor/autoload.php';
 include __DIR__.'/../common/Common.php';
 class BirthdayRegisterQuery extends Common
 {
@@ -182,7 +182,7 @@ class BirthdayRegisterQuery extends Common
         $modelsList = implode(',', $models);
         $currentTableName = 'oistatistics.st_devices_' . $table;
         $query = "SELECT COUNT(*) AS cnt FROM " . $currentTableName ." AS s 
-        LEFT JOIN oistatistics.st_dim_model AS m ON s.model_sk = m.models_sk 
+        LEFT JOIN oistatistics.st_dim_model AS m ON s.model_sk = m.model_sk 
         WHERE s.udid IN ( ". $udidsList . " ) AND m.model_sk IN ( " . $modelsList . ")";
         $brandCount = $this->connectObj->fetchCnt($query);
         return $brandCount['cnt'];
