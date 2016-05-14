@@ -1,19 +1,19 @@
-0 3 * * * php ~/productHacking/RegisterCoreTask.php > ~/log/log_RegisterCoreTask.txt 2>&1 2
-0 3 * * 1 php ~/productHacking/WeekCoreTask.php > ~/log/log_weekCoreTask.txt 2>&1 2
-0 1 1 */1 * php ~/productHacking/MonthCoreTask.php > ~/log/log_MonthCoreTask.txt 2>&1 2
-0 5 * * * php ~/productHacking/SummationActivities.php > ~/log/log_summation.txt 2>&1 2
-0 4 * * * php ~/productHacking/RetainDailyCoreTask.php > ~/log/log_retainWeek.txt 2>&1 2
-0 4 * * * php ~/productHacking/RetainWeekCoreTask.php > ~/log/log_retainWeek.txt 2>&1 2
-0 4 * * * php ~/productHacking/RetainMonthCoreTask.php > ~/log/log_retainMonth.txt 2>&1 2
-0 2 * * * php ~/productHacking/UserDailyRegister.php > ~/log/log_UserDailyRegister.txt 2>&1 2
-0 3 * * 1 php ~/productHacking/UserWeeklyRegister.php > ~/log/log_UserWeeklyRegister.txt 2>&1 2
-0 1 1 * * php ~/productHacking/UserMonthlyRegister.php > ~/log/log_UserMonthlyRegister.txt 2>&1 2
-0 6 * * * php ~/productHacking/UserDailyRegisterRetain.php > ~/log/log_UserDailyRegisterRetain.txt 2>&1 2
-0 6 * * * php ~/productHacking/UserWeeklyRegisterRetain.php > ~/log/log_UserWeeklyRegisterRetain.txt 2>&1 2
-0 6 * * * php ~/productHacking/UserMonthlyRegisterRetain.php > ~/log/log_UserMonthlyRegisterRetain.txt 2>&1 2
-0 4 * * * php ~/Hacking/coreTask/cronUpdateTask.php > ~/log/log_cronPromotionDaily.txt 2>&1 2
-0 3 * * * php ~/productHacking/RegisterAuthorize.php > ~/log/log_RegisterAuthorize.txt 2>&1 2
-0 4 * * * php ~/productHacking/RetainAuthorizeRegister.php > ~/log/log_RetainAuthorizeRegister.txt 2>&1 2
-0 5 * * * python /opt/scripts/statspy/stat_reminder_statis.py > ~/log/log_statReminderStatis.txt 2>&1 2
-0 6 * * * php ~/productHacking/UserBrandBirthdayStat.php > ~/log/log_userBrandBirthdayStat.txt 2>&1 2
-0 6 * * * php ~/productHacking/UserBirthdayStat.php > ~/log/log_userBirthdayStat.txt 2>&1 2
+0 3 * * * php ~/productHacking/RegisterCoreTask.php > ~/log/log_RegisterCoreTask.txt 2>&1
+0 3 * * 1 php ~/productHacking/WeekCoreTask.php > ~/log/log_weekCoreTask.txt 2>&1
+0 1 1 */1 * php ~/productHacking/MonthCoreTask.php > ~/log/log_MonthCoreTask.txt 2>&1
+0 5 * * * php ~/productHacking/SummationActivities.php > ~/log/log_summation.txt 2>&1
+0 4 * * * php ~/productHacking/RetainDailyCoreTask.php > ~/log/log_retainWeek.txt 2>&1
+0 4 * * * php ~/productHacking/RetainWeekCoreTask.php > ~/log/log_retainWeek.txt 2>&1
+0 4 * * * php ~/productHacking/RetainMonthCoreTask.php > ~/log/log_retainMonth.txt 2>&1
+0 2 * * * php ~/productHacking/UserDailyRegister.php > ~/log/log_UserDailyRegister.txt 2>&1
+0 3 * * 1 php ~/productHacking/UserWeeklyRegister.php > ~/log/log_UserWeeklyRegister.txt 2>&1
+0 1 1 * * php ~/productHacking/UserMonthlyRegister.php > ~/log/log_UserMonthlyRegister.txt 2>&1
+0 6 * * * php ~/productHacking/UserDailyRegisterRetain.php > ~/log/log_UserDailyRegisterRetain.txt 2>&1
+0 6 * * * php ~/productHacking/UserWeeklyRegisterRetain.php > ~/log/log_UserWeeklyRegisterRetain.txt 2>&1
+0 6 * * * php ~/productHacking/UserMonthlyRegisterRetain.php > ~/log/log_UserMonthlyRegisterRetain.txt 2>&1
+0 4 * * * php ~/Hacking/coreTask/cronUpdateTask.php > ~/log/log_cronPromotionDaily.txt 2>&1
+0 3 * * * php ~/productHacking/RegisterAuthorize.php > ~/log/log_RegisterAuthorize.txt 2>&1
+0 4 * * * php ~/productHacking/RetainAuthorizeRegister.php > ~/log/log_RetainAuthorizeRegister.txt 2>&1
+0 5 * * * python /opt/scripts/statspy/stat_reminder_statis.py > ~/log/log_statReminderStatis.txt 2>&1
+0 6 * * * php ~/productHacking/UserBrandBirthdayStat.php > ~/log/log_userBrandBirthdayStat.txt 2>&1
+0 6 * * * php ~/productHacking/UserBirthdayStat.php > ~/log/log_userBirthdayStat.txt 2>&1
