@@ -218,7 +218,7 @@ class BirthdayRegisterQuery extends Common
         $sql = sprintf("
         SELECT bcn.userid,u.udid,(CONV(LEFT(u.udid, 1), 16, 10) DIV 2) AS device FROM %s AS bcn LEFT JOIN oibirthday.users AS u ON bcn.userid = u.id
         WHERE
-		 	bcn.`birth_is_lunar` = %d AND bcn.birth_m = %d AND bcn.birth_d = %d AND u.udid != '' AND TO_DAYS(u.visit_on) <= TO_DAYS('2016-05-14') AND TO_DAYS(u.visit_on) <= TO_DAYS('2016-04-14') 
+		 	bcn.`birth_is_lunar` = %d AND bcn.birth_m = %d AND bcn.birth_d = %d AND u.udid != '' AND TO_DAYS(u.visit_on) <= TO_DAYS('2016-05-14') AND TO_DAYS(u.visit_on) >= TO_DAYS('2016-04-14') 
 		 GROUP BY
 		 	bcn.birth_m, bcn.birth_d, bcn.userid
 	",

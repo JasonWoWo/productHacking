@@ -39,7 +39,7 @@ class RetainForWeek
             return 0;
         }
         $visitEnd = $timestamp - 86400;
-        $visitStart = $timestamp - $isRetain * 86400;
+        $visitStart = $timestamp - ($minCycle - 1) * 86400;
         return $this->getRetainCount($userIdCollection, $visitStart, $visitEnd);
     }
 
@@ -49,6 +49,7 @@ class RetainForWeek
         $visitStart = "TO_DAYS('" . date('Y-m-d', $visitStart) . "')";
         $visitEnd = "TO_DAYS('" . date('Y-m-d', $visitEnd) . "')";
         $query = sprintf("SELECT COUNT(*) AS user_cnt FROM oibirthday.users AS u WHERE u.id IN ( %s ) AND TO_DAYS(u.visit_on) >= %s AND TO_DAYS(u.visit_on) <= %s", $userIdString, $visitStart, $visitEnd);
+        echo $query . "\n";
         $result = $this->connectObj->fetchCnt($query);
         return $result['user_cnt'];
 
