@@ -35,6 +35,12 @@ class UserActivityBrand extends BirthdayRegisterQuery
             " == vivo_cnt: " . $summationBrandCnt['vivo_cnt'] . " == samsung_cnt: " . $summationBrandCnt['samsung_cnt'] . " == oppo_cnt: " . $summationBrandCnt['oppo_cnt'] .
             " == zte_cnt: " . $summationBrandCnt['zte_cnt'] . " \n";
     }
+
+    public function fetchProductSk($productSk = 1001)
+    {
+        $summation = $this->getPointUserProductSkCnt($productSk);
+        echo "=== productSk: " . $productSk . " === summation : " . $summation . " \n";
+    }
 }
 $userActivity = new UserActivityBrand();
-$userActivity->fetchBrandsActivities();
+$userActivity->fetchProductSk();

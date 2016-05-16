@@ -260,6 +260,23 @@ class BirthdayRegisterQuery extends Common
         }
         return $brandItems;
     }
+    
+    // 临时逻辑
+    public function getPointUserProductSkCnt($productSk = 1001)
+    {
+        $productCnt = 0;
+        $userIdItems = $this->fetchUserItemsOnDay();
+        $deviceClass = $this->getClassDevice($userIdItems);
+        foreach ($deviceClass as $key => $value) {
+            $productCnt += $this->getProductSk($key, $value, $productSk);
+        }
+        $userIdItemsB = $this->fetchUserItemsOnDay(1);
+        $deviceClassB = $this->getClassDevice($userIdItemsB);
+        foreach ($deviceClassB as $key => $value) {
+            $productCnt += $this->getProductSk($key, $value, $productSk);
+        }
+        return $productCnt;
+    }
 
     //临时逻辑
     public function fetchUserItemsOnDay($limit = 0)
