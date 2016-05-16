@@ -39,7 +39,7 @@ class RetainForWeek
             return 0;
         }
         $visitEnd = $timestamp - 86400;
-        $visitStart = $timestamp - ($minCycle - 1) * 86400;
+        $visitStart = $timestamp - $minCycle * 86400;
         return $this->getRetainCount($userIdCollection, $visitStart, $visitEnd);
     }
 
