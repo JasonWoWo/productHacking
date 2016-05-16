@@ -58,4 +58,10 @@ trait UtilSqlTool
         );
         return $query;
     }
+    
+    public function getQueryUserActivitiesBrand()
+    {
+        $query = "SELECT u.udid, (CONV(LEFT(u.udid, 1), 16, 10) DIV 2) AS device FROM oibirthday.users AS u WHERE TO_DAYS(u.visit_on) = TO_DAYS('2016-05-15')";
+        return $query;
+    }
 }

@@ -7,11 +7,13 @@
  * Time: 下午5:51
  */
 require __DIR__ .'/../vendor/autoload.php';
+include __DIR__."/../util/UtilTool.php";
 include __DIR__."/../util/UtilSqlTool.php";
 include __DIR__.'/../common/Common.php';
 class BirthdayRegisterQuery extends Common
 {
     use UtilSqlTool;
+    use UtilTool;
     
     public $connectObj;
 
@@ -238,6 +240,27 @@ class BirthdayRegisterQuery extends Common
 //        $query = $this->getQueryUserItemsOnLunarAndMonthAndDay($currentTableName, $isBirthLunar, $birthM, $birthD);
         $query = $this->connectObj->fetchAssoc($sql);
         return $query;
+    }
+
+    // 临时添加
+    public function getPointUserBrandsCnt()
+    {
+        $brandItems = $this->brandItemInit();
+        $userIdItems = $this->fetchUserItemsOnDay();
+        $deviceClass = $this->getClassDevice($userIdItems);
+        foreach ($deviceClass as $key => $value) {
+            $deviceBrandList = $this->fetchBrandsListCount($key, $value);
+            $brandItems = $this->summationDeviceCnt($brandItems, $deviceBrandList);
+        }
+        return $brandItems;
+    }
+
+    //临时逻辑
+    public function fetchUserItemsOnDay()
+    {
+        $query = $this->getQueryUserActivitiesBrand();
+        $result = $this->connectObj->fetchAssoc($query);
+        return $result;
     }
 
     public function getMaxUserId()
