@@ -98,3 +98,6 @@ class WeChatAuthorize extends RegisterWechatAuthorize
 
     }
 }
+$weChatAuth = new WeChatAuthorize();
+$weChatAuth->updateBrandRelateRatio();
+//$weChatAuth->updatePlatformRelateRatio();

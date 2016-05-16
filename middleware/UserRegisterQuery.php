@@ -144,7 +144,6 @@ WHERE
             $tableName,
             $loginStartString,
             $loginEndString);
-        echo $sql . " \n";
         $results = $this->connectObj->fetchAssoc($sql);
         return $results;
     }
