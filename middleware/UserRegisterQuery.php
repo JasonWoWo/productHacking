@@ -155,7 +155,7 @@ WHERE
         foreach ($userDeviceItems as $key => $value) {
             $productCnt += $this->getProductSk($key, $value, $productSk, $timeStamp);
         }
-        return $productSk;
+        return $productCnt;
     }
     
     public function getProductSk($table = 0, $udids = array(), $productSk = 1002, $timeStamp = 0)
@@ -164,7 +164,6 @@ WHERE
         $currentTableName = 'oistatistics.st_devices_' . $table;
         $query = $this->getQueryLoginUdidsLinkProductSk($currentTableName, $udidList, $productSk, $timeStamp);
         $result = $this->connectObj->fetchCnt($query);
-        echo $result['cnt'];
         return $result['cnt'];
     }
 }
