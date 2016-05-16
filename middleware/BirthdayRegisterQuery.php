@@ -252,13 +252,19 @@ class BirthdayRegisterQuery extends Common
             $deviceBrandList = $this->fetchBrandsListCount($key, $value);
             $brandItems = $this->summationDeviceCnt($brandItems, $deviceBrandList);
         }
+        $userIdItemsB = $this->fetchUserItemsOnDay(1);
+        $deviceClassB = $this->getClassDevice($userIdItemsB);
+        foreach ($deviceClassB as $key => $value) {
+            $deviceBrandListB = $this->fetchBrandsListCount($key, $value);
+            $brandItems = $this->summationDeviceCnt($brandItems, $deviceBrandListB);
+        }
         return $brandItems;
     }
 
     //临时逻辑
-    public function fetchUserItemsOnDay()
+    public function fetchUserItemsOnDay($limit = 0)
     {
-        $query = $this->getQueryUserActivitiesBrand();
+        $query = $this->getQueryUserActivitiesBrand($limit = 0);
         $result = $this->connectObj->fetchAssoc($query);
         return $result;
     }

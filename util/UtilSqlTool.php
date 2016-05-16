@@ -59,9 +59,15 @@ trait UtilSqlTool
         return $query;
     }
     
-    public function getQueryUserActivitiesBrand()
+    public function getQueryUserActivitiesBrand($limit = 0)
     {
-        $query = "SELECT u.udid, (CONV(LEFT(u.udid, 1), 16, 10) DIV 2) AS device FROM oibirthday.users AS u WHERE TO_DAYS(u.visit_on) = TO_DAYS('2016-05-15')";
-        return $query;
+        if (empty($limit)) {
+            $queryA = "SELECT u.udid, (CONV(LEFT(u.udid, 1), 16, 10) DIV 2) AS device FROM oibirthday.users AS u WHERE u.visit_on >= '2016-05-15 00:00:00'  AND u.visit_on <= '2016-05-15 12:00:00'";
+            return $queryA;
+        }
+
+        $queryA = "SELECT u.udid, (CONV(LEFT(u.udid, 1), 16, 10) DIV 2) AS device FROM oibirthday.users AS u WHERE u.visit_on >= '2016-05-15 12:00:01'  AND u.visit_on <= '2016-05-16 00:00:00'";
+        return $queryA;
+
     }
 }
