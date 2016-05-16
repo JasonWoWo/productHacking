@@ -164,6 +164,7 @@ WHERE
         $currentTableName = 'oistatistics.st_devices_' . $table;
         $query = $this->getQueryLoginUdidsLinkProductSk($currentTableName, $udidList, $productSk, $timeStamp);
         $result = $this->connectObj->fetchCnt($query);
+        echo $result['cnt'];
         return $result['cnt'];
     }
 }
