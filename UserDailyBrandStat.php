@@ -27,7 +27,7 @@ class UserDailyBrandStat extends UserRegisterQuery
         $dateTime = new \DateTime(date('Y-m-d', $timeStamp));
         $dateTime->modify("-1 day");
         $userRegisterItems = $this->getCurrentRankRegisterCnt($dateTime->getTimestamp(), 0, false);
-        $brandList = $this->fetchBrandsCnt($userRegisterItems);
+        $brandList = $this->fetchBrandsCnt($userRegisterItems, $dateTime->getTimestamp());
         $brandList['create_on'] = "'" . $dateTime->format('Y-m-d') ."'";
 //        $insertSql = $this->common->insertParamsQuery(self::DAILY_BRANDS_STAT, $brandList);
 //        $query = $this->common->fetchCakeStatQuery($insertSql);
