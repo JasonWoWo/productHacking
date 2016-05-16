@@ -50,27 +50,27 @@ class UserRegisterQuery
         return $userDeviceItems;
     }
 
-    public function fetchBrandsCnt($userDeviceItems = array())
+    public function fetchBrandsCnt($userDeviceItems = array(), $timeStamp = 0)
     {
         $currentBrandListCnt = $this->brandItemInit();
         foreach ($userDeviceItems as $key => $value) {
-            $deviceBrandList = $this->getBrandListCnt($key, $value);
+            $deviceBrandList = $this->getBrandListCnt($key, $value, $timeStamp);
             $currentBrandListCnt = $this->summationDeviceCnt($currentBrandListCnt, $deviceBrandList);
         }
         return $currentBrandListCnt;
     }
 
-    public function getBrandListCnt($table, $udids)
+    public function getBrandListCnt($table, $udids, $timeStamp = 0)
     {
-        $iphoneCnt = $this->queryBrandCnt($table, $udids, array(355)); //iphone brand_sk = 355
-        $xiaomiCnt = $this->queryBrandCnt($table, $udids, array(3)); //iphone brand_sk = 355
-        $meizuCnt = $this->queryBrandCnt($table, $udids, array(9)); //meizu brand_sk = 9
-        $huaweiCnt = $this->queryBrandCnt($table, $udids, array(3397, 19)); // huawei brand_sk = 19 honor brand_sk = 3397
+        $iphoneCnt = $this->queryBrandCnt($table, $udids, array(355), $timeStamp); //iphone brand_sk = 355
+        $xiaomiCnt = $this->queryBrandCnt($table, $udids, array(3), $timeStamp); //iphone brand_sk = 355
+        $meizuCnt = $this->queryBrandCnt($table, $udids, array(9), $timeStamp); //meizu brand_sk = 9
+        $huaweiCnt = $this->queryBrandCnt($table, $udids, array(3397, 19), $timeStamp); // huawei brand_sk = 19 honor brand_sk = 3397
         $vivoArray = $this->getFuckBrand('vivo');
-        $vivoCnt = $this->queryModelCnt($table, $udids, $vivoArray); // vivo is bitch
-        $samsungCnt = $this->queryBrandCnt($table, $udids, array(4)); // samsung brand_sk = 4
-        $oppoCnt = $this->queryBrandCnt($table, $udids, array(18)); // oppo brand_sk = 18
-        $zteCnt = $this->queryBrandCnt($table, $udids, array(17));  // zte中兴 brand_sk = 14
+        $vivoCnt = $this->queryModelCnt($table, $udids, $vivoArray, $timeStamp); // vivo is bitch
+        $samsungCnt = $this->queryBrandCnt($table, $udids, array(4), $timeStamp); // samsung brand_sk = 4
+        $oppoCnt = $this->queryBrandCnt($table, $udids, array(18), $timeStamp); // oppo brand_sk = 18
+        $zteCnt = $this->queryBrandCnt($table, $udids, array(17), $timeStamp);  // zte中兴 brand_sk = 14
         return array(
             'iphone_cnt' => $iphoneCnt,
             'xiaomi_cnt' => $xiaomiCnt,
@@ -83,12 +83,12 @@ class UserRegisterQuery
         );
     }
 
-    public function queryBrandCnt($table, $udids = array(), $brands = array())
+    public function queryBrandCnt($table, $udids = array(), $brands = array(), $timeStamp = 0)
     {
         $udidsList = implode(',', $udids);
         $brandList = implode(',', $brands);
         $currentTableName = 'oistatistics.st_devices_' . $table;
-        $query = $this->getQueryUdidLinkBrand($currentTableName, $udidsList, $brandList);
+        $query = $this->getQueryLoginUdidLinkBrand($currentTableName, $udidsList, $brandList, $timeStamp);
         $brandCount = $this->connectObj->fetchCnt($query);
         return $brandCount['cnt'];
     }
@@ -103,12 +103,12 @@ class UserRegisterQuery
         return $vivoArray;
     }
 
-    public function queryModelCnt($table, $udids = array(), $models = array())
+    public function queryModelCnt($table, $udids = array(), $models = array(), $timeStamp = 0)
     {
         $udidsList = implode(',', $udids);
         $modelsList = implode(',', $models);
         $currentTableName = 'oistatistics.st_devices_' . $table;
-        $modelsCount = $this->connectObj->fetchCnt($this->getQueryUdidLinkModel($currentTableName, $udidsList, $modelsList));
+        $modelsCount = $this->connectObj->fetchCnt($this->getQueryLoginUdidLinkModel($currentTableName, $udidsList, $modelsList, $timeStamp));
         return $modelsCount['cnt'];
     }
     
@@ -146,5 +146,23 @@ WHERE
             $loginEndString);
         $results = $this->connectObj->fetchAssoc($sql);
         return $results;
+    }
+
+    public function fetchProductListCnt($userDeviceItems = array(), $productSk = 1002, $timeStamp = 0)
+    {
+        $productCnt = 0;
+        foreach ($userDeviceItems as $key => $value) {
+            $productCnt += $this->getProductSk($key, $value, $productSk, $timeStamp);
+        }
+        return $productSk;
+    }
+    
+    public function getProductSk($table = 0, $udids = array(), $productSk = 1002, $timeStamp = 0)
+    {
+        $udidList = implode(',', $udids);
+        $currentTableName = 'oistatistics.st_devices_' . $table;
+        $query = $this->getQueryLoginUdidsLinkProductSk($currentTableName, $udidList, $productSk, $timeStamp);
+        $result = $this->connectObj->fetchCnt($query);
+        return $result['cnt'];
     }
 }

@@ -9,6 +9,10 @@
 include __DIR__ . "/middleware/UserRegisterQuery.php";
 class UserDailyBrandStat extends UserRegisterQuery
 {
+    const DAILY_PLATFORM_STAT = '';
+
+    const DAILY_BRANDS_STAT = '';
+
     public $common;
 
     public function __construct()
@@ -24,10 +28,35 @@ class UserDailyBrandStat extends UserRegisterQuery
         $dateTime->modify("-1 day");
         $userRegisterItems = $this->getCurrentRankRegisterCnt($dateTime->getTimestamp(), 0, false);
         $brandList = $this->fetchBrandsCnt($userRegisterItems);
+        $brandList['create_on'] = "'" . $dateTime->format('Y-m-d') ."'";
+//        $insertSql = $this->common->insertParamsQuery(self::DAILY_BRANDS_STAT, $brandList);
+//        $query = $this->common->fetchCakeStatQuery($insertSql);
+//        if ($query) {
+//            echo "==== " . $brandList['create_on'] . " Register Brand Category Insert " . self::DAILY_BRANDS_STAT . " Success !!! \n";
+//        }
         echo "== xiaomi_cnt: " . $brandList['xiaomi_cnt'] . " == meizu_cnt: " . $brandList['meizu_cnt'] . " == huawei_cnt: " . $brandList['huawei_cnt'] .
             " == vivo_cnt: " . $brandList['vivo_cnt'] . " == samsung_cnt: " . $brandList['samsung_cnt'] . " == oppo_cnt: " . $brandList['oppo_cnt'] .
             " == zte_cnt: " . $brandList['zte_cnt'] . " \n";
     }
+    
+    public function fetchRegisterProductList($extendTimeStamp = 0)
+    {
+        $params = array();
+        $timeStamp = empty($extendTimeStamp) ? time() : $extendTimeStamp;
+        $dateTime = new \DateTime(date('Y-m-d', $timeStamp));
+        $dateTime->modify("-1 day");
+        $userRegisterItems = $this->getCurrentRankRegisterCnt($dateTime->getTimestamp(), 0, false);
+        $params['iphone_cnt'] = $this->fetchProductListCnt($userRegisterItems, 1001, $dateTime->getTimestamp());
+        $params['android_cnt'] = $this->fetchProductListCnt($userRegisterItems, 1002, $dateTime->getTimestamp());
+        $params['create_on'] = "'" . $dateTime->format('Y-m-d') ."'";
+        echo "=== iphone_cnt: " . $params['iphone_cnt'] . " === android_cnt: " . $params['android_cnt'] . " === create_on: " . $params['create_on'] . " \n";
+//        $insertSql = $this->common->insertParamsQuery(self::DAILY_PLATFORM_STAT, $params);
+//        $query = $this->common->fetchCakeStatQuery($insertSql);
+//        if ($query) {
+//            echo "==== " . $params['create_on'] . " Register Platform Category Insert " . self::DAILY_PLATFORM_STAT . " Success !!! \n";
+//        }
+    }
 }
 $userBrandList = new UserDailyBrandStat();
 $userBrandList->fetchRegisterBrandList();
+$userBrandList->fetchRegisterProductList();

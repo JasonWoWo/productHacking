@@ -48,38 +48,10 @@ class BirthdayRegisterQuery extends Common
         return $currentCount;
     }
 
-    public function getClassDevice($queryResult = array())
-    {
-        $queryDevice = array();
-        foreach ($queryResult as $queryItem) {
-            $device = $queryItem['device'];
-            if ($device == 0) {
-                $queryDevice[0][] = "'" . $queryItem['udid'] . "'";
-            } elseif ($device == 1) {
-                $queryDevice[1][] = "'" . $queryItem['udid'] . "'";
-            } elseif ($device == 2) {
-                $queryDevice[2][] = "'" . $queryItem['udid'] . "'";
-            } elseif ($device == 3) {
-                $queryDevice[3][] = "'" . $queryItem['udid'] . "'";
-            } elseif ($device == 4) {
-                $queryDevice[4][] = "'" . $queryItem['udid'] . "'";
-            } elseif ($device == 5) {
-                $queryDevice[5][] = "'" . $queryItem['udid'] . "'";
-            } elseif ($device == 6) {
-                $queryDevice[6][] = "'" . $queryItem['udid'] . "'";
-            } else {
-                $queryDevice[7][] = "'" . $queryItem['udid'] . "'";
-            }
-        }
-        return $queryDevice;
-    }
-
     public function getProductSk($table = 0, $udids = array(), $productSk = 1002)
     {
         $udidList = implode(',', $udids);
         $currentTableName = 'oistatistics.st_devices_' . $table;
-//        $query = "SELECT COUNT(*) AS cnt FROM " . $currentTableName ." AS s WHERE s.udid IN ( " . $udidList . " ) AND s.product_sk = " . $productSk;
-//        echo $query . " \n";
         $query = $this->getQueryUdidsLinkProductSk($currentTableName, $udidList, $productSk);
         $result = $this->connectObj->fetchCnt($query);
         return $result['cnt'];
@@ -87,26 +59,8 @@ class BirthdayRegisterQuery extends Common
 
     public function getPointDayBrandBirthdayUserCnt($table = 0)
     {
-        $currentBrandListCnt = array(
-            'iphone_cnt' => 0,
-            'xiaomi_cnt' =>0,
-            'meizu_cnt' => 0,
-            'huawei_cnt' => 0,
-            'vivo_cnt' => 0,
-            'samsung_cnt' => 0,
-            'oppo_cnt' => 0,
-            'zte_cnt' => 0
-        );
-        $currentLunarBrandListCnt = array(
-            'iphone_cnt' => 0,
-            'xiaomi_cnt' =>0,
-            'meizu_cnt' => 0,
-            'huawei_cnt' => 0,
-            'vivo_cnt' => 0,
-            'samsung_cnt' => 0,
-            'oppo_cnt' => 0,
-            'zte_cnt' => 0
-        );
+        $currentBrandListCnt = $this->brandItemInit();
+        $currentLunarBrandListCnt = $this->brandItemInit();
         $currentDate = new \DateTime();
         $currentDate->modify('-1 day');
         $currentYear = intval($currentDate->format('Y'));
@@ -152,7 +106,7 @@ class BirthdayRegisterQuery extends Common
     public function fetchBrandsListCount($table = 0, $udids = array())
     {
         $iphoneCnt = $this->getBrandCount($table, $udids, array(355)); //iphone brand_sk = 355
-        $xiaomiCnt = $this->getBrandCount($table, $udids, array(3)); //iphone brand_sk = 355
+        $xiaomiCnt = $this->getBrandCount($table, $udids, array(3)); //xiaomi brand_sk = 3
         $meizuCnt = $this->getBrandCount($table, $udids, array(9)); //meizu brand_sk = 9
         $huaweiCnt = $this->getBrandCount($table, $udids, array(3397, 19)); // huawei brand_sk = 19 honor brand_sk = 3397
         $vivoArray = $this->fuckVivo();
@@ -176,7 +130,6 @@ class BirthdayRegisterQuery extends Common
     public function fuckVivo()
     {
         $vivoArray = array();
-//        $query = "SELECT model_sk  FROM `oistatistics`.`st_dim_model` WHERE `model_name` LIKE '%vivo%'";
         $query = $this->getQueryVivoFuck();
         $result = $this->connectObj->fetchAssoc($query);
         foreach ($result as $item) {
@@ -190,9 +143,6 @@ class BirthdayRegisterQuery extends Common
         $udidsList = implode(',', $udids);
         $modelsList = implode(',', $models);
         $currentTableName = 'oistatistics.st_devices_' . $table;
-//        $query = "SELECT COUNT(*) AS cnt FROM " . $currentTableName ." AS s 
-//        LEFT JOIN oistatistics.st_dim_model AS m ON s.model_sk = m.model_sk 
-//        WHERE s.udid IN ( ". $udidsList . " ) AND m.model_sk IN ( " . $modelsList . ")";
         $query = $this->getQueryUdidLinkModel($currentTableName, $udidsList, $modelsList);
         $brandCount = $this->connectObj->fetchCnt($query);
         return $brandCount['cnt'];
@@ -203,9 +153,6 @@ class BirthdayRegisterQuery extends Common
         $udidsList = implode(',', $udids);
         $brandList = implode(',', $brands);
         $currentTableName = 'oistatistics.st_devices_' . $table;
-//        $query = "SELECT COUNT(*) AS cnt FROM " . $currentTableName ." AS s 
-//        LEFT JOIN oistatistics.st_dim_brand AS b ON s.brand_sk = b.brand_sk 
-//        WHERE s.udid IN ( ". $udidsList . " ) AND b.brand_sk IN ( " . $brandList . ")";
         $query = $this->getQueryUdidLinkBrand($currentTableName, $udidsList, $brandList);
         $brandCount = $this->connectObj->fetchCnt($query);
         return $brandCount['cnt'];
@@ -215,75 +162,9 @@ class BirthdayRegisterQuery extends Common
     {
         echo "===== start table: " . $table . " \n";
         $currentTableName = "oibirthday.br_birthdays_" . $table;
-        $sql = sprintf("
-        SELECT bcn.userid,u.udid,(CONV(LEFT(u.udid, 1), 16, 10) DIV 2) AS device FROM %s AS bcn LEFT JOIN oibirthday.users AS u ON bcn.userid = u.id
-        WHERE
-		 	bcn.`birth_is_lunar` = %d AND bcn.birth_m = %d AND bcn.birth_d = %d AND u.udid != '' AND TO_DAYS(u.visit_on) <= TO_DAYS('2016-05-14') AND TO_DAYS(u.visit_on) >= TO_DAYS('2016-04-14') 
-		 GROUP BY
-		 	bcn.birth_m, bcn.birth_d, bcn.userid
-	",
-            $currentTableName,
-            $isBirthLunar,
-            $birthM, $birthD
-        );
-//        $sql = sprintf("
-//        SELECT bcn.userid,u.udid,(CONV(LEFT(u.udid, 1), 16, 10) DIV 2) AS device FROM %s AS bcn LEFT JOIN oibirthday.users AS u ON bcn.userid = u.id
-//        WHERE
-//		 	bcn.`birth_is_lunar` = %d AND bcn.birth_m = %d AND bcn.birth_d = %d AND u.udid != ''
-//		 GROUP BY
-//		 	bcn.birth_m, bcn.birth_d, bcn.userid
-//	",
-//            $currentTableName,
-//            $isBirthLunar,
-//            $birthM, $birthD
-//        );
-//        $query = $this->getQueryUserItemsOnLunarAndMonthAndDay($currentTableName, $isBirthLunar, $birthM, $birthD);
-        $query = $this->connectObj->fetchAssoc($sql);
+        $query = $this->getQueryUserItemsOnLunarAndMonthAndDay($currentTableName, $isBirthLunar, $birthM, $birthD);
+        $query = $this->connectObj->fetchAssoc($query);
         return $query;
-    }
-
-    // 临时添加
-    public function getPointUserBrandsCnt()
-    {
-        $brandItems = $this->brandItemInit();
-        $userIdItems = $this->fetchUserItemsOnDay();
-        $deviceClass = $this->getClassDevice($userIdItems);
-        foreach ($deviceClass as $key => $value) {
-            $deviceBrandList = $this->fetchBrandsListCount($key, $value);
-            $brandItems = $this->summationDeviceCnt($brandItems, $deviceBrandList);
-        }
-        $userIdItemsB = $this->fetchUserItemsOnDay(1);
-        $deviceClassB = $this->getClassDevice($userIdItemsB);
-        foreach ($deviceClassB as $key => $value) {
-            $deviceBrandListB = $this->fetchBrandsListCount($key, $value);
-            $brandItems = $this->summationDeviceCnt($brandItems, $deviceBrandListB);
-        }
-        return $brandItems;
-    }
-    
-    // 临时逻辑
-    public function getPointUserProductSkCnt($productSk = 1001)
-    {
-        $productCnt = 0;
-        $userIdItems = $this->fetchUserItemsOnDay();
-        $deviceClass = $this->getClassDevice($userIdItems);
-        foreach ($deviceClass as $key => $value) {
-            $productCnt += $this->getProductSk($key, $value, $productSk);
-        }
-        $userIdItemsB = $this->fetchUserItemsOnDay(1);
-        $deviceClassB = $this->getClassDevice($userIdItemsB);
-        foreach ($deviceClassB as $key => $value) {
-            $productCnt += $this->getProductSk($key, $value, $productSk);
-        }
-        return $productCnt;
-    }
-
-    //临时逻辑
-    public function fetchUserItemsOnDay($limit = 0)
-    {
-        $query = $this->getQueryUserActivitiesBrand($limit = 0);
-        $result = $this->connectObj->fetchAssoc($query);
-        return $result;
     }
 
     public function getMaxUserId()
