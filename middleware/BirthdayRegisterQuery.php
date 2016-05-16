@@ -7,9 +7,12 @@
  * Time: 下午5:51
  */
 require __DIR__ .'/../vendor/autoload.php';
+include __DIR__."/../util/UtilSqlTool.php";
 include __DIR__.'/../common/Common.php';
 class BirthdayRegisterQuery extends Common
 {
+    use UtilSqlTool;
+    
     public $connectObj;
 
     public function __construct(Common $common)
@@ -73,8 +76,9 @@ class BirthdayRegisterQuery extends Common
     {
         $udidList = implode(',', $udids);
         $currentTableName = 'oistatistics.st_devices_' . $table;
-        $query = "SELECT COUNT(*) AS cnt FROM " . $currentTableName ." AS s WHERE s.udid IN ( " . $udidList . " ) AND s.product_sk = " . $productSk;
+//        $query = "SELECT COUNT(*) AS cnt FROM " . $currentTableName ." AS s WHERE s.udid IN ( " . $udidList . " ) AND s.product_sk = " . $productSk;
 //        echo $query . " \n";
+        $query = $this->getQueryUdidsLinkProductSk($currentTableName, $udidList, $productSk);
         $result = $this->connectObj->fetchCnt($query);
         return $result['cnt'];
     }
@@ -170,7 +174,8 @@ class BirthdayRegisterQuery extends Common
     public function fuckVivo()
     {
         $vivoArray = array();
-        $query = "SELECT model_sk  FROM `oistatistics`.`st_dim_model` WHERE `model_name` LIKE '%vivo%'";
+//        $query = "SELECT model_sk  FROM `oistatistics`.`st_dim_model` WHERE `model_name` LIKE '%vivo%'";
+        $query = $this->getQueryVivoFuck();
         $result = $this->connectObj->fetchAssoc($query);
         foreach ($result as $item) {
             $vivoArray[] = $item['model_sk'];
@@ -183,9 +188,10 @@ class BirthdayRegisterQuery extends Common
         $udidsList = implode(',', $udids);
         $modelsList = implode(',', $models);
         $currentTableName = 'oistatistics.st_devices_' . $table;
-        $query = "SELECT COUNT(*) AS cnt FROM " . $currentTableName ." AS s 
-        LEFT JOIN oistatistics.st_dim_model AS m ON s.model_sk = m.model_sk 
-        WHERE s.udid IN ( ". $udidsList . " ) AND m.model_sk IN ( " . $modelsList . ")";
+//        $query = "SELECT COUNT(*) AS cnt FROM " . $currentTableName ." AS s 
+//        LEFT JOIN oistatistics.st_dim_model AS m ON s.model_sk = m.model_sk 
+//        WHERE s.udid IN ( ". $udidsList . " ) AND m.model_sk IN ( " . $modelsList . ")";
+        $query = $this->getQueryUdidLinkModel($currentTableName, $udidsList, $modelsList);
         $brandCount = $this->connectObj->fetchCnt($query);
         return $brandCount['cnt'];
     }
@@ -195,9 +201,10 @@ class BirthdayRegisterQuery extends Common
         $udidsList = implode(',', $udids);
         $brandList = implode(',', $brands);
         $currentTableName = 'oistatistics.st_devices_' . $table;
-        $query = "SELECT COUNT(*) AS cnt FROM " . $currentTableName ." AS s 
-        LEFT JOIN oistatistics.st_dim_brand AS b ON s.brand_sk = b.brand_sk 
-        WHERE s.udid IN ( ". $udidsList . " ) AND b.brand_sk IN ( " . $brandList . ")";
+//        $query = "SELECT COUNT(*) AS cnt FROM " . $currentTableName ." AS s 
+//        LEFT JOIN oistatistics.st_dim_brand AS b ON s.brand_sk = b.brand_sk 
+//        WHERE s.udid IN ( ". $udidsList . " ) AND b.brand_sk IN ( " . $brandList . ")";
+        $query = $this->getQueryUdidLinkBrand($currentTableName, $udidsList, $brandList);
         $brandCount = $this->connectObj->fetchCnt($query);
         return $brandCount['cnt'];
     }
@@ -209,7 +216,7 @@ class BirthdayRegisterQuery extends Common
         $sql = sprintf("
         SELECT bcn.userid,u.udid,(CONV(LEFT(u.udid, 1), 16, 10) DIV 2) AS device FROM %s AS bcn LEFT JOIN oibirthday.users AS u ON bcn.userid = u.id 
         WHERE
-		 	bcn.`birth_is_lunar` = %d AND bcn.birth_m = %d AND bcn.birth_d = %d AND u.udid != ''
+		 	bcn.`birth_is_lunar` = %d AND bcn.birth_m = %d AND bcn.birth_d = %d AND u.udid != '' AND TO_DAYS(u.visit_on) = TO_DAYS('2016-05-15')
 		 GROUP BY
 		 	bcn.birth_m, bcn.birth_d, bcn.userid
 	",
@@ -217,14 +224,26 @@ class BirthdayRegisterQuery extends Common
             $isBirthLunar,
             $birthM, $birthD
         );
+//        $sql = sprintf("
+//        SELECT bcn.userid,u.udid,(CONV(LEFT(u.udid, 1), 16, 10) DIV 2) AS device FROM %s AS bcn LEFT JOIN oibirthday.users AS u ON bcn.userid = u.id
+//        WHERE
+//		 	bcn.`birth_is_lunar` = %d AND bcn.birth_m = %d AND bcn.birth_d = %d AND u.udid != ''
+//		 GROUP BY
+//		 	bcn.birth_m, bcn.birth_d, bcn.userid
+//	",
+//            $currentTableName,
+//            $isBirthLunar,
+//            $birthM, $birthD
+//        );
+//        $query = $this->getQueryUserItemsOnLunarAndMonthAndDay($currentTableName, $isBirthLunar, $birthM, $birthD);
         $query = $this->connectObj->fetchAssoc($sql);
         return $query;
     }
 
     public function getMaxUserId()
     {
-        $sql = sprintf("SELECT id FROM oibirthday.users ORDER BY id DESC LIMIT 1");
-        $query = $this->connectObj->fetchCnt($sql);
+        $query = $this->getQueryMaxUserId();
+        $query = $this->connectObj->fetchCnt($query);
         echo " MAXUsersId: " . $query['id'] . " \n";
         return $query['id'];
     }

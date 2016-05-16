@@ -51,11 +51,11 @@ class UserBrandBirthdayStat extends BirthdayRegisterQuery
             $defaultTable += 1;
         }
         unset($summationBrandCnt['iphone_cnt']);
-        $updateQuery = $this->common->updateParamsQuery(self::BRAND_DAILY_REMINDER_STAT, $summationBrandCnt, $where);
-        $query = $this->common->fetchCakeStatQuery($updateQuery);
-        if ($query) {
-            echo " ===UserBrandBirthdayStat " . $current->format('Y-m-d') . " Update brands success !!! \n";
-        }
+//        $updateQuery = $this->common->updateParamsQuery(self::BRAND_DAILY_REMINDER_STAT, $summationBrandCnt, $where);
+//        $query = $this->common->fetchCakeStatQuery($updateQuery);
+//        if ($query) {
+//            echo " ===UserBrandBirthdayStat " . $current->format('Y-m-d') . " Update brands success !!! \n";
+//        }
         echo "== xiaomi_cnt: " . $summationBrandCnt['xiaomi_cnt'] . " == meizu_cnt: " . $summationBrandCnt['meizu_cnt'] . " == huawei_cnt: " . $summationBrandCnt['huawei_cnt'] .
             " == vivo_cnt: " . $summationBrandCnt['vivo_cnt'] . " == samsung_cnt: " . $summationBrandCnt['samsung_cnt'] . " == oppo_cnt: " . $summationBrandCnt['oppo_cnt'] .
             " == zte_cnt: " . $summationBrandCnt['zte_cnt'] . " \n";
