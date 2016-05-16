@@ -215,21 +215,10 @@ class BirthdayRegisterQuery extends Common
     {
         echo "===== start table: " . $table . " \n";
         $currentTableName = "oibirthday.br_birthdays_" . $table;
-//        $sql = sprintf("
-//        SELECT bcn.userid,u.udid,(CONV(LEFT(u.udid, 1), 16, 10) DIV 2) AS device FROM %s AS bcn LEFT JOIN oibirthday.users AS u ON bcn.userid = u.id
-//        WHERE
-//		 	bcn.`birth_is_lunar` = %d AND bcn.birth_m = %d AND bcn.birth_d = %d AND u.udid != '' AND TO_DAYS(u.visit_on) = TO_DAYS('2016-05-15')
-//		 GROUP BY
-//		 	bcn.birth_m, bcn.birth_d, bcn.userid
-//	",
-//            $currentTableName,
-//            $isBirthLunar,
-//            $birthM, $birthD
-//        );
         $sql = sprintf("
         SELECT bcn.userid,u.udid,(CONV(LEFT(u.udid, 1), 16, 10) DIV 2) AS device FROM %s AS bcn LEFT JOIN oibirthday.users AS u ON bcn.userid = u.id
         WHERE
-		 	bcn.`birth_is_lunar` = %d AND bcn.birth_m = %d AND bcn.birth_d = %d AND u.udid != ''
+		 	bcn.`birth_is_lunar` = %d AND bcn.birth_m = %d AND bcn.birth_d = %d AND u.udid != '' AND TO_DAYS(u.visit_on) <= TO_DAYS('2016-05-14') AND TO_DAYS(u.visit_on) <= TO_DAYS('2016-04-14') 
 		 GROUP BY
 		 	bcn.birth_m, bcn.birth_d, bcn.userid
 	",
@@ -237,6 +226,17 @@ class BirthdayRegisterQuery extends Common
             $isBirthLunar,
             $birthM, $birthD
         );
+//        $sql = sprintf("
+//        SELECT bcn.userid,u.udid,(CONV(LEFT(u.udid, 1), 16, 10) DIV 2) AS device FROM %s AS bcn LEFT JOIN oibirthday.users AS u ON bcn.userid = u.id
+//        WHERE
+//		 	bcn.`birth_is_lunar` = %d AND bcn.birth_m = %d AND bcn.birth_d = %d AND u.udid != ''
+//		 GROUP BY
+//		 	bcn.birth_m, bcn.birth_d, bcn.userid
+//	",
+//            $currentTableName,
+//            $isBirthLunar,
+//            $birthM, $birthD
+//        );
 //        $query = $this->getQueryUserItemsOnLunarAndMonthAndDay($currentTableName, $isBirthLunar, $birthM, $birthD);
         $query = $this->connectObj->fetchAssoc($sql);
         return $query;
