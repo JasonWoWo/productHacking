@@ -86,7 +86,7 @@ trait UtilSqlTool
 
     public function getQueryLoginUdidsLinkProductSk($currentTableName, $udidsList, $productSk, $timeStamp = 0)
     {
-        $query = "SELECT COUNT(*) AS cnt FROM " . $currentTableName ." AS s LEFT JOIN oistatistics.st_dim_date AS d ON s.date_sk = d.date_sk 
+        $query = "SELECT COUNT(*) AS cnt FROM " . $currentTableName ." AS s LEFT JOIN oistatistics.st_dim_date AS d ON s.create_date_sk = d.date_sk 
         WHERE s.udid IN ( " . $udidsList . " ) AND TO_DAYS(d.datevalue) = " . $this->fetchDateString($timeStamp) . " AND s.product_sk = " . $productSk;
         echo $query . " \n";
         return $query;
@@ -94,7 +94,7 @@ trait UtilSqlTool
 
     public function getQueryLoginUdidLinkModel($currentTableName, $udidsList, $modelsList, $timeStamp = 0)
     {
-        $query = "SELECT COUNT(*) AS cnt FROM " . $currentTableName ." AS s LEFT JOIN oistatistics.st_dim_date AS d ON s.date_sk = d.date_sk
+        $query = "SELECT COUNT(*) AS cnt FROM " . $currentTableName ." AS s LEFT JOIN oistatistics.st_dim_date AS d ON s.create_date_sk = d.date_sk
         LEFT JOIN oistatistics.st_dim_model AS m ON s.model_sk = m.model_sk 
         WHERE s.udid IN ( ". $udidsList . " ) AND m.model_sk IN ( " . $modelsList . ") AND TO_DAYS(d.datevalue) = " . $this->fetchDateString($timeStamp);
         echo $query . " \n";
@@ -103,7 +103,7 @@ trait UtilSqlTool
     
     public function getQueryLoginUdidLinkBrand($currentTableName, $udidsList, $brandsList, $timeStamp = 0)
     {
-        $query = "SELECT COUNT(*) AS cnt FROM " . $currentTableName ." AS s LEFT JOIN oistatistics.st_dim_date AS d ON s.date_sk = d.date_sk
+        $query = "SELECT COUNT(*) AS cnt FROM " . $currentTableName ." AS s LEFT JOIN oistatistics.st_dim_date AS d ON s.create_date_sk = d.date_sk
         LEFT JOIN oistatistics.st_dim_brand AS b ON s.brand_sk = b.brand_sk 
         WHERE s.udid IN ( ". $udidsList . " ) AND b.brand_sk IN ( " . $brandsList . ") AND TO_DAYS(d.datevalue) = " . $this->fetchDateString($timeStamp);
         echo $query . " \n";
