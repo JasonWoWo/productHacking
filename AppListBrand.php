@@ -19,11 +19,14 @@ class AppListBrand extends AppListQuery
     
     public function getBrandListCount()
     {
+        $appKey = $this->getAppPackage();
         $userItems = $this->fetchAppList();
-        $brandList = $this->fetchBrandCount($userItems);
-        echo "== xiaomi_cnt: " . $brandList['xiaomi_cnt'] . " == meizu_cnt: " . $brandList['meizu_cnt'] . " == huawei_cnt: " . $brandList['huawei_cnt'] .
-            " == vivo_cnt: " . $brandList['vivo_cnt'] . " == samsung_cnt: " . $brandList['samsung_cnt'] . " == oppo_cnt: " . $brandList['oppo_cnt'] .
-            " == zte_cnt: " . $brandList['zte_cnt'] . " \n";
+        foreach ($userItems as $key => $value) {
+            $brandList = $this->fetchBrandCount($value);
+            echo  $appKey[$key] . "== xiaomi_cnt: " . $brandList['xiaomi_cnt'] . " == meizu_cnt: " . $brandList['meizu_cnt'] . " == huawei_cnt: " . $brandList['huawei_cnt'] .
+                " == vivo_cnt: " . $brandList['vivo_cnt'] . " == samsung_cnt: " . $brandList['samsung_cnt'] . " == oppo_cnt: " . $brandList['oppo_cnt'] .
+                " == zte_cnt: " . $brandList['zte_cnt'] . " \n";
+        }
     }
 }
 $appList = new AppListBrand();

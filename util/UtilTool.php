@@ -112,4 +112,16 @@ trait UtilTool
         );
         return $paramsKeyList;
     }
+
+    public function getAppPackage()
+    {
+        $appPackage = array(
+            'com.cleanmaster.security_cn' =>  '猎豹安全卫士',
+            'com.cleanmaster.mguard_cn' => '猎豹清理大师',
+            'com.qihoo360.mobilesafe' => '360卫士',
+            'com.qihoo.cleandroid_cn' => '360清理大师',
+            'cn.opda.a.phonoalbumshoushou' =>'百度卫士',
+        );
+        return $appPackage;
+    }
 }

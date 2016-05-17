@@ -15,6 +15,8 @@ class AppListQuery
     use UtilTool;
 
     public $connectObj;
+    
+    public $userCount = 0;
 
     public $content = array();
 
@@ -32,11 +34,13 @@ class AppListQuery
         $query = array('t' => array('$gte' => $previousDate->getTimestamp(), '$lte' => $currentDate->getTimestamp()));
         $results = $appListCollection->find($query);
         foreach ($results as $item) {
-            if (count($item['applist']) >= 50) {
-                $this->content[] = $this->getCurrentDeviceNumber($item['_id_']);
+            foreach ($item['applist'] as $itemDetail) {
+                if (in_array($itemDetail['name'], array_keys($this->getAppPackage()))) {
+                    $this->content[$itemDetail['name']][] = $this->getCurrentDeviceNumber($item['_id']);
+                }
             }
+            $this->userCount += 1;
         }
-        var_dump($this->content);
         return $this->content;
     }
 
@@ -48,6 +52,11 @@ class AppListQuery
             'device' => $number,
             'udid' => $udid
         );
+    }
+    
+    public function getUserCount()
+    {
+        return $this->userCount;
     }
     
     public function fetchBrandCount($userItems = array())
