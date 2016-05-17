@@ -19,8 +19,6 @@ class AppListQuery
     public $userCount = 0;
 
     public $content = array();
-    
-    public $brandItems = array();
 
     public function __construct(Common $common)
     {
@@ -36,12 +34,13 @@ class AppListQuery
         $query = array('t' => array('$gte' => $previousDate->getTimestamp(), '$lte' => $currentDate->getTimestamp()));
         $results = $appListCollection->find($query);
         foreach ($results as $item) {
-            foreach ($item['applist'] as $itemDetail) {
-                if (in_array($itemDetail['name'], array_keys($this->getAppPackage()))) {
-                    $this->content[$itemDetail['name']][] = $this->getCurrentDeviceNumber($item['_id']);
-                }
-            }
-            $this->brandItems[] = $this->getCurrentDeviceNumber($item['_id']);
+//            foreach ($item['applist'] as $itemDetail) {
+//                if (in_array($itemDetail['name'], array_keys($this->getAppPackage()))) {
+//                    $this->content[$itemDetail['name']][] = $this->getCurrentDeviceNumber($item['_id']);
+//                }
+//            }
+            // 临时逻辑看分母分布
+            $this->content[] = $this->getCurrentDeviceNumber($item['_id']);
             $this->userCount += 1;
         }
         return $this->content;
@@ -60,11 +59,6 @@ class AppListQuery
     public function getUserCount()
     {
         return $this->userCount;
-    }
-    
-    public function getBrandItems()
-    {
-        return $this->brandItems;
     }
     
     public function fetchBrandCount($userItems = array())
