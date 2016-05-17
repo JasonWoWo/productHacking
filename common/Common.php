@@ -70,6 +70,13 @@ class Common
         
         return $mongoObj->devices->retain_info;
     }
+
+    public function fetchAppListCollection()
+    {
+        $mongoObj = $this->mongoConnect();
+
+        return $mongoObj->ur->app_list;
+    }
     
     public function fetchCnt($sql, $insert = false)
     {
