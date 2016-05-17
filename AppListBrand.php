@@ -27,6 +27,12 @@ class AppListBrand extends AppListQuery
                 " == vivo_cnt: " . $brandList['vivo_cnt'] . " == samsung_cnt: " . $brandList['samsung_cnt'] . " == oppo_cnt: " . $brandList['oppo_cnt'] .
                 " == zte_cnt: " . $brandList['zte_cnt'] . " \n";
         }
+        $brandList = $this->fetchBrandCount($this->getBrandItems());
+        echo  "== xiaomi_cnt: " . $brandList['xiaomi_cnt'] . " == meizu_cnt: " . $brandList['meizu_cnt'] . " == huawei_cnt: " . $brandList['huawei_cnt'] .
+            " == vivo_cnt: " . $brandList['vivo_cnt'] . " == samsung_cnt: " . $brandList['samsung_cnt'] . " == oppo_cnt: " . $brandList['oppo_cnt'] .
+            " == zte_cnt: " . $brandList['zte_cnt'] . " \n";
+        
+        echo "==== Summation". $this->getUserCount() . " \n";
     }
 }
 $appList = new AppListBrand();

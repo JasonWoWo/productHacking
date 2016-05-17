@@ -19,6 +19,8 @@ class AppListQuery
     public $userCount = 0;
 
     public $content = array();
+    
+    public $brandItems = array();
 
     public function __construct(Common $common)
     {
@@ -39,6 +41,7 @@ class AppListQuery
                     $this->content[$itemDetail['name']][] = $this->getCurrentDeviceNumber($item['_id']);
                 }
             }
+            $this->brandItems[] = $this->getCurrentDeviceNumber($item['_id']);
             $this->userCount += 1;
         }
         return $this->content;
@@ -57,6 +60,11 @@ class AppListQuery
     public function getUserCount()
     {
         return $this->userCount;
+    }
+    
+    public function getBrandItems()
+    {
+        return $this->brandItems;
     }
     
     public function fetchBrandCount($userItems = array())
