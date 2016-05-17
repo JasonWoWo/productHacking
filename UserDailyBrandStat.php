@@ -29,6 +29,7 @@ class UserDailyBrandStat extends UserRegisterQuery
         $userRegisterItems = $this->getCurrentRankRegisterCnt($dateTime->getTimestamp(), 0, false);
         $brandList = $this->fetchBrandsCnt($userRegisterItems, $dateTime->getTimestamp());
         $brandList['create_on'] = "'" . $dateTime->format('Y-m-d') ."'";
+        unset($brandList['iphone_cnt']);
         $insertSql = $this->common->insertParamsQuery(self::DAILY_BRANDS_STAT, $brandList);
         $query = $this->common->fetchCakeStatQuery($insertSql);
         if ($query) {

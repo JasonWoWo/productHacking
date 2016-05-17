@@ -17,3 +17,5 @@
 0 5 * * * python /opt/scripts/statspy/stat_reminder_statis.py > ~/log/log_statReminderStatis.txt 2>&1
 0 6 * * * php ~/productHacking/UserBrandBirthdayStat.php > ~/log/log_userBrandBirthdayStat.txt 2>&1
 0 6 * * * php ~/productHacking/UserBirthdayStat.php > ~/log/log_userBirthdayStat.txt 2>&1
+0 7 * * * php ~/productHacking/UserDailyBrandStat.php > ~/log/log_userDailyBrandStat.txt 2>&1
+0 8 * * * php ~/productHacking/WeChatAuthorize.php > ~/log/log_weChatAuthorize.txt 2>&1
