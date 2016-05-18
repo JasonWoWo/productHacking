@@ -124,4 +124,40 @@ trait UtilTool
         );
         return $appPackage;
     }
+    
+    public function getSrcParamsKeyInit()
+    {
+        $srcParamsKey = array(
+            'ab_' => 0,
+            'add' => 0,
+            'yab' => 0,
+            'of' => 0,
+            'oi' => 0,
+            'qq' => 0,
+            'rr' => 0,
+            'wx' => 0,
+            'pyq' => 0,
+        );
+        return $srcParamsKey;
+    }
+
+    public function summationDeviceSrcItemsCnt($currentSrc = array(), $summationSrc = array())
+    {
+        $currentSrc['ab'] += $summationSrc['ab'];
+        $currentSrc['add'] += $summationSrc['add'];
+        $currentSrc['yab'] += $summationSrc['yab'];
+        $currentSrc['of'] += $summationSrc['of'];
+        $currentSrc['oi'] += $summationSrc['oi'];
+        $currentSrc['qq'] += $summationSrc['qq'];
+        $currentSrc['rr'] += $summationSrc['rr'];
+        $currentSrc['wx'] += $summationSrc['wx'];
+        $currentSrc['pyq'] += $summationSrc['pyq'];
+        return $currentSrc;
+    }
+
+    public function get_number_birthday_number($userId)
+    {
+        $table_num = floor( intval( $userId ) / 50000 );
+        return $table_num;
+    }
 }
