@@ -32,7 +32,7 @@ class UserRegisterBackUpBirthQuery
         $srcDeviceItems = $this->getSrcParamsKeyInit();
         $defaultTable = 0;
         while ($defaultTable < 8) {
-            $currentDeviceItems = $this->getCurrentDeviceSrcItems($defaultTable, $this->currentDate->getTimestamp());
+            $currentDeviceItems = $this->getCurrentDeviceSrcItems($defaultTable, $this->currentDate->modify('-1 day')->getTimestamp());
             $srcDeviceItems = $this->summationDeviceSrcItemsCnt($srcDeviceItems, $currentDeviceItems);
             $defaultTable += 1;
         }
@@ -52,7 +52,8 @@ class UserRegisterBackUpBirthQuery
         $userRankQuery = $this->getQueryRankUserId($currentTable, $currentDateStamp, $currentDateStamp);
         $userRank = $this->connectObj->fetchCnt($userRankQuery);
         while ($userRank['minId'] <= $userRank['maxId']) {
-            $currentSrcResult = $this->getCurrentDeviceSrcCount($userRank['minId'], $userItems);
+            $birthTable = $this->get_number_birthday_number($userRank['minId']);
+            $currentSrcResult = $this->getCurrentDeviceSrcCount($birthTable, $userItems);
             $srcItems = $this->summationDeviceSrcItemsCnt($srcItems, $currentSrcResult);
             $userRank['minId'] += 1;
         }
