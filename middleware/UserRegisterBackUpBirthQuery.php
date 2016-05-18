@@ -58,6 +58,8 @@ class UserRegisterBackUpBirthQuery
             $srcItems = $this->summationDeviceSrcItemsCnt($srcItems, $currentSrcResult);
             $birthMinTable += 1;
         }
+        echo "== ab: " . $srcItems['ab'] . " == add: " . $srcItems['add'] . " == yab: " . $srcItems['yab'] . " == of: " . $srcItems['of'] . " == oi: " . $srcItems['oi'] . 
+            " == qq: " . $srcItems['qq'] . " == rr: " . $srcItems['rr'] . " == wx: " . $srcItems['wx'] . " == pyq: " . $srcItems['pyq'];
         return $srcItems;
     }
 

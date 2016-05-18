@@ -128,7 +128,7 @@ trait UtilTool
     public function getSrcParamsKeyInit()
     {
         $srcParamsKey = array(
-            'ab_' => 0,
+            'ab' => 0,
             'add' => 0,
             'yab' => 0,
             'of' => 0,
