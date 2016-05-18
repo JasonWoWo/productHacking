@@ -15,7 +15,8 @@ class UserBackUpBirthStat extends UserRegisterBackUpBirthQuery
         foreach ($srcSummationItem as $key => $value) {
             echo "==== src: " . $key . " ==== value: " . $value . " ==== \n";
         }
-        
+        $summation = $this->getBirthSummation();
+        echo " ==== summation: " . $summation . " ==== \n";
     }
 }
 $backUp = new UserBackUpBirthStat();

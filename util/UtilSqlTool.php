@@ -133,6 +133,12 @@ trait UtilSqlTool
         return $query;
     }
     
+    public function getQueryBirthSummation($currentBirthdayTable, $userIdList)
+    {
+        $query = "SELECT COUNT(*) AS cnt FROM ". $currentBirthdayTable. " AS b WHERE b.userid IN ( ". $userIdList ." )";
+        return $query;
+    }
+    
     public function fetchDateString ($timeStamp = 0)
     {
         return "TO_DAYS('" . date('Y-m-d', $timeStamp) ."')";

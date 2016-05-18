@@ -21,6 +21,8 @@ class UserRegisterBackUpBirthQuery
      */
     public $currentDate;
 
+    public $birthSummation = 0;
+
     public function __construct()
     {
         $this->connectObj = new Common();
@@ -57,18 +59,24 @@ class UserRegisterBackUpBirthQuery
         while ($birthMinTable <= $birthMaxTable) {
             $currentSrcResult = $this->getCurrentDeviceSrcCount($birthMinTable, $userItems);
             $srcItems = $this->summationDeviceSrcItemsCnt($srcItems, $currentSrcResult);
+            $this->birthSummation += $this->getCurrentDeviceSrcCount($birthMinTable, $userItems , true);
             $birthMinTable += 1;
         }
         echo "== ab: " . $srcItems['ab'] . " == add: " . $srcItems['add'] . " == yab: " . $srcItems['yab'] . " == of: " . $srcItems['of'] . " == oi: " . $srcItems['oi'] . 
-            " == qq: " . $srcItems['qq'] . " == rr: " . $srcItems['rr'] . " == wx: " . $srcItems['wx'] . " == pyq: " . $srcItems['pyq'];
+            " == qq: " . $srcItems['qq'] . " == rr: " . $srcItems['rr'] . " == wx: " . $srcItems['wx'] . " == pyq: " . $srcItems['pyq'] . " \n";
         return $srcItems;
     }
 
-    public function getCurrentDeviceSrcCount($birthTable = 0, $userItems = array())
+    public function getCurrentDeviceSrcCount($birthTable = 0, $userItems = array(), $isSummation = false)
     {
         $srcParamKey = $this->getSrcParamsKeyInit();
         $userItemString = implode(',', $userItems);
         $currentBirthTable = 'oibirthday.br_birthdays_' . $birthTable;
+        if ($isSummation) {
+            $summationQuery = $this->getQueryBirthSummation($currentBirthTable, $userItemString);
+            $deviceSummation = $this->connectObj->fetchCnt($summationQuery);
+            return $deviceSummation['cnt'];
+        }
         foreach ($srcParamKey as $key => &$value) {
             $keyQuery = $this->getQueryBirthListSrc($currentBirthTable, $userItemString, $key);
             $result = $this->connectObj->fetchCnt($keyQuery);
@@ -76,4 +84,10 @@ class UserRegisterBackUpBirthQuery
         }
         return $srcParamKey;
     }
+
+    public function getBirthSummation()
+    {
+        return $this->birthSummation;
+    }
+
 }
