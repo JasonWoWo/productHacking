@@ -30,9 +30,10 @@ class UserRegisterBackUpBirthQuery
     public function getSummationSrcItems()
     {
         $srcDeviceItems = $this->getSrcParamsKeyInit();
+        $this->currentDate->modify('-1 day');
         $defaultTable = 0;
         while ($defaultTable < 8) {
-            $currentDeviceItems = $this->getCurrentDeviceSrcItems($defaultTable, $this->currentDate->modify('-1 day')->getTimestamp());
+            $currentDeviceItems = $this->getCurrentDeviceSrcItems($defaultTable, $this->currentDate->getTimestamp());
             $srcDeviceItems = $this->summationDeviceSrcItemsCnt($srcDeviceItems, $currentDeviceItems);
             $defaultTable += 1;
         }
