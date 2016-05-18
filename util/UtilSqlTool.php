@@ -8,7 +8,6 @@
  */
 trait UtilSqlTool
 {
-    use UtilTool;
 
     public function getQueryUdidLinkBrand($currentTableName, $udidsList, $brandsList)
     {
@@ -131,6 +130,7 @@ trait UtilSqlTool
     public function getQueryBirthListSrc($currentBirthdayTable, $userIdList, $src)
     {
         $query = "SELECT COUNT(*) AS cnt FROM ". $currentBirthdayTable. " AS b WHERE b.userid IN ( ". $userIdList ." ) AND b.src LIKE '" . $src ."%'";
+        echo $query . " \n";
         return $query;
     }
     
