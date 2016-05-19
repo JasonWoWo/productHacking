@@ -143,6 +143,35 @@ trait UtilTool
         return $srcParamsKey;
     }
 
+    public function getSrcParamInsertKey()
+    {
+        $paramItems = array(
+            'srcItem' => array(
+                'ab' => 'local_import_cnt',
+                'add' => 'add_import_cnt',
+                'yab' => 'yab_import_cnt',
+                'of' => 'of_import_cnt',
+                'oi' => 'oi_import_cnt',
+                'qq' => 'qq_import_cnt',
+                'rr' => 'rr_import_cnt',
+                'wx' => 'wx_import_cnt',
+                'pyq' => 'pyq_import_cnt',
+            ),
+            'srcWithPhoneItem' => array(
+                'ab' => 'local_import_phone_cnt',
+                'add' => 'add_import_phone_cnt',
+                'yab' => 'yab_import_phone_cnt',
+                'of' => 'of_import_phone_cnt',
+                'oi' => 'oi_import_phone_cnt',
+                'qq' => 'qq_import_phone_cnt',
+                'rr' => 'rr_import_phone_cnt',
+                'wx' => 'wx_import_phone_cnt',
+                'pyq' => 'pyq_import_phone_cnt',
+            ),
+        );
+        return $paramItems;
+    }
+
     public function summationDeviceSrcItemsCnt($currentSrc = array(), $summationSrc = array())
     {
         $currentSrc['ab'] += $summationSrc['ab'];

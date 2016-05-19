@@ -131,12 +131,11 @@ trait UtilSqlTool
 
     /**
      * 活跃用户是老用户的生日数据
-     * @param $currentTable
      * @param int $loginStartStamp
      * @param int $loginEndStamp
      * @param bool $isUserList
      */
-    public function getQueryDAUFromOld($currentTable, $loginStartStamp = 0, $loginEndStamp = 0, $isUserList = false)
+    public function getQueryDAUFromOld($loginStartStamp = 0, $loginEndStamp = 0, $isUserList = false)
     {
         $loginStartString = $this->fetchDateString($loginStartStamp);
         $loginEndString = $this->fetchDateString($loginEndStamp);
@@ -147,11 +146,9 @@ trait UtilSqlTool
         $query = sprintf("
         SELECT %s
         FROM oibirthday.users AS u 
-        LEFT JOIN %s AS s ON u.udid = s.udid
-        LEFT JOIN oistatistics.st_dim_date AS d ON s.create_date_sk = d.date_sk 
-        WHERE TO_DAYS(u.create_on) < %s AND TO_DAYS(d.datevalue) < %s 
+        WHERE TO_DAYS(u.create_on) < %s
         AND TO_DAYS(u.visit_on) >= %s 
-        AND TO_DAYS(u.visit_on) <= %s", $queryParams, $currentTable, $loginStartString, $loginStartString, $loginStartString, $loginEndString);
+        AND TO_DAYS(u.visit_on) <= %s", $queryParams, $loginStartString, $loginStartString, $loginEndString);
         echo $query . "\n";
         return $query;
     }

@@ -50,6 +50,22 @@ class UserRegisterBackUpBirthQuery
         );
     }
 
+    public function getOldUserSrcDetail()
+    {
+        $srcDeviceItems = $this->getSrcParamsKeyInit();
+        $srcDeviceWithPhoneItems = $this->getSrcParamsKeyInit();
+        $this->currentDate->modify('-1 day');
+        // 这里其实不关系设备表信息
+        $defaultTable = 9999;
+        $currentDeviceItems = $this->getCurrentDeviceSrcItems($defaultTable, $this->currentDate->getTimestamp(), false);
+        $srcDeviceItems = $this->summationDeviceSrcItemsCnt($srcDeviceItems, $currentDeviceItems['srcItems']);
+        $srcDeviceWithPhoneItems = $this->summationDeviceSrcItemsCnt($srcDeviceWithPhoneItems, $currentDeviceItems['srcWithPhoneItems']);
+        return array(
+            'srcSummation' => $srcDeviceItems,
+            'phoneSummation' => $srcDeviceWithPhoneItems,
+        );
+    }
+
     public function getCurrentDeviceSrcItems($table = 0, $currentDateStamp = 0, $isNew = true)
     {
         $currentTable = 'oistatistics.st_devices_' . $table;
@@ -92,8 +108,8 @@ class UserRegisterBackUpBirthQuery
             );
         }
         return array(
-            'userQuery' => $this->getQueryDAUFromOld($currentTable, $loginInStamp, $loginEndStamp, true),
-            'userRankQuery' => $this->getQueryDAUFromOld($currentTable, $loginInStamp, $loginEndStamp),
+            'userQuery' => $this->getQueryDAUFromOld($loginInStamp, $loginEndStamp, true),
+            'userRankQuery' => $this->getQueryDAUFromOld($loginInStamp, $loginEndStamp),
         );
     }
 

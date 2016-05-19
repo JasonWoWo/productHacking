@@ -15,7 +15,7 @@ class UserBackUpBirthForOlderStat extends UserRegisterBackUpBirthQuery
     public function showUserBackUpForOlderSrcItems()
     {
         echo "== older User Detail == \n";
-        $srcSummationItem = $this->getSummationSrcItems(false);
+        $srcSummationItem = $this->getOldUserSrcDetail();
         foreach ($srcSummationItem['srcSummation'] as $key => $value) {
             echo "==== src: " . $key . ";" . $value . " ==== \n";
         }
