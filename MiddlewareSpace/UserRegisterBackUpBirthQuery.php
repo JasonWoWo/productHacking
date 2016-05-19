@@ -32,14 +32,14 @@ class UserRegisterBackUpBirthQuery
         $this->currentDate = new \DateTime();
     }
 
-    public function getSummationSrcItems()
+    public function getSummationSrcItems($isNew = true)
     {
         $srcDeviceItems = $this->getSrcParamsKeyInit();
         $srcDeviceWithPhoneItems = $this->getSrcParamsKeyInit();
         $this->currentDate->modify('-1 day');
         $defaultTable = 0;
         while ($defaultTable < 8) {
-            $currentDeviceItems = $this->getCurrentDeviceSrcItems($defaultTable, $this->currentDate->getTimestamp());
+            $currentDeviceItems = $this->getCurrentDeviceSrcItems($defaultTable, $this->currentDate->getTimestamp(), $isNew);
             $srcDeviceItems = $this->summationDeviceSrcItemsCnt($srcDeviceItems, $currentDeviceItems['srcItems']);
             $srcDeviceWithPhoneItems = $this->summationDeviceSrcItemsCnt($srcDeviceWithPhoneItems, $currentDeviceItems['srcWithPhoneItems']);
             $defaultTable += 1;
@@ -50,18 +50,19 @@ class UserRegisterBackUpBirthQuery
         );
     }
 
-    public function getCurrentDeviceSrcItems($table = 0, $currentDateStamp = 0)
+    public function getCurrentDeviceSrcItems($table = 0, $currentDateStamp = 0, $isNew = true)
     {
         $currentTable = 'oistatistics.st_devices_' . $table;
         $srcItems = $this->getSrcParamsKeyInit();
         $srcWithPhoneItems= $this->getSrcParamsKeyInit();
         $userItems = array();
-        $userQuery = $this->getQueryRankUserId($currentTable, $currentDateStamp, $currentDateStamp, true);
+        $userQueryItems = $this->getUserSelectQueryList($currentTable, $currentDateStamp, $currentDateStamp, $isNew);
+        $userQuery = $userQueryItems['userQuery'];
         $result = $this->connectObj->fetchAssoc($userQuery);
         foreach ($result as $item) {
             $userItems[] = $item['id'];
         }
-        $userRankQuery = $this->getQueryRankUserId($currentTable, $currentDateStamp, $currentDateStamp);
+        $userRankQuery = $userQueryItems['userRankQuery'];
         $userRank = $this->connectObj->fetchCnt($userRankQuery);
         $birthMinTable = $this->get_number_birthday_number($userRank['minId']);
         $birthMaxTable = $this->get_number_birthday_number($userRank['maxId']);
@@ -79,6 +80,20 @@ class UserRegisterBackUpBirthQuery
         return array(
             'srcItems' => $srcItems,
             'srcWithPhoneItems' => $srcWithPhoneItems,
+        );
+    }
+
+    public function getUserSelectQueryList($currentTable, $loginInStamp = 0, $loginEndStamp = 0, $isNew = false)
+    {
+        if ($isNew) {
+            return array(
+                'userQuery' => $this->getQueryRankUserId($currentTable, $loginInStamp, $loginEndStamp, true),
+                'userRankQuery' => $this->getQueryRankUserId($currentTable, $loginInStamp, $loginEndStamp),
+            );
+        }
+        return array(
+            'userQuery' => $this->getQueryDAUFromOld($currentTable, $loginInStamp, $loginEndStamp, true),
+            'userRankQuery' => $this->getQueryDAUFromOld($currentTable, $loginInStamp, $loginEndStamp),
         );
     }
 
