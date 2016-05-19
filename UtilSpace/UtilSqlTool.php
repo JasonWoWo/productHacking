@@ -129,9 +129,12 @@ trait UtilSqlTool
         return $query;
     }
 
-    public function getQueryBirthListSrc($currentBirthdayTable, $userIdList, $src)
+    public function getQueryBirthListSrc($currentBirthdayTable, $userIdList, $src, $withPhone = false)
     {
         $query = "SELECT COUNT(*) AS cnt FROM ". $currentBirthdayTable. " AS b WHERE b.userid IN ( ". $userIdList ." ) AND b.src LIKE '" . $src ."%'";
+        if ($withPhone) {
+            $query .= " b.phone != ''";
+        }
         return $query;
     }
     

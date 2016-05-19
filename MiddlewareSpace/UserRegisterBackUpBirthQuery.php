@@ -35,20 +35,26 @@ class UserRegisterBackUpBirthQuery
     public function getSummationSrcItems()
     {
         $srcDeviceItems = $this->getSrcParamsKeyInit();
+        $srcDeviceWithPhoneItems = $this->getSrcParamsKeyInit();
         $this->currentDate->modify('-1 day');
         $defaultTable = 0;
         while ($defaultTable < 8) {
             $currentDeviceItems = $this->getCurrentDeviceSrcItems($defaultTable, $this->currentDate->getTimestamp());
-            $srcDeviceItems = $this->summationDeviceSrcItemsCnt($srcDeviceItems, $currentDeviceItems);
+            $srcDeviceItems = $this->summationDeviceSrcItemsCnt($srcDeviceItems, $currentDeviceItems['srcItems']);
+            $srcDeviceWithPhoneItems = $this->summationDeviceSrcItemsCnt($srcDeviceWithPhoneItems, $currentDeviceItems['srcWithPhoneItems']);
             $defaultTable += 1;
         }
-        return $srcDeviceItems;
+        return array(
+            'srcSummation' => $srcDeviceItems,
+            'phoneSummation' => $srcDeviceWithPhoneItems,
+        );
     }
 
     public function getCurrentDeviceSrcItems($table = 0, $currentDateStamp = 0)
     {
         $currentTable = 'oistatistics.st_devices_' . $table;
         $srcItems = $this->getSrcParamsKeyInit();
+        $srcWithPhoneItems= $this->getSrcParamsKeyInit();
         $userItems = array();
         $userQuery = $this->getQueryRankUserId($currentTable, $currentDateStamp, $currentDateStamp, true);
         $result = $this->connectObj->fetchAssoc($userQuery);
@@ -61,18 +67,25 @@ class UserRegisterBackUpBirthQuery
         $birthMaxTable = $this->get_number_birthday_number($userRank['maxId']);
         while ($birthMinTable <= $birthMaxTable) {
             $currentSrcResult = $this->getCurrentDeviceSrcCount($birthMinTable, $userItems);
-            $srcItems = $this->summationDeviceSrcItemsCnt($srcItems, $currentSrcResult);
+            $srcItems = $this->summationDeviceSrcItemsCnt($srcItems, $currentSrcResult['srcCnt']);
+            $srcWithPhoneItems = $this->summationDeviceSrcItemsCnt($srcWithPhoneItems, $currentSrcResult['srcWithPhoneCnt']);
             $this->birthSummation += $this->getCurrentDeviceSrcCount($birthMinTable, $userItems , true);
             $birthMinTable += 1;
         }
         echo "== ab: " . $srcItems['ab'] . " == add: " . $srcItems['add'] . " == yab: " . $srcItems['yab'] . " == of: " . $srcItems['of'] . " == oi: " . $srcItems['oi'] . 
             " == qq: " . $srcItems['qq'] . " == rr: " . $srcItems['rr'] . " == wx: " . $srcItems['wx'] . " == pyq: " . $srcItems['pyq'] . " \n";
-        return $srcItems;
+        echo "phone == ab: " . $srcWithPhoneItems['ab'] . " == add: " . $srcWithPhoneItems['add'] . " == yab: " . $srcWithPhoneItems['yab'] . " == of: " . $srcWithPhoneItems['of'] . " == oi: " . $srcWithPhoneItems['oi'] .
+            " == qq: " . $srcWithPhoneItems['qq'] . " == rr: " . $srcWithPhoneItems['rr'] . " == wx: " . $srcWithPhoneItems['wx'] . " == pyq: " . $srcWithPhoneItems['pyq'] . " \n";;
+        return array(
+            'srcItems' => $srcItems,
+            'srcWithPhoneItems' => $srcWithPhoneItems,
+        );
     }
 
     public function getCurrentDeviceSrcCount($birthTable = 0, $userItems = array(), $isSummation = false)
     {
         $srcParamKey = $this->getSrcParamsKeyInit();
+        $srcParamWithPhone = $this->getSrcParamsKeyInit();
         $userItemString = implode(',', $userItems);
         $currentBirthTable = 'oibirthday.br_birthdays_' . $birthTable;
         if ($isSummation) {
@@ -84,8 +97,14 @@ class UserRegisterBackUpBirthQuery
             $keyQuery = $this->getQueryBirthListSrc($currentBirthTable, $userItemString, $key);
             $result = $this->connectObj->fetchCnt($keyQuery);
             $value += $result['cnt'];
+            $srcWithPhoneQuery = $this->getQueryBirthListSrc($currentBirthTable, $userItemString, $key, true);
+            $srcWithPhoneResult = $this->connectObj->fetchCnt($srcWithPhoneQuery);
+            $srcParamWithPhone[$key] = $srcWithPhoneResult['cnt'];
         }
-        return $srcParamKey;
+        return array(
+            'srcCnt' => $srcParamKey,
+            'srcWithPhoneCnt' => $srcParamWithPhone,
+        );
     }
 
     public function getBirthSummation()
