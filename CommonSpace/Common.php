@@ -34,7 +34,7 @@ class Common
 
     public function connect()
     {
-        $connectObj = mysqli_connect(self::OI_PRODUCT_HOST, self::OI_PRODUCT_HOST_USER, self::OI_PRODUCT_HOST_PASSWORD, self::OI_CAKESTAT_HOST_DB_NAME);
+        $connectObj = \mysqli_connect(self::OI_PRODUCT_HOST, self::OI_PRODUCT_HOST_USER, self::OI_PRODUCT_HOST_PASSWORD, self::OI_CAKESTAT_HOST_DB_NAME);
         if ($connectObj == false) {
             $this->error = mysqli_connect_error();
             $this->errno = mysqli_connect_errno();
@@ -92,9 +92,9 @@ class Common
         if (!$connectObj) {
             echo "mysql connect error!";
         }
-        $query = @mysqli_query($connectObj, $this->sql);
+        $query = @\mysqli_query($connectObj, $this->sql);
         if (!$query) {
-            $query = @mysqli_query($connectObj, $this->sql);
+            $query = @\mysqli_query($connectObj, $this->sql);
         }
 
         $this->save_error($connectObj);
@@ -109,7 +109,7 @@ class Common
 
     public function getCakeStatConDb()
     {
-        $cakeConnectObj = mysqli_connect(self::OI_CAKESTAT_HOST,
+        $cakeConnectObj = \mysqli_connect(self::OI_CAKESTAT_HOST,
             self::OI_CAKESTAT_HOST_USER,
             self::OI_CAKESTAT_HOST_PASSWORD,
             self::OI_CAKESTAT_HOST_DB_NAME
@@ -232,9 +232,9 @@ class Common
         if (!$connectObj) {
             echo "mysql connect error!";
         }
-        $query = @mysqli_query($connectObj, $this->sql);
+        $query = @\mysqli_query($connectObj, $this->sql);
         if (!$query) {
-            $query = @mysqli_query($connectObj, $this->sql);
+            $query = @\mysqli_query($connectObj, $this->sql);
         }
         $result = array();
         while ($row = $query->fetch_assoc()) {
@@ -265,12 +265,12 @@ class Common
         }
         try {
             $this->_update_retain($retainCollection, $query, $params, $forward);
-        } catch (MongoException $e) {
+        } catch (\MongoException $e) {
 
         }
     }
 
-    private function _create_retain_if_n_exists(MongoCollection $collection, $query)
+    private function _create_retain_if_n_exists(\MongoCollection $collection, $query)
     {
         try {
             $new_doc = array(
@@ -283,12 +283,12 @@ class Common
                 'mst_lt' => 0
             );
             $collection->update($query, $new_doc, ['upsert' => true]);
-        } catch (MongoException $e) {
+        } catch (\MongoException $e) {
             echo "error Mongo Exception: " .$e->getMessage() . " \n";
         }
     }
 
-    private function _update_retain(MongoCollection $collection, $query = array(), $param = array(), $forward = 0)
+    private function _update_retain(\MongoCollection $collection, $query = array(), $param = array(), $forward = 0)
     {
         $updateList = array();
         if ($param['uid']) {
@@ -301,19 +301,19 @@ class Common
         $currentDate->modify('-1 day');
         if ($forward == 0) {
             //当天保存的天数据
-            $updateList['dct_lt'] = new MongoInt64(strtotime($param['create_on']));
+            $updateList['dct_lt'] = new \MongoInt64(strtotime($param['create_on']));
         } elseif ($forward == 7) {
             //每周周一
-            $updateList['wct_lt'] = new MongoInt64(strtotime($param['create_on']));
+            $updateList['wct_lt'] = new \MongoInt64(strtotime($param['create_on']));
         } elseif ($forward == 30) {
             //每月1号执行
-            $updateList['mct_lt'] = new MongoInt64(strtotime($param['create_on']));
+            $updateList['mct_lt'] = new \MongoInt64(strtotime($param['create_on']));
         } elseif ($forward == 17) {
             // 每天执行 更新7天累积完成核心任务数量 例如 5月4号 更新 4月27日的7天累积核心任务人数
-            $updateList['sst_lt'] = new MongoInt64($currentDate->modify('-6 days')->getTimestamp());
+            $updateList['sst_lt'] = new \MongoInt64($currentDate->modify('-6 days')->getTimestamp());
         } elseif ($forward == 130) {
             // 每天执行 更新30天累积完成核心任务数量 例如 5月2号 更新 4月2日的30天累积核心任务人数
-            $updateList['mst_lt'] = new MongoInt64($currentDate->modify('-29 days')->getTimestamp());
+            $updateList['mst_lt'] = new \MongoInt64($currentDate->modify('-29 days')->getTimestamp());
         }
         $updates = array(
             '$set' => $updateList
@@ -321,7 +321,7 @@ class Common
         $ret = array();
         try {
             $ret = $collection->update($query, $updates);
-        } catch (MongoException $e) {
+        } catch (\MongoException $e) {
             echo "error Mongo Exception: " .$e->getMessage() . " \n";
         }
         return $ret;
