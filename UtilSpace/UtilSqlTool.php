@@ -6,6 +6,8 @@
  * Date: 16/5/13
  * Time: 下午5:31
  */
+namespace UtilSpace;
+
 trait UtilSqlTool
 {
 

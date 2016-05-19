@@ -6,9 +6,13 @@
  * Date: 16/5/16
  * Time: 下午2:40
  */
-include __DIR__."/../util/UtilTool.php";
-include __DIR__."/../util/UtilSqlTool.php";
-include __DIR__.'/../common/Common.php';
+
+namespace MiddlewareSpace;
+
+use CommonSpace\Common;
+use UtilSpace\UtilSqlTool;
+use UtilSpace\UtilTool;
+
 class RegisterWechatAuthorize
 {
     use UtilSqlTool;
@@ -17,13 +21,13 @@ class RegisterWechatAuthorize
     public $connectObj;
 
     /**
-     * @var DateTime
+     * @var \DateTime
      */
     public $currentDate;
 
-    public function __construct(Common $common)
+    public function __construct()
     {
-        $this->connectObj = $common;
+        $this->connectObj = new Common();
         $this->currentDate = new \DateTime();
         $this->currentDate->modify('-1 day');
     }

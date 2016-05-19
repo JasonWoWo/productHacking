@@ -6,9 +6,12 @@
  * Date: 16/5/17
  * Time: 下午3:06
  */
-include __DIR__."/../util/UtilTool.php";
-include __DIR__."/../util/UtilSqlTool.php";
-include __DIR__.'/../common/Common.php';
+namespace MiddlewareSpace;
+
+use UtilSpace\UtilSqlTool;
+use UtilSpace\UtilTool;
+use CommonSpace\Common;
+
 class AppListQuery
 {
     use UtilSqlTool;
@@ -20,9 +23,9 @@ class AppListQuery
 
     public $content = array();
 
-    public function __construct(Common $common)
+    public function __construct()
     {
-        $this->connectObj = $common;
+        $this->connectObj = new Common();
     }
     
     public function fetchAppList()

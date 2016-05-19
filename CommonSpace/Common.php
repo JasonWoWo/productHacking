@@ -6,6 +6,8 @@
  * Date: 16/4/29
  * Time: 下午12:48
  */
+namespace CommonSpace;
+
 class Common
 {
     const OI_TMP_HOST = "10.6.1.112";
@@ -45,7 +47,7 @@ class Common
 
     public function mongoConnect()
     {
-        $mongoObj = new MongoClient(self::DB_STRING);
+        $mongoObj = new \MongoClient(self::DB_STRING);
 
         return $mongoObj;
     }

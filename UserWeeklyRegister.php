@@ -6,18 +6,12 @@
  * Date: 16/5/8
  * Time: 下午2:51
  */
-include __DIR__ . "/middleware/UserRegisterQuery.php";
+require __DIR__ . '/Bootstrap.php';
+
+use MiddlewareSpace\UserRegisterQuery;
 class UserWeeklyRegister extends UserRegisterQuery
 {
     const USER_TABLE_WEEKLY_NAME = 'user_retain_weekly_statis';
-
-    public $common;
-
-    public function __construct()
-    {
-        $this->common = new Common();
-        parent::__construct($this->common);
-    }
 
     // 每周周1完成注册用户数据
     public function insertCurrentWeekRegisterCnt($extendTimeStamp = 0)
@@ -30,8 +24,8 @@ class UserWeeklyRegister extends UserRegisterQuery
             'create_on' => "'" . $dateTime->format('Y-m-d') ."'",
             'week_user_cnt' => $params['user_rank_cnt'],
         );
-        $insertSql = $this->common->insertParamsQuery(self::USER_TABLE_WEEKLY_NAME, $weekParams);
-        $query = $this->common->fetchCakeStatQuery($insertSql);
+        $insertSql = $this->connectObj->insertParamsQuery(self::USER_TABLE_WEEKLY_NAME, $weekParams);
+        $query = $this->connectObj->fetchCakeStatQuery($insertSql);
         if ($query) {
             echo "==== " . $params['create_on'] . " week Insert " . self::USER_TABLE_WEEKLY_NAME . " Success !!! \n";
         }

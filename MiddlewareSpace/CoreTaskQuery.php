@@ -6,15 +6,18 @@
  * Date: 16/4/29
  * Time: 下午12:50
  */
-include __DIR__.'/../common/Common.php';
+namespace MiddlewareSpace;
+
+use CommonSpace\Common;
+
 class CoreTaskQuery
 {
     
     public $connectObj;
 
-    public function __construct(Common $common)
+    public function __construct()
     {
-        $this->connectObj = $common;
+        $this->connectObj = new Common();
     }
 
     // 获取当日新增的device设备数量

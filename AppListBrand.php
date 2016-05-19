@@ -6,17 +6,11 @@
  * Date: 16/5/17
  * Time: 下午3:06
  */
-include __DIR__ . "/middleware/AppListQuery.php";
+require __DIR__ . '/Bootstrap.php';
+use MiddlewareSpace\AppListQuery;
+
 class AppListBrand extends AppListQuery
 {
-    public $common;
-
-    public function __construct()
-    {
-        $this->common = new Common();
-        parent::__construct($this->common);
-    }
-    
     public function getBrandListCount()
     {
         $appKey = $this->getAppPackage();

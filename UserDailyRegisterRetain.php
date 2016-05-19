@@ -6,17 +6,13 @@
  * Date: 16/5/8
  * Time: 下午3:09
  */
-include __DIR__ . "/middleware/UserRegisterRetainQuery.php";
+require __DIR__ . '/Bootstrap.php';
+
+use MiddlewareSpace\UserRegisterRetainQuery;
+
 class UserDailyRegisterRetain extends UserRegisterRetainQuery
 {
     const USER_TABLE_DAILY_NAME = 'user_retain_daily_statis';
-    public $common;
-
-    public function __construct()
-    {
-        $this->common = new Common();
-        parent::__construct($this->common);
-    }
 
     public function userDailyRetainUpdate($extendStamp = 0)
     {
@@ -42,11 +38,11 @@ class UserDailyRegisterRetain extends UserRegisterRetainQuery
         $secondCnt = array(
             $paramKey => $params,
         );
-        $loginIn = $this->common->calculateLoginIn($timestamp, $isRetain);
+        $loginIn = $this->connectObj->calculateLoginIn($timestamp, $isRetain);
         if ($this->checkCurrentDateData(self::USER_TABLE_DAILY_NAME, $loginIn)) {
             $where = array('create_on' => $loginIn);
-            $updateQuery = $this->common->updateParamsQuery(self::USER_TABLE_DAILY_NAME, $secondCnt, $where);
-            $query = $this->common->fetchCakeStatQuery($updateQuery);
+            $updateQuery = $this->connectObj->updateParamsQuery(self::USER_TABLE_DAILY_NAME, $secondCnt, $where);
+            $query = $this->connectObj->fetchCakeStatQuery($updateQuery);
             if ($query) {
                 echo " === " . $currentDate . " week isRetain : " . $isRetain . " success !!! \n";
             }

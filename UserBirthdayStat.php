@@ -6,20 +6,15 @@
  * Date: 16/5/10
  * Time: 下午6:24
  */
-include __DIR__ . "/middleware/BirthdayRegisterQuery.php";
+require __DIR__ . '/Bootstrap.php';
+
+use MiddlewareSpace\BirthdayRegisterQuery;
+
 class UserBirthdayStat extends BirthdayRegisterQuery
 {
     const DEFAULT_USER_MAX_COUNT = 50000;
 
     const PLATFORM_REMINDER_STAT = 'stat_platform_reminder_statis';
-
-    public $common;
-
-    public function __construct()
-    {
-        $this->common = new Common();
-        parent::__construct($this->common);
-    }
 
     public function getPointUserCnt($productSk = 1002)
     {
@@ -40,8 +35,8 @@ class UserBirthdayStat extends BirthdayRegisterQuery
         $paramsId = array('id');
         $current = new \DateTime();
         $where = array('create_on' => "'" . $current->modify('-1 day')->format('Y-m-d') ."'");
-        $selectQuery = $this->common->selectParamsQuery(self::PLATFORM_REMINDER_STAT, $paramsId, $where);
-        $result = $this->common->fetchAssoc($selectQuery);
+        $selectQuery = $this->connectObj->selectParamsQuery(self::PLATFORM_REMINDER_STAT, $paramsId, $where);
+        $result = $this->connectObj->fetchAssoc($selectQuery);
         if (empty($result)) {
             echo "UnCatch the result where create_on :" . $where['create_on'] . "In " . self::PLATFORM_REMINDER_STAT . " \n";
             return ;
@@ -53,8 +48,8 @@ class UserBirthdayStat extends BirthdayRegisterQuery
         $params['current_iphone_reminder_cnt'] = $this->getPointUserCnt(1001);
         $params['current_android_reminder_cnt'] = $this->getPointUserCnt(1002);
 
-        $updateQuery = $this->common->updateParamsQuery(self::PLATFORM_REMINDER_STAT, $params, $where);
-        $query = $this->common->fetchCakeStatQuery($updateQuery);
+        $updateQuery = $this->connectObj->updateParamsQuery(self::PLATFORM_REMINDER_STAT, $params, $where);
+        $query = $this->connectObj->fetchCakeStatQuery($updateQuery);
         if ($query) {
             echo " ===UserBrandBirthdayStat " . $current->format('Y-m-d') . " Update brands success !!! \n";
         }

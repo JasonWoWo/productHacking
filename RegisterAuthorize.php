@@ -6,17 +6,13 @@
  * Date: 16/5/9
  * Time: 下午4:54
  */
-include __DIR__ ."/middleware/Authorize.php";
+require __DIR__ . '/Bootstrap.php';
+
+use MiddlewareSpace\Authorize;
+
 class RegisterAuthorize extends Authorize
 {
     const USER_REGISTER_AUTHORIZE = 'user_device_authorize_statis';
-    public $common;
-
-    public function __construct()
-    {
-        $this->common = new Common();
-        parent::__construct($this->common);
-    }
 
     public function registerAuthorizeMain()
     {
@@ -31,8 +27,8 @@ class RegisterAuthorize extends Authorize
             return;
         }
         $paramList['create_on'] = "'" . $current->format('Y-m-d') ."'";
-        $insertSql = $this->common->insertParamsQuery(self::USER_REGISTER_AUTHORIZE, $paramList);
-        $query = $this->common->fetchCakeStatQuery($insertSql);
+        $insertSql = $this->connectObj->insertParamsQuery(self::USER_REGISTER_AUTHORIZE, $paramList);
+        $query = $this->connectObj->fetchCakeStatQuery($insertSql);
         if ($query) {
             echo "==== " . $paramList['create_on'] . " authorize Insert " . self::USER_REGISTER_AUTHORIZE . " Success !!! \n";
         }

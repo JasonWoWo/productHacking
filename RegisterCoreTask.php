@@ -6,7 +6,10 @@
  * Date: 16/4/29
  * Time: 下午12:49
  */
-include __DIR__ ."/middleware/CoreTaskQuery.php";
+require __DIR__ . '/Bootstrap.php';
+
+use MiddlewareSpace\CoreTaskQuery;
+
 class RegisterCoreTask extends CoreTaskQuery
 {
     /**
@@ -14,13 +17,6 @@ class RegisterCoreTask extends CoreTaskQuery
      */
 
     const USER_PROMOTION_TABLE_NAME = 'user_promotion_statis';
-    public $common;
-
-    public function __construct()
-    {
-        $this->common = new Common();
-        parent::__construct($this->common);
-    }
     
     public function insertUserPromotionList($extendTimeStamp = 0)
     {
@@ -39,8 +35,8 @@ class RegisterCoreTask extends CoreTaskQuery
         $params['activists_uv'] = $this->fetchCurrentAddUsers($dateTime->getTimestamp());
         $birthRankParams = $this->fetchBirthLevelUsers($dateTime->getTimestamp());
         $params = $params + $birthRankParams;
-        $insertSql = $this->common->insertParamsQuery(self::USER_PROMOTION_TABLE_NAME, $params);
-        $query = $this->common->fetchCakeStatQuery($insertSql);
+        $insertSql = $this->connectObj->insertParamsQuery(self::USER_PROMOTION_TABLE_NAME, $params);
+        $query = $this->connectObj->fetchCakeStatQuery($insertSql);
         if ($query) {
             echo "==== " . $currentDate . " Insert " . self::USER_PROMOTION_TABLE_NAME ." Success !!! \n";
         }

@@ -6,14 +6,17 @@
  * Date: 16/5/5
  * Time: 下午5:23
  */
-include __DIR__.'/../common/Common.php';
+namespace MiddlewareSpace;
+
+use CommonSpace\Common;
+
 class RetainForMonth
 {
     public $connectObj;
 
-    public function __construct(Common $common)
+    public function __construct()
     {
-        $this->connectObj = $common;
+        $this->connectObj = new Common();
     }
 
     public function baseRetainMonthly(\DateTime $pointDate, \DateTime $visitDate, $minBirthCnt = 0, $maxBirthCnt = 0)

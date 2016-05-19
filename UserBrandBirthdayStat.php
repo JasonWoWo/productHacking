@@ -6,20 +6,16 @@
  * Date: 16/5/11
  * Time: 下午3:20
  */
-include __DIR__ . "/middleware/BirthdayRegisterQuery.php";
+
+require __DIR__ . '/Bootstrap.php';
+
+use MiddlewareSpace\BirthdayRegisterQuery;
+
 class UserBrandBirthdayStat extends BirthdayRegisterQuery
 {
     const DEFAULT_USER_MAX_COUNT = 50000;
 
     const BRAND_DAILY_REMINDER_STAT = 'stat_daily_brand_reminder_statis';
-
-    public $common;
-
-    public function __construct()
-    {
-        $this->common = new Common();
-        parent::__construct($this->common);
-    }
 
     public function getPointBrandUserCnt()
     {
@@ -36,8 +32,8 @@ class UserBrandBirthdayStat extends BirthdayRegisterQuery
         $params = array('id');
         $current = new \DateTime();
         $where = array('create_on' => "'" . $current->modify('-1 day')->format('Y-m-d') ."'");
-        $selectQuery = $this->common->selectParamsQuery(self::BRAND_DAILY_REMINDER_STAT, $params, $where);
-        $result = $this->common->fetchAssoc($selectQuery);
+        $selectQuery = $this->connectObj->selectParamsQuery(self::BRAND_DAILY_REMINDER_STAT, $params, $where);
+        $result = $this->connectObj->fetchAssoc($selectQuery);
         if (empty($result)) {
             echo "UnCatch the result where create_on :" . $where['create_on'] . "In " . self::BRAND_DAILY_REMINDER_STAT . " \n";
             return ;
@@ -51,8 +47,8 @@ class UserBrandBirthdayStat extends BirthdayRegisterQuery
             $defaultTable += 1;
         }
         unset($summationBrandCnt['iphone_cnt']);
-        $updateQuery = $this->common->updateParamsQuery(self::BRAND_DAILY_REMINDER_STAT, $summationBrandCnt, $where);
-        $query = $this->common->fetchCakeStatQuery($updateQuery);
+        $updateQuery = $this->connectObj->updateParamsQuery(self::BRAND_DAILY_REMINDER_STAT, $summationBrandCnt, $where);
+        $query = $this->connectObj->fetchCakeStatQuery($updateQuery);
         if ($query) {
             echo " ===UserBrandBirthdayStat " . $current->format('Y-m-d') . " Update brands success !!! \n";
         }

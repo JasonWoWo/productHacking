@@ -6,14 +6,17 @@
  * Date: 16/5/4
  * Time: 下午6:00
  */
-include __DIR__.'/../common/Common.php';
+namespace MiddlewareSpace;
+
+use CommonSpace\Common;
+
 class RetainForWeek
 {
     public $connectObj;
 
-    public function __construct(Common $common)
+    public function __construct()
     {
-        $this->connectObj = $common;
+        $this->connectObj = new Common();
     }
 
     public function baseRetainWeekly($extendStamp = 0, $isRetain = 0, $minCycle = 0, $minBirthCnt = 0, $maxBirthCnt = 0)

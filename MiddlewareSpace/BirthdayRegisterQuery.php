@@ -6,20 +6,22 @@
  * Date: 16/5/10
  * Time: 下午5:51
  */
-require __DIR__ .'/../vendor/autoload.php';
-include __DIR__."/../util/UtilTool.php";
-include __DIR__."/../util/UtilSqlTool.php";
-include __DIR__.'/../common/Common.php';
-class BirthdayRegisterQuery extends Common
+namespace MiddlewareSpace;
+
+use CommonSpace\Common;
+use UtilSpace\UtilSqlTool;
+use UtilSpace\UtilTool;
+
+class BirthdayRegisterQuery
 {
     use UtilSqlTool;
     use UtilTool;
     
     public $connectObj;
 
-    public function __construct(Common $common)
+    public function __construct()
     {
-        $this->connectObj = $common;
+        $this->connectObj = new Common();
     }
 
     public function getPointDayBirthdayUserCnt($table = 0, $productSk = 1002)

@@ -6,7 +6,10 @@
  * Date: 16/5/6
  * Time: 下午6:42
  */
-include __DIR__.'/../common/Common.php';
+namespace MiddlewareSpace;
+
+use CommonSpace\Common;
+
 class Authorize
 {
     public $connectObj;
@@ -17,9 +20,9 @@ class Authorize
     
     public $platformCntList = array();
 
-    public function __construct(Common $common)
+    public function __construct()
     {
-        $this->connectObj = $common;
+        $this->connectObj = new Common();
     }
     
     public function getRegisterAuthorize($currentTime = 0)

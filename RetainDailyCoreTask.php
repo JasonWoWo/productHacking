@@ -6,17 +6,12 @@
  * Date: 16/5/4
  * Time: 下午3:27
  */
-include __DIR__ ."/middleware/RetainForDay.php";
+require __DIR__ . '/Bootstrap.php';
+use MiddlewareSpace\RetainForDay;
+
 class RetainDailyCoreTask extends RetainForDay
 {
     const USER_CORE_TASK_RETAIN_TABLE = 'user_core_task_retain_statis';
-    public $common;
-
-    public function __construct()
-    {
-        $this->common = new Common();
-        parent::__construct($this->common);
-    }
     
     public function updateBeforeRetain($extendStamp = 0)
     {
@@ -57,8 +52,8 @@ class RetainDailyCoreTask extends RetainForDay
         $loginInString = "'" . date('Y-m-d', $loginIn) . "'";
         if ($this->checkCurrentDateData(self::USER_CORE_TASK_RETAIN_TABLE, $loginInString)) {
             $where = array('create_on' => $loginInString);
-            $updateQuery = $this->common->updateParamsQuery(self::USER_CORE_TASK_RETAIN_TABLE, $items, $where);
-            $query = $this->common->fetchCakeStatQuery($updateQuery);
+            $updateQuery = $this->connectObj->updateParamsQuery(self::USER_CORE_TASK_RETAIN_TABLE, $items, $where);
+            $query = $this->connectObj->fetchCakeStatQuery($updateQuery);
             if ($query) {
                 echo " === " . $loginInString . " week isRetain : " . $isRetain . " success !!! \n";
             }

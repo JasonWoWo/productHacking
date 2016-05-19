@@ -6,17 +6,11 @@
  * Date: 16/5/6
  * Time: 下午7:07
  */
-include __DIR__ ."/middleware/Authorize.php";
+require __DIR__ . '/Bootstrap.php';
+use MiddlewareSpace\Authorize;
+
 class DeviceAuthorize extends Authorize
 {
-    public $common;
-
-    public function __construct()
-    {
-        $this->common = new Common();
-        parent::__construct($this->common);
-    }
-    
     public function deviceAuthorizeMain()
     {
         echo "----current: " . date('Y-m-d H:i:s') . "------> start \n ";

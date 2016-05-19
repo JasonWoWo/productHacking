@@ -6,7 +6,10 @@
  * Date: 16/5/18
  * Time: 下午3:51
  */
-include __DIR__ . "/middleware/UserRegisterBackUpBirthQuery.php";
+require __DIR__ . '/Bootstrap.php';
+
+use MiddlewareSpace\UserRegisterBackUpBirthQuery;
+
 class UserBackUpBirthStat extends UserRegisterBackUpBirthQuery
 {
     public function showUserBackUpSrcItems()

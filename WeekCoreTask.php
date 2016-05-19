@@ -6,17 +6,13 @@
  * Date: 16/5/4
  * Time: 下午5:23
  */
-include __DIR__ ."/middleware/CoreTaskQuery.php";
+require __DIR__ . '/Bootstrap.php';
+
+use MiddlewareSpace\CoreTaskQuery;
+
 class WeekCoreTask extends CoreTaskQuery
 {
     const USER_WEEK_BASE_TASK_TABLE = 'user_core_task_retain_weekly_statis';
-    public $common;
-
-    public function __construct()
-    {
-        $this->common = new Common();
-        parent::__construct($this->common);
-    }
 
     // 用户在当周完成核心任务的数据, 每周周一定时执行
     public function insertWeekBaseTaskCnt($extendTimeStamp = 0)
@@ -30,8 +26,8 @@ class WeekCoreTask extends CoreTaskQuery
             'week_core_task_cnt' => $params['birth_cnt_rank_0610'] + $params['birth_cnt_rank_1000'],
             'week_uncore_task_cnt' => $params['birth_cnt_rank_0000'] + $params['birth_cnt_rank_0001'] + $params['birth_cnt_rank_0205']
         );
-        $insertSql = $this->common->insertParamsQuery(self::USER_WEEK_BASE_TASK_TABLE, $paramsList);
-        $query = $this->common->fetchCakeStatQuery($insertSql);
+        $insertSql = $this->connectObj->insertParamsQuery(self::USER_WEEK_BASE_TASK_TABLE, $paramsList);
+        $query = $this->connectObj->fetchCakeStatQuery($insertSql);
         if ($query) {
             echo "==== " . $paramsList['create_on'] . " week Insert " . self::USER_WEEK_BASE_TASK_TABLE . " Success !!! \n";
         }

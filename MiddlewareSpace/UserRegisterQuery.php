@@ -6,18 +6,22 @@
  * Date: 16/5/8
  * Time: 下午2:45
  */
-include __DIR__."/../util/UtilTool.php";
-include __DIR__."/../util/UtilSqlTool.php";
-include __DIR__.'/../common/Common.php';
+namespace MiddlewareSpace;
+
+use CommonSpace\Common;
+use UtilSpace\UtilSqlTool;
+use UtilSpace\UtilTool;
+
 class UserRegisterQuery
 {
     use UtilTool;
     use UtilSqlTool;
+    
     public $connectObj;
 
-    public function __construct(Common $common)
+    public function __construct()
     {
-        $this->connectObj = $common;
+        $this->connectObj = new Common();
     }
 
     /**

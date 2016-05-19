@@ -6,17 +6,12 @@
  * Date: 16/5/10
  * Time: 下午1:51
  */
-include __DIR__ ."/middleware/Authorize.php";
+require __DIR__ . '/Bootstrap.php';
+use MiddlewareSpace\Authorize;
+
 class RetainAuthorizeRegister extends Authorize
 {
     const USER_REGISTER_AUTHORIZE = 'user_device_authorize_statis';
-    public $common;
-
-    public function __construct()
-    {
-        $this->common = new Common();
-        parent::__construct($this->common);
-    }
     
     public function updateAuthorize()
     {
@@ -31,11 +26,11 @@ class RetainAuthorizeRegister extends Authorize
 
     public function updateBaseAuthorize($currentTimestamp = 0, $isRetain = 0)
     {
-        $login = $this->common->calculateLoginIn($currentTimestamp, $isRetain);
+        $login = $this->connectObj->calculateLoginIn($currentTimestamp, $isRetain);
         $params = array('platform_cnt');
         $where = array('create_on' => "$login");
-        $selectQuery = $this->common->selectParamsQuery(self::USER_REGISTER_AUTHORIZE, $params, $where);
-        $result = $this->common->fetchAssoc($selectQuery);
+        $selectQuery = $this->connectObj->selectParamsQuery(self::USER_REGISTER_AUTHORIZE, $params, $where);
+        $result = $this->connectObj->fetchAssoc($selectQuery);
         if (empty($result)) {
             echo "UnCatch the result where create_on :" . $login . "In " . self::USER_REGISTER_AUTHORIZE . " \n";
             return ;
@@ -49,8 +44,8 @@ class RetainAuthorizeRegister extends Authorize
             $paramKey[1] => $param['android'],
             $paramKey[2] => $param['iphone'],
         );
-        $updateQuery = $this->common->updateParamsQuery(self::USER_REGISTER_AUTHORIZE, $paramList, $where);
-        $query = $this->common->fetchCakeStatQuery($updateQuery);
+        $updateQuery = $this->connectObj->updateParamsQuery(self::USER_REGISTER_AUTHORIZE, $paramList, $where);
+        $query = $this->connectObj->fetchCakeStatQuery($updateQuery);
         if ($query) {
             echo " === " . $login . " DeviceAuthorize isRetain : " . $isRetain . " success !!! \n";
         }

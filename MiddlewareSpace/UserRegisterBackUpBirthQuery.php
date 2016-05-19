@@ -6,9 +6,12 @@
  * Date: 16/5/18
  * Time: 下午1:50
  */
-include __DIR__."/../util/UtilTool.php";
-include __DIR__."/../util/UtilSqlTool.php";
-include __DIR__.'/../common/Common.php';
+namespace MiddlewareSpace;
+
+use CommonSpace\Common;
+use UtilSpace\UtilSqlTool;
+use UtilSpace\UtilTool;
+
 class UserRegisterBackUpBirthQuery
 {
     use UtilTool;

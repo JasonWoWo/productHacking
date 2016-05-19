@@ -6,18 +6,13 @@
  * Date: 16/5/8
  * Time: 下午3:03
  */
-include __DIR__ . "/middleware/UserRegisterQuery.php";
+require __DIR__ . '/Bootstrap.php';
+
+use MiddlewareSpace\UserRegisterQuery;
+
 class UserMonthlyRegister extends UserRegisterQuery
 {
     const USER_TABLE_MONTHLY_NAME = 'user_retain_monthly_statis';
-
-    public $common;
-
-    public function __construct()
-    {
-        $this->common = new Common();
-        parent::__construct($this->common);
-    }
 
     // 每月1日执行上月完成注册用户数据
     public function insertCurrentMonthRegisterCnt($extendTimeStamp = 0)
@@ -33,8 +28,8 @@ class UserMonthlyRegister extends UserRegisterQuery
             'create_on' => "'" . $precedingMonth->format('Y-m-d') ."'",
             'month_user_cnt' => $params['user_rank_cnt'],
         );
-        $insertSql = $this->common->insertParamsQuery(self::USER_TABLE_MONTHLY_NAME, $monthParams);
-        $query = $this->common->fetchCakeStatQuery($insertSql);
+        $insertSql = $this->connectObj->insertParamsQuery(self::USER_TABLE_MONTHLY_NAME, $monthParams);
+        $query = $this->connectObj->fetchCakeStatQuery($insertSql);
         if ($query) {
             echo "==== " . $monthParams['create_on'] . " month Insert " . self::USER_TABLE_MONTHLY_NAME . " Success !!! \n";
         }

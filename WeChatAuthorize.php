@@ -6,28 +6,22 @@
  * Date: 16/5/16
  * Time: 下午4:59
  */
-include __DIR__ . "/middleware/RegisterWechatAuthorize.php";
+require __DIR__ . '/Bootstrap.php';
+use MiddlewareSpace\RegisterWechatAuthorize;
+
 class WeChatAuthorize extends RegisterWechatAuthorize
 {
     const DAILY_PLATFORM_STAT = 'daily_platform_register_wechat_stat';
 
     const DAILY_BRANDS_STAT = 'daily_brand_register_wechat_stat';
 
-    public $common;
-
-    public function __construct()
-    {
-        $this->common = new Common();
-        parent::__construct($this->common);
-    }
-
     public function updatePlatformRelateRatio()
     {
         $paramsId = array('id');
         $current = new \DateTime();
         $where = array('create_on' => "'" . $current->modify('-1 day')->format('Y-m-d') ."'");
-        $selectQuery = $this->common->selectParamsQuery(self::DAILY_PLATFORM_STAT, $paramsId, $where);
-        $result = $this->common->fetchAssoc($selectQuery);
+        $selectQuery = $this->connectObj->selectParamsQuery(self::DAILY_PLATFORM_STAT, $paramsId, $where);
+        $result = $this->connectObj->fetchAssoc($selectQuery);
         if (empty($result)) {
             echo "UnCatch the result where create_on :" . $where['create_on'] . "In " . self::DAILY_PLATFORM_STAT . " \n";
             return ;
@@ -35,8 +29,8 @@ class WeChatAuthorize extends RegisterWechatAuthorize
         $paramsIphone = $this->fetchProductListCnt(1001);
         $paramsAndroid = $this->fetchProductListCnt(1002);
         $params = $paramsIphone + $paramsAndroid;
-        $updateQuery = $this->common->updateParamsQuery(self::DAILY_PLATFORM_STAT, $params, $where);
-        $query = $this->common->fetchCakeStatQuery($updateQuery);
+        $updateQuery = $this->connectObj->updateParamsQuery(self::DAILY_PLATFORM_STAT, $params, $where);
+        $query = $this->connectObj->fetchCakeStatQuery($updateQuery);
         if ($query) {
             echo " ===" . $where['create_on'] ." Update " . self::DAILY_PLATFORM_STAT . " success !!! \n";
         }
@@ -47,8 +41,8 @@ class WeChatAuthorize extends RegisterWechatAuthorize
         $paramsId = array('id');
         $current = new \DateTime();
         $where = array('create_on' => "'" . $current->modify('-1 day')->format('Y-m-d') ."'");
-        $selectQuery = $this->common->selectParamsQuery(self::DAILY_BRANDS_STAT, $paramsId, $where);
-        $result = $this->common->fetchAssoc($selectQuery);
+        $selectQuery = $this->connectObj->selectParamsQuery(self::DAILY_BRANDS_STAT, $paramsId, $where);
+        $result = $this->connectObj->fetchAssoc($selectQuery);
         if (empty($result)) {
             echo "UnCatch the result where create_on :" . $where['create_on'] . "In " . self::DAILY_BRANDS_STAT . " \n";
             return ;
@@ -88,8 +82,8 @@ class WeChatAuthorize extends RegisterWechatAuthorize
 //        echo " ==== zte_f_bind_mp_cnt: " . $brandItems['zte_bind_focus_mp_cnt'] . " \n";
 
         // 先注解调,看数据
-        $updateQuery = $this->common->updateParamsQuery(self::DAILY_BRANDS_STAT, $brandItems, $where);
-        $query = $this->common->fetchCakeStatQuery($updateQuery);
+        $updateQuery = $this->connectObj->updateParamsQuery(self::DAILY_BRANDS_STAT, $brandItems, $where);
+        $query = $this->connectObj->fetchCakeStatQuery($updateQuery);
         if ($query) {
             echo " ===" . $where['create_on'] ." Update " . self::DAILY_BRANDS_STAT . " success !!! \n";
         }

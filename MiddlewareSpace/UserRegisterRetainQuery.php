@@ -6,14 +6,17 @@
  * Date: 16/5/8
  * Time: 下午3:06
  */
-include __DIR__.'/../common/Common.php';
+namespace MiddlewareSpace;
+
+use CommonSpace\Common;
+
 class UserRegisterRetainQuery
 {
     public $connectObj;
 
-    public function __construct(Common $common)
+    public function __construct()
     {
-        $this->connectObj = $common;
+        $this->connectObj = new Common();
     }
 
     public function getCurrentRankMonthRegisterRetainCnt(\DateTime $pointDate, \DateTime $visitDate)

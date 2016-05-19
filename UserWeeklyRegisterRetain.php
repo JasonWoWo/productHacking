@@ -6,18 +6,13 @@
  * Date: 16/5/8
  * Time: 下午3:10
  */
-include __DIR__ . "/middleware/UserRegisterRetainQuery.php";
+require __DIR__ . '/Bootstrap.php';
+
+use MiddlewareSpace\UserRegisterRetainQuery;
+
 class UserWeeklyRegisterRetain extends UserRegisterRetainQuery
 {
     const USER_TABLE_WEEKLY_NAME = 'user_retain_weekly_statis';
-
-    public $common;
-
-    public function __construct()
-    {
-        $this->common = new Common();
-        parent::__construct($this->common);
-    }
 
     public function updateWeekRegisterRetainCnt($extendStamp = 0)
     {
@@ -56,8 +51,8 @@ class UserWeeklyRegisterRetain extends UserRegisterRetainQuery
         $loginInString = "'" . $loginIn . "'";
         if ($this->checkCurrentDateData(self::USER_TABLE_WEEKLY_NAME, $loginInString)) {
             $where = array('create_on' => $loginInString);
-            $updateQuery = $this->common->updateParamsQuery(self::USER_TABLE_WEEKLY_NAME, $updateParams, $where);
-            $query = $this->common->fetchCakeStatQuery($updateQuery);
+            $updateQuery = $this->connectObj->updateParamsQuery(self::USER_TABLE_WEEKLY_NAME, $updateParams, $where);
+            $query = $this->connectObj->fetchCakeStatQuery($updateQuery);
             if ($query) {
                 echo " === " . $loginInString . " week isRetain : " . $isRetain . " success !!! \n";
             }

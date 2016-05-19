@@ -6,17 +6,12 @@
  * Date: 16/5/5
  * Time: 下午4:47
  */
-include __DIR__ ."/middleware/CoreTaskQuery.php";
+require __DIR__ . '/Bootstrap.php';
+use MiddlewareSpace\CoreTaskQuery;
+
 class MonthCoreTask extends CoreTaskQuery
 {
     const MONTH_TABLE_NAME = 'user_core_task_retain_monthly_statis';
-    public $common;
-
-    public function __construct()
-    {
-        $this->common = new Common();
-        parent::__construct($this->common);
-    }
 
     // 每月1号执行上月完成核心任务数据
     public function insertMonthTaskCnt($extendTimeStamp = 0)
@@ -33,8 +28,8 @@ class MonthCoreTask extends CoreTaskQuery
             'month_core_task_cnt' => $params['birth_cnt_rank_0610'] + $params['birth_cnt_rank_1000'],
             'month_uncore_task_cnt' => $params['birth_cnt_rank_0000'] + $params['birth_cnt_rank_0001'] + $params['birth_cnt_rank_0205']
         );
-        $insertSql = $this->common->insertParamsQuery(self::MONTH_TABLE_NAME, $paramsList);
-        $query = $this->common->fetchCakeStatQuery($insertSql);
+        $insertSql = $this->connectObj->insertParamsQuery(self::MONTH_TABLE_NAME, $paramsList);
+        $query = $this->connectObj->fetchCakeStatQuery($insertSql);
         if ($query) {
             echo "==== " . $paramsList['create_on'] . " month Insert " . self::MONTH_TABLE_NAME . " Success !!! \n";
         }

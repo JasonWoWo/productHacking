@@ -6,18 +6,13 @@
  * Date: 16/5/8
  * Time: 下午3:10
  */
-include __DIR__ . "/middleware/UserRegisterRetainQuery.php";
+require __DIR__ . '/Bootstrap.php';
+
+use MiddlewareSpace\UserRegisterRetainQuery;
+
 class UserMonthlyRegisterRetain extends UserRegisterRetainQuery
 {
     const USER_TABLE_MONTHLY_NAME = 'user_retain_monthly_statis';
-
-    public $common;
-
-    public function __construct()
-    {
-        $this->common = new Common();
-        parent::__construct($this->common);
-    }
 
     public function updateMonthRegisterRetainCnt()
     {
@@ -50,8 +45,8 @@ class UserMonthlyRegisterRetain extends UserRegisterRetainQuery
         $monthLabelString = "'" . $pointDate->format('Y-m-d') . "'";
         if ($this->checkCurrentDateData(self::USER_TABLE_MONTHLY_NAME, $monthLabelString)) {
             $where = array('create_on' => $monthLabelString);
-            $updateQuery = $this->common->updateParamsQuery(self::USER_TABLE_MONTHLY_NAME, $updateParams, $where);
-            $query = $this->common->fetchCakeStatQuery($updateQuery);
+            $updateQuery = $this->connectObj->updateParamsQuery(self::USER_TABLE_MONTHLY_NAME, $updateParams, $where);
+            $query = $this->connectObj->fetchCakeStatQuery($updateQuery);
             if ($query) {
                 echo " === " . $monthLabelString . " month isRetain : " . $isRetainMonth . " success !!! \n";
             }

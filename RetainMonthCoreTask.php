@@ -6,17 +6,13 @@
  * Date: 16/5/5
  * Time: 下午5:44
  */
-include __DIR__ ."/middleware/RetainForMonth.php";
+require __DIR__ . '/Bootstrap.php';
+
+use MiddlewareSpace\RetainForMonth;
+
 class RetainMonthCoreTask extends RetainForMonth
 {
     const USER_MONTH_BASE_TASK_TABLE = 'user_core_task_retain_monthly_statis';
-    public $common;
-
-    public function __construct()
-    {
-        $this->common = new Common();
-        parent::__construct($this->common);
-    }
 
     //每天执行月完成核心任务的留存数据
     public function updateRetainMonthForMonth($isRetainMonth = 0)
@@ -47,8 +43,8 @@ class RetainMonthCoreTask extends RetainForMonth
         echo $monthLabelString . "\n";
         if ($this->checkCurrentDateData(self::USER_MONTH_BASE_TASK_TABLE, $monthLabelString)) {
             $where = array('create_on' => $monthLabelString);
-            $updateQuery = $this->common->updateParamsQuery(self::USER_MONTH_BASE_TASK_TABLE, $paramsList, $where);
-            $query = $this->common->fetchCakeStatQuery($updateQuery);
+            $updateQuery = $this->connectObj->updateParamsQuery(self::USER_MONTH_BASE_TASK_TABLE, $paramsList, $where);
+            $query = $this->connectObj->fetchCakeStatQuery($updateQuery);
             if ($query) {
                 echo " === UPDATE " . $monthLabelString . " month isRetain : " . $isRetainMonth . " success !!! \n";
             }
