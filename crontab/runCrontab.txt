@@ -19,3 +19,4 @@
 0 6 * * * php ~/productHacking/UserBirthdayStat.php > ~/log/log_userBirthdayStat.txt 2>&1
 0 7 * * * php ~/productHacking/UserDailyBrandStat.php > ~/log/log_userDailyBrandStat.txt 2>&1
 0 8 * * * php ~/productHacking/WeChatAuthorize.php > ~/log/log_weChatAuthorize.txt 2>&1
+0 1 * * * php ~/productHacking/UserBackUpBirthStat.php > ~/log/log_userBackUpBirthStat.txt 2>&1
