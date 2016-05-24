@@ -20,11 +20,20 @@ class QueryBirthCntInZero extends TmpCoreTaskBirthCntZero
             echo sprintf(" %d;%s;%d \n", $item['id'], $item['udid'], $item['appid']);
         }
     }
+
+    public function main()
+    {
+        $current = new \DateTime('2016-05-24');
+        $current->modify('-1 day');
+        $currentStamp = $current->getTimestamp();
+        $endDate = new \DateTime('2016-05-14');
+        $endStamp = $endDate->getTimestamp();
+        while ($endStamp <= $currentStamp) {
+            $daliyEndStamp = $currentStamp + 86400;
+            $this->getPointBirthCntDetail($currentStamp, $daliyEndStamp);
+            $currentStamp = $current->modify('-1 day')->getTimestamp();
+        }
+    }
 }
 $query = new QueryBirthCntInZero();
-// 5.23
-$query->getPointBirthCntDetail(1463932800, 1464019200);
-// 5.22
-$query->getPointBirthCntDetail(1463846400, 1463932800);
-// 5.21
-$query->getPointBirthCntDetail(1463760000, 1463846400);
+$query->main();

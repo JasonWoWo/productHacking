@@ -171,7 +171,6 @@ trait UtilSqlTool
     public function getQueryBirthZeroInProduct($userIdList)
     {
         $query = "SELECT u.appid, u.udid, u.id FROM oibirthday.users AS u WHERE u.id IN (" . $userIdList .") ";
-        echo $query . " \n";
         return $query;
     }
     
