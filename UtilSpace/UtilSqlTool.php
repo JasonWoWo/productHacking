@@ -167,6 +167,13 @@ trait UtilSqlTool
         $query = "SELECT COUNT(*) AS cnt FROM ". $currentBirthdayTable. " AS b WHERE b.userid IN ( ". $userIdList ." )";
         return $query;
     }
+
+    public function getQueryBirthZeroInProduct($userIdList)
+    {
+        $query = "SELECT u.appid, u.udid, u.id FROM oibirthday.users AS u WHERE u.id IN (" . $userIdList .") ";
+        echo $query . " \n";
+        return $query;
+    }
     
     public function fetchDateString ($timeStamp = 0)
     {
