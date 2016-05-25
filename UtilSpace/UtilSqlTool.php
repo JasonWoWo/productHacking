@@ -173,6 +173,25 @@ trait UtilSqlTool
         $query = "SELECT u.appid, u.udid, u.id FROM oibirthday.users AS u WHERE u.id IN (" . $userIdList .") ";
         return $query;
     }
+
+    public function getQueryCollectionRegisterRatio($currentTable, $pointTimeStamp = 0)
+    {
+        $dayString = $this->fetchDateString($pointTimeStamp);
+        $query = "SELECT s.product_sk, s.udid, DATE_FORMAT(u.create_on, '%Y-%m-%d') AS create_on, u.id FROM " . $currentTable ." AS s
+        LEFT JOIN oistatistics.st_dim_date AS d ON s.create_date_sk = d.date_sk 
+        LEFT JOIN oibirthday.users AS u ON s.udid = u.udid
+        WHERE TO_DAYS(d.datevalue) = " . $dayString . " AND TO_DAYS(u.visit_on) = " . $dayString;
+        return $query;
+    }
+
+    public function getQueryCollectionUdid($currentTable, $pointTimeStamp = 0)
+    {
+        $dayString = $this->fetchDateString($pointTimeStamp);
+        $query = "SELECT s.product_sk, s.udid FROM " . $currentTable ." AS s
+        LEFT JOIN oistatistics.st_dim_date AS d ON s.create_date_sk = d.date_sk 
+        WHERE TO_DAYS(d.datevalue) = " . $dayString;
+        return $query;
+    }
     
     public function fetchDateString ($timeStamp = 0)
     {

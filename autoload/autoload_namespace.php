@@ -12,5 +12,6 @@ $nameSpace = array(
     'MiddlewareSpace' => array($baseDir),
     'CommonSpace' => array($baseDir),
     'UtilSpace' => array($baseDir),
+    'QueryCollection' => array($baseDir),
 );
 return $nameSpace;
