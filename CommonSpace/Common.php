@@ -236,14 +236,11 @@ class Common
         if (!$query) {
             $query = @\mysqli_query($connectObj, $this->sql);
         }
-        $this->save_error($connectObj);
         $result = array();
-        if (!$result) {
-            echo "Database Error [$this->errno]: $this->error";
-        }
         while ($row = $query->fetch_assoc()) {
             $result[] = $row;
         }
+        $this->save_error($connectObj);
         return $result;
 
     }
