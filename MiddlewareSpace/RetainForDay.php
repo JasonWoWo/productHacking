@@ -60,6 +60,10 @@ class RetainForDay
                 1 => 'second_core_task_cnt',
                 2 => 'second_uncore_task_cnt',
             ),
+            3 => array(
+                1 => 'third_core_task_cnt',
+                2 => 'third_uncore_task_cnt',
+            ),
             7 => array(
                 1 => 'week_core_task_cnt',
                 2 => 'week_uncore_task_cnt',

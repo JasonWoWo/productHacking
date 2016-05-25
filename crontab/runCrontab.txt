@@ -2,7 +2,7 @@
 0 3 * * 1 php ~/productHacking/WeekCoreTask.php > ~/log/log_weekCoreTask.txt 2>&1
 0 1 1 */1 * php ~/productHacking/MonthCoreTask.php > ~/log/log_MonthCoreTask.txt 2>&1
 0 5 * * * php ~/productHacking/SummationActivities.php > ~/log/log_summation.txt 2>&1
-0 4 * * * php ~/productHacking/RetainDailyCoreTask.php > ~/log/log_retainWeek.txt 2>&1
+0 4 * * * php ~/productHacking/RetainDailyCoreTask.php > ~/log/log_retainDaily.txt 2>&1
 0 4 * * * php ~/productHacking/RetainWeekCoreTask.php > ~/log/log_retainWeek.txt 2>&1
 0 4 * * * php ~/productHacking/RetainMonthCoreTask.php > ~/log/log_retainMonth.txt 2>&1
 0 2 * * * php ~/productHacking/UserDailyRegister.php > ~/log/log_UserDailyRegister.txt 2>&1
@@ -20,3 +20,4 @@
 0 7 * * * php ~/productHacking/UserDailyBrandStat.php > ~/log/log_userDailyBrandStat.txt 2>&1
 0 8 * * * php ~/productHacking/WeChatAuthorize.php > ~/log/log_weChatAuthorize.txt 2>&1
 0 1 * * * php ~/productHacking/UserBackUpBirthStat.php > ~/log/log_userBackUpBirthStat.txt 2>&1
+0 1 * * * php ~/productHacking/QueryCollection/QueryNewAddRegisterRatio.php > ~/log/log_queryAddRegisterRatio.txt 2>&1

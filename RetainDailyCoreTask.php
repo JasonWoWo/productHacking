@@ -16,6 +16,7 @@ class RetainDailyCoreTask extends RetainForDay
     public function updateBeforeRetain($extendStamp = 0)
     {
         $this->updateRetainForDay($extendStamp, 2);
+        $this->updateRetainForDay($extendStamp, 3);
         $this->updateRetainForDay($extendStamp, 7);
         $this->updateRetainForDay($extendStamp, 15);
         $this->updateRetainForDay($extendStamp, 30);
