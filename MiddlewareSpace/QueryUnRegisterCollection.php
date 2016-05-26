@@ -22,7 +22,6 @@ class QueryUnRegisterCollection
     {
         $defaultTable = 71;
         $maxUserQuery = $this->getQueryMaxUserId();
-        $this->getQueryUnRegisterCollection($defaultTable);
         $user = $this->connectObj->fetchCnt($maxUserQuery);
         $maxTable = $this->get_number_birthday_number($user['id']);
         while ($defaultTable <= $maxTable) {
@@ -34,7 +33,6 @@ class QueryUnRegisterCollection
     public function getCurrentDevice($table)
     {
         $currentTable ="oibirthday.br_birthdays_" . $table;
-        $this->getQueryUnRegisterCollection($currentTable);
         $unRegisterItems = $this->connectObj->fetchAssoc($this->getQueryUnRegisterCollection($currentTable));
         foreach ($unRegisterItems as $item) {
             $item['followers'] = $this->getFollowersCnt($item['phone']);
