@@ -192,6 +192,14 @@ trait UtilSqlTool
         WHERE TO_DAYS(d.datevalue) = " . $dayString;
         return $query;
     }
+
+    public function getQueryUnRegisterCollection($currentTable)
+    {
+        $query = "SELECT substring(b.phone, 1, 11) AS phone, 2016 - b.birth_y AS age FROM " . $currentTable . " AS b 
+        WHERE NOT EXISTS (SELECT 1 FROM oibirthday.users AS u WHERE u.phone = b.phone) AND b.birth_y <= 1998 AND b.birth_y >= 1981";
+        echo $query . "\n";
+        return $query;
+    }
     
     public function fetchDateString ($timeStamp = 0)
     {

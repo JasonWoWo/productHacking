@@ -20,6 +20,11 @@ class Common
     const OI_CAKESTAT_HOST_USER = 'stat_dev';
     const OI_CAKESTAT_HOST_PASSWORD = '59AcB586b5AABx4D';
     const OI_CAKESTAT_HOST_DB_NAME = 'oicakestat';
+    
+    const OI_REDIS_HOST = 'rd001.septinn.com';
+    const OI_REDIS_PORT = '6379';
+    const OI_REDIS_TIMEOUT = 0.2;
+    const OI_REDIS_PERSIST = true;
 
     const DB_STRING = 'mongodb://me001.septinn.com,me002.septinn.com/?replicaSet=rs0';
     const DB_CONNET_TIMEOUT_MS = 500;
@@ -58,6 +63,13 @@ class Common
 
         return $mongoObj->ur->dev;
     }
+    
+    public function redisConnect()
+    {
+        $redis = new \Redis();
+        $redis->connect(self::OI_REDIS_HOST, self::OI_REDIS_PORT, self::OI_REDIS_TIMEOUT);
+        return $redis;
+    }
 
     public function fetchDeviceInfoCollection()
     {
@@ -78,6 +90,13 @@ class Common
         $mongoObj = $this->mongoConnect();
 
         return $mongoObj->ur->app_list;
+    }
+
+    public function fetchUnRegisterInfoCollection()
+    {
+        $mongoObj = $this->mongoConnect();
+
+        return $mongoObj->ur->pusher_info;
     }
     
     public function fetchCnt($sql, $insert = false)
