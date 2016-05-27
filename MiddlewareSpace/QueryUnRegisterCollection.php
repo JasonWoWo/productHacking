@@ -33,10 +33,10 @@ class QueryUnRegisterCollection
     public function getCurrentDevice($table)
     {
         $currentTable ="oibirthday.br_birthdays_" . $table;
-        $maxIdQuery = $this->getQueryMaxUserId($currentTable);
+        $maxIdQuery = $this->getQueryUnRegisterMaxId($currentTable);
         $result = $this->connectObj->fetchCnt($maxIdQuery);
         $limitMaxId = 0;
-        while ($limitMaxId < $result['id']) {
+        while ($limitMaxId < $result['maxId']) {
             $unRegisterItems = $this->connectObj->fetchAssoc($this->getQueryUnRegisterCollection($currentTable, $limitMaxId));
             foreach ($unRegisterItems as $item) {
                 if ($item['id'] >= $limitMaxId) {

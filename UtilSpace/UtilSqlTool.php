@@ -199,6 +199,13 @@ trait UtilSqlTool
         WHERE NOT EXISTS (SELECT 1 FROM oibirthday.users AS u WHERE u.phone = b.phone) AND b.birth_y <= 1998 AND b.birth_y >= 1981 AND b.id > ". $maxId ." ORDER BY b.id ASC LIMIT 5000";
         return $query;
     }
+
+    public function getQueryUnRegisterMaxId($currentTable)
+    {
+        $query = "SELECT MAX(b.id) AS maxId FROM ". $currentTable ." AS b 
+        WHERE NOT EXISTS ( SELECT 1 FROM oibirthday.users AS u WHERE u.phone = b.phone ) AND b.birth_y <= 1998 AND b.birth_y >= 1981 AND b.phone REGEXP '^[1][35678][0-9]{9}$'";
+        return $query;
+    }
     
     public function fetchDateString ($timeStamp = 0)
     {
