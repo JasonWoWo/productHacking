@@ -33,10 +33,19 @@ class QueryUnRegisterCollection
     public function getCurrentDevice($table)
     {
         $currentTable ="oibirthday.br_birthdays_" . $table;
-        $unRegisterItems = $this->connectObj->fetchAssoc($this->getQueryUnRegisterCollection($currentTable));
-        foreach ($unRegisterItems as $item) {
-            $item['followers'] = $this->getFollowersCnt($item['phone']);
-            $this->injectUnRegisterInfoMongoDb($item);
+        $maxIdQuery = $this->getQueryMaxUserId($currentTable);
+        $result = $this->connectObj->fetchCnt($maxIdQuery);
+        $limitMaxId = 0;
+        while ($limitMaxId < $result['id']) {
+            $unRegisterItems = $this->connectObj->fetchAssoc($this->getQueryUnRegisterCollection($currentTable, $limitMaxId));
+            foreach ($unRegisterItems as $item) {
+                if ($item['id'] >= $limitMaxId) {
+                    $limitMaxId = $item['id'];
+                }
+                $item['followers'] = $this->getFollowersCnt($item['phone']);
+                $this->injectUnRegisterInfoMongoDb($item);
+            }
+            echo "Obtain the table: " . $currentTable . " MaxId: " . $limitMaxId . " \n";
         }
         echo $currentTable . " Success injectMongo \n";
     }

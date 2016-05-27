@@ -39,9 +39,9 @@ trait UtilSqlTool
         return $query;
     }
     
-    public function getQueryMaxUserId()
+    public function getQueryMaxUserId($defaultTable = 'oibirthday.users')
     {
-        $query = "SELECT id FROM oibirthday.users ORDER BY id DESC LIMIT 1";
+        $query = "SELECT id FROM " . $defaultTable ." ORDER BY id DESC LIMIT 1";
         return $query;
     }
     
@@ -193,10 +193,10 @@ trait UtilSqlTool
         return $query;
     }
 
-    public function getQueryUnRegisterCollection($currentTable)
+    public function getQueryUnRegisterCollection($currentTable, $maxId = 0)
     {
-        $query = "SELECT substring(b.phone, 1, 11) AS phone, 2016 - b.birth_y AS age FROM " . $currentTable . " AS b 
-        WHERE NOT EXISTS (SELECT 1 FROM oibirthday.users AS u WHERE u.phone = b.phone) AND b.birth_y <= 1998 AND b.birth_y >= 1981";
+        $query = "SELECT substring(b.phone, 1, 11) AS phone, 2016 - b.birth_y AS age, b.id FROM " . $currentTable . " AS b 
+        WHERE NOT EXISTS (SELECT 1 FROM oibirthday.users AS u WHERE u.phone = b.phone) AND b.birth_y <= 1998 AND b.birth_y >= 1981 AND b,id > ". $maxId ." ORDER BY b.id ASC LIMIT 5000";
         return $query;
     }
     
