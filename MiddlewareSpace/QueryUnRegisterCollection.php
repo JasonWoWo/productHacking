@@ -75,7 +75,7 @@ class QueryUnRegisterCollection
         }
         $collection = $this->connectObj->fetchUnRegisterInfoCollection();
         $query = array('_id' => $param['phone']);
-        $unRegisterInfo = $collection->find($query);
+        $unRegisterInfo = $collection->findOne($query);
         if (empty($unRegisterInfo)) {
             $this->_create_if_n_exit($collection, $query);
         }
@@ -115,7 +115,7 @@ class QueryUnRegisterCollection
         try {
             $ret = $collection->update($query, $updates);
         } catch (\MongoException $e) {
-            echo "error Mongo Exception: " .$e->getMessage() . " \n";
+            echo "error Mongo Exception: " .$e->getMessage() . " AND id: ". $param['id'] . " \n";
         }
         return $ret;
     }
