@@ -196,7 +196,7 @@ trait UtilSqlTool
     public function getQueryUnRegisterCollection($currentTable, $maxId = 0)
     {
         $query = "SELECT substring(b.phone, 1, 11) AS phone, 2016 - b.birth_y AS age, b.id FROM " . $currentTable . " AS b 
-        WHERE NOT EXISTS (SELECT 1 FROM oibirthday.users AS u WHERE u.phone = b.phone) AND b.birth_y <= 1998 AND b.birth_y >= 1981 AND b.id > ". $maxId ." ORDER BY b.id ASC LIMIT 5000";
+        WHERE NOT EXISTS (SELECT 1 FROM oibirthday.users AS u WHERE u.phone = b.phone) AND b.birth_y <= 1998 AND b.birth_y >= 1981 AND b.id > ". $maxId ." AND b.phone REGEXP '^[1][35678][0-9]{9}$' ORDER BY b.id ASC LIMIT 5000";
         return $query;
     }
 
