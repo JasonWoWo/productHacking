@@ -35,6 +35,9 @@ class QueryFollower
             $currentRankUserId = mt_rand($defaultRank, ($defaultRank + 1) * 50000);
             $userLists = $this->getRankUserLists($currentRankUserId);
             foreach ($userLists as $item) {
+                if(!$item['phone']) {
+                    continue;
+                }
                 $userItems[] = array(
                     'uid' => $item['id'],
                     'phone' => $item['phone'],
