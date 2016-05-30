@@ -170,7 +170,7 @@ trait UtilSqlTool
 
     public function getQueryBirthZeroInProduct($userIdList)
     {
-        $query = "SELECT u.appid, u.udid, u.id FROM oibirthday.users AS u WHERE u.id IN (" . $userIdList .") ";
+        $query = "SELECT u.appid, u.udid, u.id, DATE_FORMAT(u.create_on, '%Y-%m-%d') AS create_on FROM oibirthday.users AS u WHERE u.id IN (" . $userIdList .") ";
         return $query;
     }
 
@@ -204,6 +204,12 @@ trait UtilSqlTool
     {
         $query = "SELECT MAX(b.id) AS maxId FROM ". $currentTable ." AS b 
         WHERE NOT EXISTS ( SELECT 1 FROM oibirthday.users AS u WHERE u.phone = b.phone ) AND b.birth_y <= 1998 AND b.birth_y >= 1981 AND b.phone REGEXP '^[1][35678][0-9]{9}$'";
+        return $query;
+    }
+    
+    public function getQueryRandomRegisterStatic($useId = 0)
+    {
+        $query = "SELECT u.id, u.phone FROM oibirthday.users AS u WHERE u.id >= " . $useId . " ORDER BY u.id ASC LIMIT 20";
         return $query;
     }
     

@@ -191,4 +191,9 @@ trait UtilTool
         $table_num = floor( intval( $userId ) / 50000 );
         return $table_num;
     }
+
+    public function _follower_key( $number )
+    {
+        return "F:{$number}:follower";
+    }
 }

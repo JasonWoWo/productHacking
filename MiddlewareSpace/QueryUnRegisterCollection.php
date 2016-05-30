@@ -120,7 +120,8 @@ class QueryUnRegisterCollection
         return $ret;
     }
 
-    private function _follower_key( $number ) {
+    public function _follower_key( $number )
+    {
         return "F:{$number}:follower";
     }
 }

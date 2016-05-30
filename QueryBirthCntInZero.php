@@ -15,9 +15,8 @@ class QueryBirthCntInZero extends TmpCoreTaskBirthCntZero
     public function getPointBirthCntDetail($startStamp = 0, $endStamp = 0)
     {
         $resultItems = $this->getCurrentDayBirthCntZeroDetail($startStamp, $endStamp);
-        echo $startStamp . " Label: uid;udid;appid \n";
         foreach ($resultItems as $item) {
-            echo sprintf(" %d;%s;%d \n", $item['id'], $item['udid'], $item['appid']);
+            echo sprintf("%s;%d;%s;%d \n", $item['create_on'], $item['id'], $item['udid'], $item['appid']);
         }
     }
 
@@ -28,6 +27,7 @@ class QueryBirthCntInZero extends TmpCoreTaskBirthCntZero
         $currentStamp = $current->getTimestamp();
         $endDate = new \DateTime('2016-05-14');
         $endStamp = $endDate->getTimestamp();
+        echo "createOn;uid;udid;appid \n";
         while ($endStamp <= $currentStamp) {
             $daliyEndStamp = $currentStamp + 86400;
             $this->getPointBirthCntDetail($currentStamp, $daliyEndStamp);
