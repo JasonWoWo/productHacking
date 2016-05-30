@@ -13,14 +13,20 @@ class QueryUnRegisterCollection
 
     public $connectObj;
 
+    /**
+     * @var \Redis
+     */
+    public $redis;
+
     public function __construct()
     {
         $this->connectObj = new Common();
+        $this->redis = $this->connectObj->redisConnect();
     }
 
     public function getPointPackUnRegisters()
     {
-        $defaultTable = 71;
+        $defaultTable = 70;
         $maxUserQuery = $this->getQueryMaxUserId();
         $user = $this->connectObj->fetchCnt($maxUserQuery);
         $maxTable = $this->get_number_birthday_number($user['id']);
@@ -42,6 +48,10 @@ class QueryUnRegisterCollection
                 if ($item['id'] >= $limitMaxId) {
                     $limitMaxId = $item['id'];
                 }
+                $phonePrivate = $this->getPrivate($item['phone']);
+                if (!empty($phonePrivate)) {
+                    continue;
+                }
                 $item['followers'] = $this->getFollowersCnt($item['phone']);
                 $this->injectUnRegisterInfoMongoDb($item);
             }
@@ -50,10 +60,18 @@ class QueryUnRegisterCollection
         echo $currentTable . " Success injectMongo \n";
     }
 
+    public function getPrivate($phone)
+    {
+        $hashedNumber = $this->get_hashed_number($phone);
+        $hashedNumber = array($hashedNumber);
+        $existPrivate = $this->_queryPrivacy($hashedNumber);
+        $value = $existPrivate[$hashedNumber[0]];
+        return $value;
+    }
+
     public function getFollowersCnt($unRegisterPhone)
     {
-        $redis = $this->connectObj->redisConnect();
-        $items = $redis->sMembers($this->_follower_key($unRegisterPhone));
+        $items = $this->redis->sMembers($this->_follower_key($unRegisterPhone));
         return count($items);
     }
 
@@ -124,4 +142,17 @@ class QueryUnRegisterCollection
     {
         return "F:{$number}:follower";
     }
+
+    private function _queryPrivacy($hashedNumbers)
+    {
+        $settings = $this->redis->hMGet('S:', $hashedNumbers);
+
+        foreach ($settings as &$setting) {
+            $setting = (intval($setting) >> 2) & 0x3;
+        }
+        unset($setting);
+
+        return $settings;
+    }
+
 }

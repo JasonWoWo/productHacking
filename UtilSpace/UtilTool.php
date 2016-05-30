@@ -192,6 +192,36 @@ trait UtilTool
         return $table_num;
     }
 
+    public function extract_phone_number( $number ) {
+        if ( !is_string( $number ) ) {
+            return FALSE;
+        }
+        $number = strtr( $number, array( '-' => '', ' '=> '', '(' => '', ')' => '' ) );
+        $pattern = '/^(?:\+?0?86)?(?:17951)?(1\d{10})$/';
+        if ( preg_match( $pattern, $number, $matches ) ) {
+            return $matches[1];
+        }
+        return FALSE;
+    }
+
+    public function get_hashed_number( $number ) {
+        $number = $this->extract_phone_number( $number );
+        if ( $number === FALSE ) {
+            return FALSE;
+        }
+        return md5( 'BR$$@'.$number.'NGFjMDA4ZWQyOTUzMzJmZmM0NTJjMjQ2' );
+    }
+    
+    public function array_change_key_name( $array, $namepairs ) {
+        foreach ( $namepairs as $oldkey => $newkey ) {
+            if ( isset( $array[$oldkey] ) ) {
+                $array[$newkey] = $array[$oldkey];
+                unset( $array[$oldkey] );
+            }
+        }
+        return $array;
+    }
+
     public function _follower_key( $number )
     {
         return "F:{$number}:follower";
