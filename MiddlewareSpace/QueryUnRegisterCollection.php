@@ -110,6 +110,10 @@ class QueryUnRegisterCollection
             $new_doc = array(
                 'fc' => 0,
                 'age' => 0,
+                'by' => 0,
+                'bm' => 0,
+                'bd' => 0,
+                'bl' => 0
             );
             $collection->update($query, $new_doc, ['upsert' => true]);
         } catch (\MongoException $e) {
@@ -126,6 +130,16 @@ class QueryUnRegisterCollection
         if ($param['age']) {
             $updateList['age'] = intval($param['age']);
         }
+        if ($param['birth_y']) {
+            $updateList['by'] = intval($param['birth_y']);
+        }
+        if (abs($param['birth_m'])) {
+            $updateList['bm'] = intval(abs($param['birth_m']));
+        }
+        if ($param['birth_d']) {
+            $updateList['bd'] = intval($param['birth_d']);
+        }
+        $updateList['bl'] = intval($param['birth_is_lunar']);
         $updates = array(
             '$set' => $updateList
         );
