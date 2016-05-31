@@ -251,9 +251,11 @@ class Common
         if (!$connectObj) {
             echo "mysql connect error!";
         }
+        $attempt = 0;
         $query = @\mysqli_query($connectObj, $this->sql);
-        if (!$query) {
+        while (($attempt <= 3) & empty($query)) {
             $query = @\mysqli_query($connectObj, $this->sql);
+            $attempt ++;
         }
         $result = array();
         $this->save_error($connectObj);
