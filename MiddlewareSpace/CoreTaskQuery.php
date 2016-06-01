@@ -9,11 +9,15 @@
 namespace MiddlewareSpace;
 
 use CommonSpace\Common;
+use UtilSpace\UtilSqlTool;
 
 class CoreTaskQuery
 {
     
+    use UtilSqlTool;
     public $connectObj;
+    
+    public $registerCoreTaskDevices = array();
 
     public function __construct()
     {
@@ -91,6 +95,22 @@ WHERE
 
         $query = $this->connectObj->fetchCnt($sql);
         return $query['cnt'];
+    }
+
+    public function getCurrentDevicesCoreTaskCount($extendStamp = 0)
+    {
+        $defaultTable = 0;
+        $timestamp = empty($extendStamp) ? time() : $extendStamp;
+        $currentDevicesCoreTaskCount = 0;
+        $udidLists = implode(',', $this->registerCoreTaskDevices);
+        while ($defaultTable < 8) {
+            $tableName = "oistatistics.st_devices_" . $defaultTable;
+            $query = $this->getQueryAddDevicesCoreTaskCount($tableName, $udidLists, $timestamp);
+            $result = $this->connectObj->fetchCnt($query);
+            $currentDevicesCoreTaskCount += $result['cnt'];
+            $defaultTable ++;
+        }
+        return $currentDevicesCoreTaskCount;
     }
 
     // 当日新增的device设备中已登陆的老用户
@@ -262,6 +282,7 @@ AND TO_DAYS(u.create_on) >= %s AND TO_DAYS(u.create_on) <= %s", $tableName, $log
             } elseif ($item['max_bct'] >= 2 && $item['max_bct'] <= 5) {
                 $rankFive += 1;
             } elseif ($item['max_bct'] >= 6 && $item['max_bct'] <= 10) {
+                $this->registerCoreTaskDevices[] = "'" . $item['udid'] . "''";
                 $rankTen += 1;
             } else {
                 $rankMore += 1;

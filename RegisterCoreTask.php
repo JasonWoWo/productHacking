@@ -34,6 +34,10 @@ class RegisterCoreTask extends CoreTaskQuery
         // activists_uv 获取当日新增的注册用户
         $params['activists_uv'] = $this->fetchCurrentAddUsers($dateTime->getTimestamp());
         $birthRankParams = $this->fetchBirthLevelUsers($dateTime->getTimestamp());
+        $unRegisterCoreTaskCnt = $this->getCurrentDevicesCoreTaskCount($dateTime->getTimestamp());
+        $registerCoreTaskCnt = $birthRankParams['birth_cnt_rank_0610'] + $birthRankParams['birth_cnt_rank_1000'];
+        // 当日新增设备中完成核心任务的数量
+        $params['udid_core_task_cnt'] = $registerCoreTaskCnt + $unRegisterCoreTaskCnt;
         $params = $params + $birthRankParams;
         $insertSql = $this->connectObj->insertParamsQuery(self::USER_PROMOTION_TABLE_NAME, $params);
         $query = $this->connectObj->fetchCakeStatQuery($insertSql);

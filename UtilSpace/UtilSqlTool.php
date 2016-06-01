@@ -212,6 +212,15 @@ trait UtilSqlTool
         $query = "SELECT u.id, u.phone FROM oibirthday.users AS u WHERE u.id >= " . $useId . " ORDER BY u.id ASC LIMIT 20";
         return $query;
     }
+
+    // 当日新增设备中完成核心任务的设备数据
+    public function getQueryAddDevicesCoreTaskCount($currentTable, $udidLists, $pointTimeStamp = 0)
+    {
+        $dayString = $this->fetchDateString($pointTimeStamp);
+        $query = "SELECT COUNT(*) AS cnt FROM " . $currentTable . " AS s LEFT JOIN oistatistics.st_dim_date AS d ON s.create_date_sk = d.date_sk 
+        WHERE s.birthcnt >= 6 AND TO_DAYS(d.datevalue) = " . $dayString . " s.udid NOT IN ( " . $udidLists . " )";
+        return $query;
+    }
     
     public function fetchDateString ($timeStamp = 0)
     {
