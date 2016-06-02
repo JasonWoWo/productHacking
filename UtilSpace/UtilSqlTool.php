@@ -218,7 +218,7 @@ trait UtilSqlTool
     {
         $dayString = $this->fetchDateString($pointTimeStamp);
         $query = "SELECT COUNT(*) AS cnt FROM " . $currentTable . " AS s LEFT JOIN oistatistics.st_dim_date AS d ON s.create_date_sk = d.date_sk 
-        WHERE s.birthcnt >= 6 AND TO_DAYS(d.datevalue) = " . $dayString . "AND s.udid NOT IN ( " . $udidLists . " )";
+        WHERE s.birthcnt >= 6 AND TO_DAYS(d.datevalue) = " . $dayString . " AND s.udid NOT IN ( " . $udidLists . " )";
         return $query;
     }
     

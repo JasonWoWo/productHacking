@@ -134,7 +134,7 @@ WHERE
         $tableName = "oistatistics.st_devices_" . $table;
         $sql = sprintf("
         SELECT 
-	COUNT(u.id) AS cnt
+	u.udid
 FROM 
 	%s AS s 
 	LEFT JOIN oibirthday.users AS u ON s.udid = u.udid 
@@ -148,8 +148,11 @@ WHERE
             $dayString,
             $dayString
         );
-        $query = $this->connectObj->fetchCnt($sql);
-        return $query['cnt'];
+        $query = $this->connectObj->fetchAssoc($sql);
+        foreach ($query as $item) {
+            $this->registerCoreTaskDevices[] = "'" . $item['udid'] . "'";
+        }
+        return count($query);
     }
 
     // 获取当日新增的注册用户
@@ -282,7 +285,7 @@ AND TO_DAYS(u.create_on) >= %s AND TO_DAYS(u.create_on) <= %s", $tableName, $log
             } elseif ($item['max_bct'] >= 2 && $item['max_bct'] <= 5) {
                 $rankFive += 1;
             } elseif ($item['max_bct'] >= 6 && $item['max_bct'] <= 10) {
-                $this->registerCoreTaskDevices[] = "'" . $item['udid'] . "''";
+                $this->registerCoreTaskDevices[] = "'" . $item['udid'] . "'";
                 $rankTen += 1;
             } else {
                 $rankMore += 1;
