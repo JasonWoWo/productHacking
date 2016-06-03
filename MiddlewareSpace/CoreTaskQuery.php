@@ -343,6 +343,14 @@ WHERE TO_DAYS(u.create_on) >= %s AND TO_DAYS(u.create_on) <= %s AND TO_DAYS(d.da
         }
         return false;
     }
+    
+    public function getRegisterCompleteCount($extendStamp = 0)
+    {
+        $timestamp = empty($extendStamp) ? time() : $extendStamp;
+        $query = $this->getQueryRegistersCompleteInfo($timestamp);
+        $result = $this->connectObj->fetchCnt($query);
+        return $result['cnt'];
+    }
 
     public function calculateLoginIn($currentStamp = 0, $isRetain = 0)
     {

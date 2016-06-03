@@ -221,6 +221,16 @@ trait UtilSqlTool
         WHERE s.birthcnt >= 6 AND TO_DAYS(d.datevalue) = " . $dayString . " AND s.udid NOT IN ( " . $udidLists . " )";
         return $query;
     }
+
+    // 注册用户完成生日信息的数量
+    public function getQueryRegistersCompleteInfo($pointTimeStamp = 0)
+    {
+        $dayString = $this->fetchDateString($pointTimeStamp);
+        $query = "SELECT COUNT(*) AS cnt 
+        FROM oibirthday.`users` AS u WHERE u.id > 5300000 AND u.name != '' AND u.gender != -1 AND u.birth_y != 0 
+        AND u.birth_m != 0 AND u.birth_d != 0 AND TO_DAYS(u.create_on) = " . $dayString;
+        return $query;
+    }
     
     public function fetchDateString ($timeStamp = 0)
     {
