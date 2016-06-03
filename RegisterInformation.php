@@ -6,6 +6,8 @@
  * Date: 16/6/3
  * Time: 下午1:43
  */
+require __DIR__ . '/Bootstrap.php';
+
 use MiddlewareSpace\CoreTaskQuery;
 
 class RegisterInformation extends CoreTaskQuery
