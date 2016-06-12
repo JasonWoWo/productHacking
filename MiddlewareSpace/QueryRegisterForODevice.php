@@ -33,7 +33,9 @@ class QueryRegisterForODevice
             $currentTable = "oistatistics.st_devices_" . $defaultTable;
             $userItems = $this->getCurrentTableODRegisters($currentTable, $registerTimeStamp);
             if (!empty($userItems)) {
-                $this->userList = $this->userList + $userItems;
+                foreach ($userItems as $item) {
+                    $this->userList[] = $item['id'];
+                }
             }
             $defaultTable += 1;
         }
