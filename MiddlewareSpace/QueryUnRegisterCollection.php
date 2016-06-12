@@ -113,7 +113,9 @@ class QueryUnRegisterCollection
                 'by' => 0,
                 'bm' => 0,
                 'bd' => 0,
-                'bl' => 0
+                'bl' => 0,
+                'g' => -1,
+                'send' => 0
             );
             $collection->update($query, $new_doc, ['upsert' => true]);
         } catch (\MongoException $e) {
@@ -140,6 +142,7 @@ class QueryUnRegisterCollection
             $updateList['bd'] = intval($param['birth_d']);
         }
         $updateList['bl'] = intval($param['birth_is_lunar']);
+        $updateList['g'] = intval($param['gender']);
         $updates = array(
             '$set' => $updateList
         );
