@@ -20,7 +20,7 @@ class QueryRegisterODeviceRetain extends QueryRegisterForODevice
         $loginTimeStamp = $timeStamp - $isRetain * 86400;
         $this->getSummationODRegisters($loginTimeStamp);
         $retainCnt = $this->getODRegisterRetain($timeStamp);
-        echo "Date: " . date('Y-m-d', $loginTimeStamp) . "On " . $isRetain ." Retain Cnt: " . $retainCnt . " \n";
+        echo "Date: " . date('Y-m-d', $loginTimeStamp) . " ODRegisterCnt: ". count($this->userList) . " On " . $isRetain ." Retain Cnt: " . $retainCnt . " \n";
     }
 
     public function main()
