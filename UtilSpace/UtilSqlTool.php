@@ -231,6 +231,26 @@ trait UtilSqlTool
         AND u.birth_m != 0 AND u.birth_d != 0 AND TO_DAYS(u.create_on) = " . $dayString;
         return $query;
     }
+
+    // 新注册用户的中老设备
+    public function getQueryRegisterForODevice($currentTable, $pointTimeStamp = 0)
+    {
+        $dayString = $this->fetchDateString($pointTimeStamp);
+        $query = "SELECT u.id FROM oibirthday.users AS u 
+        LEFT JOIN " . $currentTable . " AS s ON s.udid = u.udid 
+        LEFT JOIN oistatistics.st_dim_date AS d ON s.create_date_sk = d.date_sk 
+        WHERE TO_DAYS(d.datevalue) < " . $dayString . " AND TO_DAYS(u.create_on) = " . $dayString;
+        echo $query . " \n";
+        return $query;
+    }
+    
+    public function getQueryODRegisterVisitCnt($userList, $pointTimeStamp = 0)
+    {
+        $dayString = $this->fetchDateString($pointTimeStamp);
+        $query = "SELECT COUNT(*) AS cnt FROM oibirthday.users AS u WHERE u.id IN ( " . $userList . " ) AND TO_DAYS(u.visit_on) = " . $dayString;
+        echo $query . " \n";
+        return $query;
+    }
     
     public function fetchDateString ($timeStamp = 0)
     {
