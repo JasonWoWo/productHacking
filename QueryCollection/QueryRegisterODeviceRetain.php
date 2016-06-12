@@ -26,7 +26,7 @@ class QueryRegisterODeviceRetain extends QueryRegisterForODevice
     public function main()
     {
         $currentDate = new \DateTime();
-        $this->getRegisters($currentDate->modify('-1')->getTimestamp());
+        $this->getRegisters($currentDate->modify('-1 day')->getTimestamp());
     }
 }
 $odRegister = new QueryRegisterODeviceRetain();
