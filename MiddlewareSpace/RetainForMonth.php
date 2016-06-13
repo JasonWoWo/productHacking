@@ -68,7 +68,7 @@ class RetainForMonth
             ),
             3 => array(
                 1 => 'second_month_core_task_cnt',
-                2 => 'first_month_uncore_task_cnt',
+                2 => 'second_month_uncore_task_cnt',
             ),
             4 => array(
                 1 => 'third_month_core_task_cnt',
