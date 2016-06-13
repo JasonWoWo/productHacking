@@ -40,14 +40,16 @@ class RetainForDay
         if (empty($userIdCollection)) {
             return 0;
         }
-        return $this->getRetainDailyCount($userIdCollection, $loginEndStamp);
+        $visitTimeStamp = $extendStamp - 86400;
+        return $this->getRetainDailyCount($userIdCollection, $visitTimeStamp);
     }
 
-    public function getRetainDailyCount($userIdItems = array(), $loginEndStamp = 0)
+    public function getRetainDailyCount($userIdItems = array(), $visitTimeStamp = 0)
     {
         $userIdString = implode(',', $userIdItems);
-        $currentString = "TO_DAYS('" . date('Y-m-d', $loginEndStamp) . "')";
+        $currentString = "TO_DAYS('" . date('Y-m-d', $visitTimeStamp) . "')";
         $query = sprintf("SELECT COUNT(*) AS user_cnt FROM oibirthday.users AS u WHERE u.id IN ( %s ) AND TO_DAYS(u.visit_on) = %s ", $userIdString, $currentString);
+        echo $query . " \n";
         $result = $this->connectObj->fetchCnt($query);
         return $result['user_cnt'];
 
