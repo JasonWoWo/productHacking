@@ -228,7 +228,7 @@ trait UtilSqlTool
         $dayString = $this->fetchDateString($pointTimeStamp);
         $query = "SELECT COUNT(*) AS cnt 
         FROM oibirthday.`users` AS u WHERE u.id > 4900000 AND u.name != '' AND u.gender != -1 AND u.birth_y != 0 
-        AND u.birth_m != 0 AND u.birth_d != 0 AND TO_DAYS(u.create_on) = " . $dayString;
+        AND u.birth_m != 0 AND u.birth_d != 0 AND u.appid IN (1001, 1002) AND TO_DAYS(u.create_on) = " . $dayString;
         return $query;
     }
 
