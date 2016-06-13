@@ -69,4 +69,5 @@ class RegisterInformation extends CoreTaskQuery
     }
 }
 $infoFix = new RegisterInformation();
-$infoFix->main();
+$infoFix->getWeekCompleteInfo();
+$infoFix->getMonthCompleteInfo();

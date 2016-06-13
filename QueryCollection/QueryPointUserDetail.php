@@ -24,7 +24,7 @@ class QueryPointUserDetail extends UserDetails
         $userDetails = $this->getUserDetails();
         echo "ID;Year;Month;Day;Is_Lunar;AppId;ChnId;AllCnt;AbCnt;YabCnt;AddCnt;ConsumeCnt \n";
         foreach ($userDetails as $item) {
-            sprintf("%d;%d;%d;%d;%d;%d;%d;%d;%d;%d;%d;%d \n", 
+            echo sprintf("%d;%d;%d;%d;%d;%d;%d;%d;%d;%d;%d;%d \n",
                 $item['id'], $item['birth_y'], $item['birth_m'], $item['birth_d'], $item['birth_is_lunar'], 
                 $item['appid'], $item['chnid'], $item['all'], $item['ab'], $item['yab'], $item['add'], $item['consumeCnt']);
         }
@@ -534,3 +534,5 @@ class QueryPointUserDetail extends UserDetails
         return $this->userList;
     }
 }
+$userDetail = new QueryPointUserDetail();
+$userDetail->main();

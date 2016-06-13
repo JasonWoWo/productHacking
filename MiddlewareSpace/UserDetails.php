@@ -53,11 +53,10 @@ class UserDetails
         foreach ($this->userDetails as &$item) {
             $birthTable = $this->get_number_birthday_number($item['id']);
             $src = array('ab', 'yab', 'add');
+            $item['all'] = $this->getBackUpSourceCnt($birthTable, $item['id']);
             foreach ($src as $srcList) {
                 $item[$srcList] = $this->getBackUpSourceCnt($birthTable, $item['id'], $srcList);
-                $item['all'] = $this->getBackUpSourceCnt($birthTable, $item['id']);
             }
-            
         }
     }
     
