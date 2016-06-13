@@ -154,12 +154,7 @@ class QueryUnRegisterCollection
         }
         return $ret;
     }
-
-    public function _follower_key( $number )
-    {
-        return "F:{$number}:follower";
-    }
-
+    
     private function _queryPrivacy($hashedNumbers)
     {
         $settings = $this->redis->hMGet('S:', $hashedNumbers);

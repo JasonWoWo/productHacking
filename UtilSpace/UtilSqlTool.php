@@ -251,6 +251,29 @@ trait UtilSqlTool
         echo $query . " \n";
         return $query;
     }
+
+    public function getQueryRegisterBirthDetail($userList)
+    {
+        $query = "SELECT u.id, u.birth_y, u.birth_m, u.birth_d, u.birth_is_lunar, u.appid, u.chnid FROM oibirthday.users AS u WHERE u.id IN ( " . $userList . " ) ";
+        echo $query . " \n";
+        return $query;
+    }
+
+    public function getQueryRegisterConsumeCnt($userId)
+    {
+        $query = "SELECT COUNT(*) AS consumeCnt FROM oiplatform.order_details AS o WHERE o.uid = " . $userId . " AND o.pay_time >= o.order_time ";
+        return $query;
+    }
+
+    public function getQueryBackUpBirthDetail($birthNum = 0, $userId, $src = null)
+    {
+        $oibirthdayTable = "oibirthday.br_birthdays_" . $birthNum;
+        $query = "SELECT COUNT(*) cnt FROM ". $oibirthdayTable . " AS b WHERE b.userid = ". $userId;
+        if ($src) {
+            $query .= " AND b.src LIKE '" . $src . "%'";
+        }
+        return $query;
+    }
     
     public function fetchDateString ($timeStamp = 0)
     {
