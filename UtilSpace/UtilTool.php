@@ -186,6 +186,41 @@ trait UtilTool
         return $currentSrc;
     }
 
+    public function getIsRetainParamsDailyKey($isRetain)
+    {
+        $paramKey = array(
+            2 => array(
+                1 => 'second_core_task_cnt',
+                2 => 'second_uncore_task_cnt',
+            ),
+            3 => array(
+                1 => 'third_core_task_cnt',
+                2 => 'third_uncore_task_cnt',
+            ),
+            7 => array(
+                1 => 'week_core_task_cnt',
+                2 => 'week_uncore_task_cnt',
+            ),
+            15 => array(
+                1 => 'half_month_core_task_cnt',
+                2 => 'half_month_uncore_task_cnt',
+            ),
+            30 => array(
+                1 => 'month_core_task_cnt',
+                2 => 'month_uncore_task_cnt',
+            ),
+            60 => array(
+                1 => 'second_month_core_task_cnt',
+                2 => 'second_month_uncore_task_cnt',
+            ),
+            90 => array(
+                1 => 'quarter_month_core_task_cnt',
+                2 => 'quarter_month_uncore_task_cnt',
+            ),
+        );
+        return $paramKey[$isRetain];
+    }
+
     public function get_number_birthday_number($userId)
     {
         $table_num = floor( intval( $userId ) / 50000 );

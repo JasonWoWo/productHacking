@@ -244,10 +244,14 @@ trait UtilSqlTool
         return $query;
     }
     
-    public function getQueryODRegisterVisitCnt($userList, $pointTimeStamp = 0)
+    public function getQueryRegisterVisitCnt($userList, $pointTimeStamp = 0, $isDetail = false)
     {
         $dayString = $this->fetchDateString($pointTimeStamp);
-        $query = "SELECT COUNT(*) AS cnt FROM oibirthday.users AS u WHERE u.id IN ( " . $userList . " ) AND TO_DAYS(u.visit_on) = " . $dayString;
+        $list = ' COUNT(*) AS cnt ';
+        if ($isDetail) {
+            $list = ' u.id ';
+        }
+        $query = "SELECT {$list} FROM oibirthday.users AS u WHERE u.id IN ( {$userList} ) AND TO_DAYS(u.visit_on) = {$dayString}";
         echo $query . " \n";
         return $query;
     }

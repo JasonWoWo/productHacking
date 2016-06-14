@@ -9,9 +9,14 @@
 namespace MiddlewareSpace;
 
 use CommonSpace\Common;
+use UtilSpace\UtilSqlTool;
+use UtilSpace\UtilTool;
 
 class RetainForDay
 {
+    use UtilSqlTool;
+    use UtilTool;
+    
     public $connectObj;
 
     public function __construct()
@@ -47,47 +52,15 @@ class RetainForDay
     public function getRetainDailyCount($userIdItems = array(), $visitTimeStamp = 0)
     {
         $userIdString = implode(',', $userIdItems);
-        $currentString = "TO_DAYS('" . date('Y-m-d', $visitTimeStamp) . "')";
-        $query = sprintf("SELECT COUNT(*) AS user_cnt FROM oibirthday.users AS u WHERE u.id IN ( %s ) AND TO_DAYS(u.visit_on) = %s ", $userIdString, $currentString);
-        echo $query . " \n";
-        $result = $this->connectObj->fetchCnt($query);
-        return $result['user_cnt'];
-
-    }
-    
-    public function getIsRetainParamsDailyKey($isRetain) 
-    {
-        $paramKey = array(
-            2 => array(
-                1 => 'second_core_task_cnt',
-                2 => 'second_uncore_task_cnt',
-            ),
-            3 => array(
-                1 => 'third_core_task_cnt',
-                2 => 'third_uncore_task_cnt',
-            ),
-            7 => array(
-                1 => 'week_core_task_cnt',
-                2 => 'week_uncore_task_cnt',
-            ),
-            15 => array(
-                1 => 'half_month_core_task_cnt',
-                2 => 'half_month_uncore_task_cnt',
-            ),
-            30 => array(
-                1 => 'month_core_task_cnt',
-                2 => 'month_uncore_task_cnt',
-            ),
-            60 => array(
-                1 => 'second_month_core_task_cnt',
-                2 => 'second_month_uncore_task_cnt',
-            ),
-            90 => array(
-                1 => 'quarter_month_core_task_cnt',
-                2 => 'quarter_month_uncore_task_cnt',
-            ),
-        );
-        return $paramKey[$isRetain];
+        $query = $this->getQueryRegisterVisitCnt($userIdString, $visitTimeStamp, true);
+        $result = $this->connectObj->fetchAssoc($query);
+        $userList = array();
+        foreach ($result as $item) {
+            $userList[] = $item['id'];
+        }
+        $user = implode(',', $userList);
+        echo "Suiter: {$user} \n";
+        return count($result);
     }
 
     public function checkCurrentDateData($tableName, $dayString)

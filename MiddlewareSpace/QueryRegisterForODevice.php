@@ -52,7 +52,7 @@ class QueryRegisterForODevice
     public function getODRegisterRetain($pointTimeStamp = 0)
     {
         $userItemsList = implode(',', $this->userList);
-        $retainCntQuery = $this->getQueryODRegisterVisitCnt($userItemsList, $pointTimeStamp);
+        $retainCntQuery = $this->getQueryRegisterVisitCnt($userItemsList, $pointTimeStamp);
         $retainCnt = $this->connectObj->fetchCnt($retainCntQuery);
         return $retainCnt['cnt'];
     }
