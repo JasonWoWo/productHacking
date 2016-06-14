@@ -9,9 +9,12 @@
 namespace MiddlewareSpace;
 
 use CommonSpace\Common;
+use UtilSpace\UtilSqlTool;
 
 class Authorize
 {
+    use UtilSqlTool;
+
     public $connectObj;
 
     public $deviceInfo = array();
@@ -234,6 +237,22 @@ class Authorize
         $querySql = "SELECT DATE_FORMAT(u.create_on, '%Y-%m-%d') AS create_on FROM oibirthday.users AS u WHERE u.id =" . intval($userId);
         $result = $this->connectObj->fetchCnt($querySql);
         return $result['create_on'];
+    }
+    
+    public function getRegisterAuthorizeDetail($retainTimeStamp = 0)
+    {
+        $collection = $this->connectObj->fetchDeviceInfoCollection();
+        $userItemsQuery = $this->getQueryRegisterByCreateOn($retainTimeStamp);
+        $userItems = $this->connectObj->fetchAssoc($userItemsQuery);
+        foreach ($userItems as &$item) {
+            $query = array('_id' => $item['udid']);
+            $dAuthorizeCollection = $collection->findOne($query);
+            $item['authorzie'] = -1;
+            if (!empty($dAuthorizeCollection)) {
+                $item['authorzie'] = $dAuthorizeCollection['combineAuthorizeStatus'];
+            }
+        }
+        return $userItems;
     }
     
 }

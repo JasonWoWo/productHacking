@@ -21,5 +21,5 @@
 16 7 * * * php ~/productHacking/WeChatAuthorize.php > ~/log/log_weChatAuthorize.txt 2>&1
 0 1 * * * php ~/productHacking/UserBackUpBirthStat.php > ~/log/log_userBackUpBirthStat.txt 2>&1
 0 8 * * * python ~/statspy/PandoraSource.py > ~/log/log_pandoraSource.txt 2>&1
-0 1 * * * php ~/productHacking/QueryCollection/QueryRegisterODeviceRetain > ~/log/log_queryRegisterODeviceRetain.txt
+0 1 * * * php ~/productHacking/QueryCollection/QueryRegisterODeviceRetain > ~/log/log_queryRegisterODeviceRetain.txt 2>&1
 0 10 * * * php ~/productHacking/RegisterInformation.php > ~/log/log_registerInformation.txt 2>&1

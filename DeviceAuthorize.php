@@ -27,6 +27,25 @@ class DeviceAuthorize extends Authorize
         $this->printData();
         echo "----current: " . date('Y-m-d H:i:s') . "------> end  \n ";
     }
+
+    public function registerRetain($isRetain = 3)
+    {
+        $retainTimeStamp = time() - $isRetain * 86400;
+        $userItems = $this->getRegisterAuthorizeDetail($retainTimeStamp);
+        foreach ($userItems as $item) {
+            echo sprintf("id;udid;authorize;appid;chnid;create_on;visit_on \n", $item['id'], $item['udid'], 
+                $item['authorize'],$item['appid'], $item['chnid'], $item['create_on'], $item['visit_on']);
+        }
+    }
+    
+    public function registerMain()
+    {
+        echo "id;udid;authorize;appid;chnid;create_on;visit_on \n";
+        $this->registerRetain(3);
+        $this->registerRetain(7);
+        $this->registerRetain(15);
+    }
 }
 $device = new DeviceAuthorize();
-$device->deviceAuthorizeMain();
+//$device->deviceAuthorizeMain();
+$device->registerMain();

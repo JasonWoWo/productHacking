@@ -273,6 +273,13 @@ trait UtilSqlTool
         }
         return $query;
     }
+
+    public function getQueryRegisterByCreateOn($createOnTimeStamp = 0)
+    {
+        $createOn = $this->fetchDateString($createOnTimeStamp);
+        $query = "SELECT u.id, u.udid, u.create_on, u.visit_on, u.appid, u.chnid FROM oibirthday.users AS u WHERE u.id > 50000000 AND TO_DAYS(u.create_on) = " . $createOn;
+        return $query;
+    }
     
     public function fetchDateString ($timeStamp = 0)
     {
