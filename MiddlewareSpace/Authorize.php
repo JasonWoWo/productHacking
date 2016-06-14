@@ -247,9 +247,9 @@ class Authorize
         foreach ($userItems as &$item) {
             $query = array('_id' => $item['udid']);
             $dAuthorizeCollection = $collection->findOne($query);
-            $item['authorzie'] = -1;
+            $item['authorize'] = -1;
             if (!empty($dAuthorizeCollection)) {
-                $item['authorzie'] = $dAuthorizeCollection['combineAuthorizeStatus'];
+                $item['authorize'] = $dAuthorizeCollection['combineAuthorizeStatus'];
             }
         }
         return $userItems;
