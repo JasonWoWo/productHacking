@@ -45,7 +45,17 @@ class DeviceAuthorize extends Authorize
         $this->registerRetain(7);
         $this->registerRetain(15);
     }
+
+    public function main($av = array())
+    {
+        if ($av[1] == 'register') {
+            $this->registerMain();
+            return;
+        }
+        $this->deviceAuthorizeMain();
+    }
 }
 $device = new DeviceAuthorize();
 //$device->deviceAuthorizeMain();
-$device->registerMain();
+//$device->registerMain();
+$device->main($argv);
