@@ -23,3 +23,5 @@
 0 8 * * * python ~/statspy/PandoraSource.py > ~/log/log_pandoraSource.txt 2>&1
 0 1 * * * php ~/productHacking/QueryCollection/QueryRegisterODeviceRetain > ~/log/log_queryRegisterODeviceRetain.txt 2>&1
 0 10 * * * php ~/productHacking/RegisterInformation.php > ~/log/log_registerInformation.txt 2>&1
+0 0 * * * php ~/productHacking/DeviceAuthorize.php register > ~/log/log_deviceAuthorizeRegister.txt 2>&1
+0 0 * * * php ~/productHacking/DeviceAuthorize.php device > ~/log/log_deviceAuthorize.txt 2>&1

@@ -72,7 +72,7 @@ class Authorize
         $currentTable = 'oistatistics.st_devices_' . $table;
         $dayString = "TO_DAYS('" . date('Y-m-d', $currentStamp) . "')";
         $querySql = sprintf("
-        SELECT s.udid, s.birthcnt, s.product_sk, v.version_code , b.brand_name, m.model_name
+        SELECT s.udid, s.birthcnt, s.product_sk, v.version_code , b.brand_name, m.model_name, s.userid
                FROM %s AS s 
                LEFT JOIN oistatistics.st_dim_brand AS b ON b.brand_sk = s.brand_sk
                LEFT JOIN oistatistics.st_dim_model AS m ON m.model_sk = s.model_sk
@@ -105,7 +105,7 @@ class Authorize
                 } else {
                     $otherPlatformTotal += 1;
                 }
-                $item['uid'] = isset($list['uid']) ? $list['uid'] : 0;
+                $item['uid'] = isset($list['uid']) ? $list['uid'] : (!empty($item['userid']) ? $item['userid'] : 0);
             }
         }
         $this->platformCntList = array(
