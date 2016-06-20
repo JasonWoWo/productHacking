@@ -284,6 +284,13 @@ trait UtilSqlTool
         $query = "SELECT u.id, u.udid, DATE_FORMAT(u.create_on, '%Y-%m-%d') AS create_on, DATE_FORMAT(u.visit_on, '%Y-%m-%d') AS visit_on, u.appid, u.chnid FROM oibirthday.users AS u WHERE u.id > 5000000 AND TO_DAYS(u.create_on) = " . $createOn;
         return $query;
     }
+
+    public function getQueryWeChartQuestByAddOn($addOnTimeStamp = 0)
+    {
+        $addOn = $this->fetchDateString($addOnTimeStamp);
+        $query = "SELECT m.userid FROM oibirthday.msg_newbirth AS m WHERE m.src = 3 AND m.id > 12803900 AND TO_DAYS(m.add_on) >= {$addOn} GROUP BY m.userid";
+        return $query;
+    }
     
     public function fetchDateString ($timeStamp = 0)
     {
