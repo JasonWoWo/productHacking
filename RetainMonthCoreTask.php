@@ -29,7 +29,7 @@ class RetainMonthCoreTask extends RetainForMonth
             echo "UnCatch isRetainMonthUnCT value, Please Check! \n";
             return false;
         }
-        $retainMonthCT = $this->baseRetainMonthly($pointDate, $visitDate, 6, 10);
+        $retainMonthCT = $this->baseRetainMonthly($pointDate, $visitDate, 6, 1000);
         if (empty($retainMonthCT)) {
             echo "UnCatch isRetainMonthCT value, Please Check! \n";
             return false;
