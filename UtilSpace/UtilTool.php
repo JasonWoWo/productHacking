@@ -220,6 +220,18 @@ trait UtilTool
         );
         return $paramKey[$isRetain];
     }
+    
+    public function getSmsRetainParamKey($isRetain = 3)
+    {
+        $paramKey = array(
+            2 => 'second_retain_cnt',
+            3 => 'third_retain_cnt',
+            7 => 'week_retain_cnt',
+            15 => 'half_month_retain_cnt',
+            30 => 'month_retain_cnt',
+        );
+        return $paramKey[$isRetain];
+    }
 
     public function get_number_birthday_number($userId)
     {
