@@ -20,7 +20,7 @@ class SmsRegisterStat extends SmsRegisterCoreQuery
         $dateTime = new \DateTime(date('Y-m-d', $timeStamp));
         $dateTime->modify("-1 day");
         $currentDate = $dateTime->format('Y-m-d');
-        $params['create_on'] = "'" . $currentDate . "'";
+        $param['create_on'] = "'" . $currentDate . "'";
         $userItems = $this->getSmsRegisters();
         $registers = $this->getSmsRegisterCreate($userItems, $dateTime->getTimestamp());
         $param = array('sms_registers_cnt' => count($registers));

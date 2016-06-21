@@ -34,7 +34,9 @@ class SmsRegisterCoreQuery
         );
         $collectionItems = $collection->find($query);
         foreach ($collectionItems as $item) {
-            $smsToRegisters[] = $item['userId'];
+            if ($item['userId']) {
+                $smsToRegisters[] = $item['userId'];
+            }
         }
         return $smsToRegisters;
     }
