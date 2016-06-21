@@ -115,7 +115,7 @@ trait UtilSqlTool
         $loginEndString = $this->fetchDateString($loginEndStamp);
         $queryParams = " MAX(u.id) AS maxId, MIN(u.id) AS minId  ";
         if ($isUserList) {
-            $queryParams = " u.id ";
+            $queryParams = " u.id, u.udid, s.birthcnt ";
         }
         $query = sprintf("
         SELECT %s
@@ -296,6 +296,17 @@ trait UtilSqlTool
     {
         $addOn = $this->fetchDateString($addOnTimeStamp);
         $query = "SELECT m.userid FROM oibirthday.msg_newbirth AS m WHERE m.src = 3 AND m.id > 12803900 AND TO_DAYS(m.add_on) = {$addOn} GROUP BY m.userid";
+        return $query;
+    }
+
+    public function getQueryFirstExchangeRegister($userId)
+    {
+        $query = "SELECT COUNT(*) AS consumeCnt
+        FROM oiplatform.order_details AS o 
+        LEFT JOIN oiplatform.order_goods_list AS g ON o.id = g.order_id 
+        LEFT JOIN oiplatform.product AS p ON g.goods_id = p.id 
+        WHERE o.uid = {$userId} AND o.pay_time >= o.order_time AND p.special_type = 1";
+        echo $query . "\n";
         return $query;
     }
     
