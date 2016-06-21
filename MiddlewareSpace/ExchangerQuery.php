@@ -42,16 +42,16 @@ class ExchangerQuery
         $registers = $this->connectObj->fetchAssoc($userQuery);
         foreach ($registers as $register) {
             $userId = $register['id'];
-            $consumeCnt = $this->getRegisterConsumeOnExchange($userId);
+            $consumeCnt = $this->getRegisterConsumeOnExchange($userId, $loginStamp);
             if ($consumeCnt) {
                 $this->exchangers[] = $register;
             }
         }
     }
 
-    public function getRegisterConsumeOnExchange($userId)
+    public function getRegisterConsumeOnExchange($userId, $consumeStamp = 0)
     {
-        $consumeQuery = $this->getQueryFirstExchangeRegister($userId);
+        $consumeQuery = $this->getQueryFirstExchangeRegister($userId, $consumeStamp);
         $result = $this->connectObj->fetchCnt($consumeQuery);
         return $result['consumeCnt'];
     }

@@ -299,13 +299,14 @@ trait UtilSqlTool
         return $query;
     }
 
-    public function getQueryFirstExchangeRegister($userId)
+    public function getQueryFirstExchangeRegister($userId, $consumeStamp = 0)
     {
+        $consume = $this->fetchDateString($consumeStamp);
         $query = "SELECT COUNT(*) AS consumeCnt
         FROM oiplatform.order_details AS o 
         LEFT JOIN oiplatform.order_goods_list AS g ON o.id = g.order_id 
         LEFT JOIN oiplatform.product AS p ON g.goods_id = p.id 
-        WHERE o.uid = {$userId} AND o.pay_time >= o.order_time AND p.special_type = 1";
+        WHERE o.uid = {$userId} AND o.pay_time >= o.order_time AND TO_DAYS(o.pay_time) = {$consume} AND p.special_type = 1";
         return $query;
     }
     
