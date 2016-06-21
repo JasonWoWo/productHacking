@@ -30,7 +30,8 @@ class SmsRegisterCoreQuery
         $smsToRegisters = array();
         $collection = $this->connectObj->fetchUnRegisterInfoCollection();
         $query = array(
-            'register' => 1, 
+            'register' => 1,
+            'click' => array('$gte' => 1)
         );
         $collectionItems = $collection->find($query);
         foreach ($collectionItems as $item) {

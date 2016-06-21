@@ -23,7 +23,7 @@ class SmsRegisterStat extends SmsRegisterCoreQuery
         $param['create_on'] = "'" . $currentDate . "'";
         $userItems = $this->getSmsRegisters();
         $registers = $this->getSmsRegisterCreate($userItems, $dateTime->getTimestamp());
-        $param = array('sms_registers_cnt' => count($registers));
+        $param['sms_registers_cnt'] = count($registers);
         $insertSql = $this->connectObj->insertParamsQuery(self::SMS_REGISTER_STAT, $param);
         $query = $this->connectObj->fetchCakeStatQuery($insertSql);
         if ($query) {
