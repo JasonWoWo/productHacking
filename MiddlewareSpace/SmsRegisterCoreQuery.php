@@ -25,13 +25,12 @@ class SmsRegisterCoreQuery
         $this->connectObj = new Common();
     }
 
-    public function getSmsRegisters(\DateTime $yesterday)
+    public function getSmsRegisters()
     {
         $smsToRegisters = array();
         $collection = $this->connectObj->fetchUnRegisterInfoCollection();
         $query = array(
             'register' => 1, 
-            'lastUpdated' => array('$gte' => $yesterday, '$lte' => $yesterday->modify('+1 day'))
         );
         $collectionItems = $collection->find($query);
         foreach ($collectionItems as $item) {
@@ -46,5 +45,17 @@ class SmsRegisterCoreQuery
         $usersRetainCntQuery = $this->getQueryRegisterVisitCnt($userIdString, $visitOnTimeStamp);
         $result = $this->connectObj->fetchCnt($usersRetainCntQuery);
         return $result['cnt'];
+    }
+    
+    public function getSmsRegisterCreate($smsToRegisters = array(), $createOnTimeStamp = 0)
+    {
+        $registers = array();
+        $userIdString = implode(',', $smsToRegisters);
+        $userCreateOnQuery = $this->getQueryRegisterByUserAndCreateOn($userIdString, $createOnTimeStamp);
+        $result = $this->connectObj->fetchAssoc($userCreateOnQuery);
+        foreach ($result as $item) {
+            $registers[] = $item['id'];
+        }
+        return $registers;
     }
 }

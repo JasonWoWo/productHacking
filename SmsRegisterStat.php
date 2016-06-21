@@ -21,8 +21,9 @@ class SmsRegisterStat extends SmsRegisterCoreQuery
         $dateTime->modify("-1 day");
         $currentDate = $dateTime->format('Y-m-d');
         $params['create_on'] = "'" . $currentDate . "'";
-        $userItems = $this->getSmsRegisters($dateTime);
-        $param = array('sms_registers_cnt' => $userItems);
+        $userItems = $this->getSmsRegisters();
+        $registers = $this->getSmsRegisterCreate($userItems, $dateTime->getTimestamp());
+        $param = array('sms_registers_cnt' => count($registers));
         $insertSql = $this->connectObj->insertParamsQuery(self::SMS_REGISTER_STAT, $param);
         $query = $this->connectObj->fetchCakeStatQuery($insertSql);
         if ($query) {
@@ -42,8 +43,9 @@ class SmsRegisterStat extends SmsRegisterCoreQuery
             echo "UnCatch the result where create_on :" . $where['create_on'] . "In " . self::SMS_REGISTER_STAT . " \n";
             return ;
         }
-        $userItems = $this->getSmsRegisters($current);
-        $cnt = $this->getSmsRegisterRetain($userItems, $cloneCurrent->getTimestamp());
+        $userItems = $this->getSmsRegisters();
+        $registers = $this->getSmsRegisterCreate($userItems, $current->getTimestamp());
+        $cnt = $this->getSmsRegisterRetain($registers, $cloneCurrent->getTimestamp());
         $params = array($this->getSmsRetainParamKey($isRetain) => $cnt);
         $updateQuery = $this->connectObj->updateParamsQuery(self::SMS_REGISTER_STAT, $params, $where);
         $query = $this->connectObj->fetchCakeStatQuery($updateQuery);
