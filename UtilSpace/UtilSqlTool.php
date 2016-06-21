@@ -306,7 +306,6 @@ trait UtilSqlTool
         LEFT JOIN oiplatform.order_goods_list AS g ON o.id = g.order_id 
         LEFT JOIN oiplatform.product AS p ON g.goods_id = p.id 
         WHERE o.uid = {$userId} AND o.pay_time >= o.order_time AND p.special_type = 1";
-        echo $query . "\n";
         return $query;
     }
     

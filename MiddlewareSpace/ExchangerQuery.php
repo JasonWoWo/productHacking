@@ -52,7 +52,7 @@ class ExchangerQuery
     public function getRegisterConsumeOnExchange($userId)
     {
         $consumeQuery = $this->getQueryFirstExchangeRegister($userId);
-        $result = $this->connectObj->fetchAssoc($consumeQuery);
+        $result = $this->connectObj->fetchCnt($consumeQuery);
         return $result['consumeCnt'];
     }
     
