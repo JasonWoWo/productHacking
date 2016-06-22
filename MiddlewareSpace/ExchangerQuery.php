@@ -8,22 +8,16 @@
 
 namespace MiddlewareSpace;
 
-use CommonSpace\Common;
-use UtilSpace\UtilSqlTool;
-use UtilSpace\UtilTool;
+use BaseSpace\baseController;
 
-class ExchangerQuery
+
+class ExchangerQuery extends baseController
 {
-    use UtilSqlTool;
-    use UtilTool;
-
-    public $connectObj;
-    
     public $exchangers = array();
 
     public function __construct()
     {
-        $this->connectObj = new Common();
+        parent::__construct();
     }
 
     public function getDailyRegisters(\DateTime $pointDate)
@@ -64,24 +58,4 @@ class ExchangerQuery
         }
     }
     
-    public function getContactAuthorize($udid)
-    {
-        $collection = $this->connectObj->fetchDeviceInfoCollection();
-        $query = array('_id' => $udid);
-        $authorizeDetail = $collection->findOne($query);
-        $authorize = -1;
-        if ($authorizeDetail) {
-            $authorize = $authorizeDetail['combineAuthorizeStatus'];
-        }
-        return $authorize;
-    }
-    
-    public function getBirthCntDetail($userId)
-    {
-        $number = $this->get_number_birthday_number($userId);
-        $userBackUpBirthQuery = $this->getQueryBackUpBirthDetail($number, $userId);
-        $result = $this->connectObj->fetchCnt($userBackUpBirthQuery);
-        return $result['cnt'];
-    }
-
 }

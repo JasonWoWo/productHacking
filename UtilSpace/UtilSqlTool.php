@@ -258,7 +258,7 @@ trait UtilSqlTool
 
     public function getQueryRegisterBirthDetail($userList)
     {
-        $query = "SELECT u.id, u.birth_y, u.birth_m, u.birth_d, u.birth_is_lunar, u.appid, u.chnid FROM oibirthday.users AS u WHERE u.id IN ( " . $userList . " ) ";
+        $query = "SELECT u.id, u.birth_y, u.birth_m, u.birth_d, u.birth_is_lunar, u.appid, u.chnid, u.udid FROM oibirthday.users AS u WHERE u.id IN ( " . $userList . " ) ";
         return $query;
     }
 

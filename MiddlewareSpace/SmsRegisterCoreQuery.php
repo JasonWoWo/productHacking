@@ -8,21 +8,19 @@
 
 namespace MiddlewareSpace;
 
-use CommonSpace\Common;
+use BaseSpace\baseController;
 use UtilSpace\UtilSqlTool;
 use UtilSpace\UtilTool;
 
 
-class SmsRegisterCoreQuery
+class SmsRegisterCoreQuery extends baseController
 {
     use UtilSqlTool;
     use UtilTool;
 
-    public $connectObj;
-
     public function __construct()
     {
-        $this->connectObj = new Common();
+        parent::__construct();
     }
 
     public function getSmsRegisters()
@@ -40,6 +38,38 @@ class SmsRegisterCoreQuery
             }
         }
         return $smsToRegisters;
+    }
+
+    public function getSmsRegisterOnBatch($batchNo = 0, $task = 0)
+    {
+        $taskRegisters = array();
+        $collection = $this->connectObj->fetchUnRegisterInfoCollection();
+        $query = array(
+            'batch_no' => $batchNo,
+            'register' => 1,
+            'task' => array('$in' => array($task)),
+            'click' => array('$gte' => 1)
+        );
+        $collectionItems = $collection->find($query);
+        foreach ($collectionItems as $item) {
+            if ($item['userId']) {
+                $taskRegisters[] = $item['userId'];
+            }
+        }
+        return $taskRegisters;
+    }
+    
+    public function getRegisterDetailStatus($taskRegisters = array())
+    {
+        $registerList = implode(',', $taskRegisters);
+        echo $registerList . " \n";
+        $detailItemsQuery = $this->getQueryRegisterBirthDetail($registerList);
+        $detailItems = $this->connectObj->fetchAssoc($detailItemsQuery);
+        foreach ($detailItems as &$item) {
+            $item['authorize'] = $this->getContactAuthorize($item['udid']);
+            $item['backUpBirthCnt'] = $this->getBirthCntDetail($item['id']);
+        }
+        return $detailItems;
     }
 
     public function getSmsRegisterRetain($smsToRegisters = array(), $visitOnTimeStamp = 0)

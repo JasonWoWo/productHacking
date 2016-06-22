@@ -10,6 +10,7 @@ $baseDir = dirname($autoloadFile);
 
 $nameSpace = array(
     'MiddlewareSpace' => array($baseDir),
+    'BaseSpace' => array($baseDir),
     'CommonSpace' => array($baseDir),
     'UtilSpace' => array($baseDir),
     'QueryCollection' => array($baseDir),
