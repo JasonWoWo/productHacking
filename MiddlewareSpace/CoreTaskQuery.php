@@ -87,6 +87,7 @@ FROM
 WHERE 
 	TO_DAYS(d.datevalue) = %s
     AND TO_DAYS(u.create_on) = %s
+    AND s.product_sk IN (1001, 1002, 1003)
     ",
             $tableName,
             $dayString,
@@ -160,7 +161,7 @@ WHERE
     {
         $dateString = date('Y-m-d', $timestamp);
         $toDaysString = "TO_DAYS('" . $dateString ."')";
-        $querySql = sprintf(" SELECT COUNT(u.id) AS cnt FROM oibirthday.users AS u WHERE TO_DAYS(u.create_on) = %s", $toDaysString);
+        $querySql = sprintf(" SELECT COUNT(u.id) AS cnt FROM oibirthday.users AS u WHERE u.appid IN (1001, 1002, 1003) AND TO_DAYS(u.create_on) = %s", $toDaysString);
         $query = $this->connectObj->fetchCnt($querySql);
         return $query['cnt'];
     }
@@ -221,6 +222,7 @@ FROM
 WHERE 
 	TO_DAYS(d.datevalue) >= %s AND TO_DAYS(d.datevalue) <= %s
 	AND TO_DAYS(u.create_on) >= %s AND TO_DAYS(u.create_on) <= %s
+	AND s.product_sk IN (1001, 1002, 1003)
 GROUP BY 
 	u.id
         ", $joinBlock, $currentTable, $loginStartString, $loginEndString, $loginStartString, $loginEndString);
