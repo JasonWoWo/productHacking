@@ -19,7 +19,7 @@ class QuerySmsBatchRegister extends SmsRegisterCoreQuery
         $batchRegisters = $this->getSmsRegisterOnBatch($batch, $task);
         $detailItems = $this->getRegisterDetailStatus($batchRegisters);
         foreach ($detailItems as $item) {
-            echo sprintf("%s;%s;%s;%s \n", $item['id'], $item['udid'], $item['backUpBirths'], $item['authorize']);
+            echo sprintf("%s;%s;%s;%s \n", $item['id'], $item['udid'], $item['backUpBirthCnt'], $item['authorize']);
         }
     }
 }
