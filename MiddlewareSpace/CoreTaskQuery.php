@@ -87,7 +87,7 @@ FROM
 WHERE 
 	TO_DAYS(d.datevalue) = %s
     AND TO_DAYS(u.create_on) = %s
-    AND s.product_sk IN (1001, 1002, 1003)
+    AND u.appid IN (1001, 1002, 1003)
     ",
             $tableName,
             $dayString,
@@ -222,7 +222,7 @@ FROM
 WHERE 
 	TO_DAYS(d.datevalue) >= %s AND TO_DAYS(d.datevalue) <= %s
 	AND TO_DAYS(u.create_on) >= %s AND TO_DAYS(u.create_on) <= %s
-	AND s.product_sk IN (1001, 1002, 1003)
+	AND u.appid IN (1001, 1002, 1003)
 GROUP BY 
 	u.id
         ", $joinBlock, $currentTable, $loginStartString, $loginEndString, $loginStartString, $loginEndString);
