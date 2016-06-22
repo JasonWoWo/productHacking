@@ -45,7 +45,7 @@ class SmsRegisterStat extends SmsRegisterCoreQuery
         }
         $userItems = $this->getSmsRegisters();
         $registers = $this->getSmsRegisterCreate($userItems, $current->getTimestamp());
-        $cnt = $this->getSmsRegisterRetain($registers, $cloneCurrent->getTimestamp());
+        $cnt = $this->getSmsRegisterRetain($registers, $cloneCurrent->modify('-1 day')->getTimestamp());
         $params = array($this->getSmsRetainParamKey($isRetain) => $cnt);
         $updateQuery = $this->connectObj->updateParamsQuery(self::SMS_REGISTER_STAT, $params, $where);
         $query = $this->connectObj->fetchCakeStatQuery($updateQuery);
