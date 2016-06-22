@@ -25,3 +25,4 @@
 0 10 * * * php ~/productHacking/RegisterInformation.php > ~/log/log_registerInformation.txt 2>&1
 0 0 * * * php ~/productHacking/DeviceAuthorize.php register > ~/log/log_deviceAuthorizeRegister.txt 2>&1
 0 0 * * * php ~/productHacking/DeviceAuthorize.php device > ~/log/log_deviceAuthorize.txt 2>&1
+0 0 * * * php ~/productHacking/SmsRegisterStat.php > ~/log/log_smsRegisterStat.txt 2>&1
