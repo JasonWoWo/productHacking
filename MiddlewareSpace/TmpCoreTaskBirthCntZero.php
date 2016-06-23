@@ -28,7 +28,7 @@ class TmpCoreTaskBirthCntZero
 
         $query = array(
             'dct_lt' => array('$gte' => $startStamp, '$lte' => $endStamp),
-            'max_bct' => array('$gte' => -1, '$lte' => 0)
+            'max_bct' => array('$gte' => 6, '$lte' => 2000)
         );
         $resultItems = $retainCollection->find($query);
         $userItemsDetail = array();

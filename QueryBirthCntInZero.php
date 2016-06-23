@@ -22,15 +22,15 @@ class QueryBirthCntInZero extends TmpCoreTaskBirthCntZero
 
     public function main()
     {
-        $current = new \DateTime('2016-05-24');
+        $current = new \DateTime('2016-06-23');
         $current->modify('-1 day');
         $currentStamp = $current->getTimestamp();
-        $endDate = new \DateTime('2016-05-14');
+        $endDate = new \DateTime('2016-06-21');
         $endStamp = $endDate->getTimestamp();
         echo "createOn;uid;udid;appid \n";
         while ($endStamp <= $currentStamp) {
-            $daliyEndStamp = $currentStamp + 86400;
-            $this->getPointBirthCntDetail($currentStamp, $daliyEndStamp);
+            $dailyEndStamp = $currentStamp + 86400;
+            $this->getPointBirthCntDetail($currentStamp, $dailyEndStamp);
             $currentStamp = $current->modify('-1 day')->getTimestamp();
         }
     }
