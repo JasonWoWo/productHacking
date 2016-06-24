@@ -31,7 +31,7 @@ class InQuery
         foreach ($result as &$item) {
             $item['weChatCnt'] = $this->getUserAddWeChatCnt($item['userid']);
             $query = $this->getQueryBirthZeroInProduct($item['userid']);
-            $userItem = $this->connectObj->fetchAssoc($query);
+            $userItem = $this->connectObj->fetchCnt($query);
             if (empty($userItem['udid'])) {
                 $item['udid'] = '';
             } else {
