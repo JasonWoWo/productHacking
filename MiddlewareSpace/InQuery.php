@@ -32,8 +32,16 @@ class InQuery
             $item['weChatCnt'] = $this->getUserAddWeChatCnt($item['userid']);
             $query = $this->getQueryBirthZeroInProduct($item['userid']);
             $userItem = $this->connectObj->fetchAssoc($query);
-            $item['udid'] = $userItem['udid'];
-            $item['appid'] = $userItem['appid'];
+            if (empty($userItem['udid'])) {
+                $item['udid'] = '';
+            } else {
+                $item['udid'] = $userItem['udid'];
+            }
+            if (empty($userItem['appid'])) {
+                $item['appid'] = 0;
+            } else {
+                $item['appid'] = $userItem['appid'];
+            }
         }
         return $result;
     }
