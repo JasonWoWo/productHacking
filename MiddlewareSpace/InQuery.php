@@ -26,23 +26,26 @@ class InQuery
     
     public function getWeChartQuestUserItems($pointTimeStamp = 0)
     {
-        $cnt = 0;
         $userItemsQuery = $this->getQueryWeChartQuestByAddOn($pointTimeStamp);
         $result = $this->connectObj->fetchAssoc($userItemsQuery);
-        foreach ($result as $item) {
-            $cnt += $this->getUserAddWeChatCnt($item['userid']);
+        foreach ($result as &$item) {
+            $item['weChatCnt'] = $this->getUserAddWeChatCnt($item['userid']);
+            $query = $this->getQueryBirthZeroInProduct($item['userid']);
+            $userItem = $this->connectObj->fetchAssoc($query);
+            $item['udid'] = $userItem['udid'];
+            $item['appid'] = $userItem['appid'];
         }
-        return array(
-            'cnt' => $cnt,
-            'userCnt' => count($result)
-        );
+        return $result;
     }
 
     public function getUserAddWeChatCnt($userId)
     {
         $number = $this->get_number_birthday_number($userId);
-        $query = $this->getQueryBackUpBirthDetail($number, $userId, 'oi');
+        $query = $this->getQueryBackUpBirthDetail($number, $userId, 'wx');
         $result = $this->connectObj->fetchCnt($query);
-        return $result['cnt'];
+        $queryOi = $this->getQueryBackUpBirthDetail($number, $userId, 'oi');
+        $resultOi = $this->connectObj->fetchCnt($queryOi);
+        $cnt = $result['cnt'] + $resultOi['cnt'];
+        return $cnt;
     }
 }

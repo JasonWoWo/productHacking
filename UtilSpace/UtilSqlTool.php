@@ -295,7 +295,7 @@ trait UtilSqlTool
     public function getQueryWeChartQuestByAddOn($addOnTimeStamp = 0)
     {
         $addOn = $this->fetchDateString($addOnTimeStamp);
-        $query = "SELECT m.userid FROM oibirthday.msg_newbirth AS m WHERE m.src = 3 AND m.id > 12803900 AND TO_DAYS(m.add_on) = {$addOn} GROUP BY m.userid";
+        $query = "SELECT m.userid, count(*) AS cnt FROM oibirthday.msg_newbirth AS m WHERE m.src = 3 AND m.id > 12803900 AND TO_DAYS(m.add_on) = {$addOn} GROUP BY m.userid";
         return $query;
     }
 

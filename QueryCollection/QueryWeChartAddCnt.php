@@ -18,7 +18,10 @@ class QueryWeChartAddCnt extends InQuery
     {
         $pointDate = new \DateTime();
         $details = $this->getWeChartQuestUserItems($pointDate->modify('-1 day')->getTimestamp());
-        echo sprintf("Detail userCnt: %d , BackUpCnt: %d \n", $details['userCnt'], $details['cnt']);
+        foreach ($details as $items) {
+            echo sprintf("%d;%d;%d;%s;%s \n", $items['userid'], $items['cnt'], $items['weChatCnt'], $items['udid'], $items['appid']);
+        }
+        
     }
 }
 $weChart = new QueryWeChartAddCnt();
