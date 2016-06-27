@@ -173,7 +173,7 @@ class Authorize
         return array(
             'android' => $androidCnt,
             'iphone' => $iphoneCnt,
-            'platform' => $authorizeCnt
+            'platform' => $otherCnt
         );
     }
     
