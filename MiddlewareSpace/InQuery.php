@@ -51,9 +51,7 @@ class InQuery
         $number = $this->get_number_birthday_number($userId);
         $query = $this->getQueryBackUpBirthDetail($number, $userId, 'wx');
         $result = $this->connectObj->fetchCnt($query);
-        $queryOi = $this->getQueryBackUpBirthDetail($number, $userId, 'oi');
-        $resultOi = $this->connectObj->fetchCnt($queryOi);
-        $cnt = $result['cnt'] + $resultOi['cnt'];
+        $cnt = $result['cnt'];
         return $cnt;
     }
 }
