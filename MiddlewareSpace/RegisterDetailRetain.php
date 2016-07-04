@@ -66,7 +66,7 @@ class RegisterDetailRetain
         $platformDetailRetain = $this->getProductPlatform();
         list($loginStartStamp, $loginEndStamp, $visitStartStamp, $visitEndStamp) = $this->fetchTimestamp($currentStamp, $isRetain, $minCycle);
         foreach (array_keys($platformDetailRetain) as $appId) {
-            $registerRetainQuery = $this->getQueryRegisterRetainByVisitOn($loginStartStamp, $loginEndStamp, $visitStartStamp, $visitEndStamp, array(), $appId);
+            $registerRetainQuery = $this->getQueryRegisterRetainByVisitOn($loginStartStamp, $loginEndStamp, $visitStartStamp, $visitEndStamp, array(), array($appId));
             $appIdRegisters = $this->connectObj->fetchCnt($registerRetainQuery);
             $platformDetailRetain[$appId] += $appIdRegisters['cnt'];
         }
@@ -78,7 +78,7 @@ class RegisterDetailRetain
         $channelDetailCnt = $this->getChannelRegisters();
         list($loginStartStamp, $loginEndStamp, $visitStartStamp, $visitEndStamp) = $this->fetchTimestamp($currentStamp, $isRetain, $minCycle);
         foreach (array_keys($channelDetailCnt) as $channel) {
-            $registerRetainQuery = $this->getQueryRegisterRetainByVisitOn($loginStartStamp, $loginEndStamp, $visitStartStamp, $visitEndStamp, $channel);
+            $registerRetainQuery = $this->getQueryRegisterRetainByVisitOn($loginStartStamp, $loginEndStamp, $visitStartStamp, $visitEndStamp, array($channel));
             $channelRegisters = $this->connectObj->fetchCnt($registerRetainQuery);
             $channelDetailCnt[$channel] += $channelRegisters['cnt'];
         }

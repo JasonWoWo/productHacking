@@ -20,6 +20,7 @@ class RegisterRetainPCStat extends RegisterDetailRetain
     {
         $time = empty($extendStamp) ? time() : $extendStamp;
         $dateTime = new \DateTime(date('Y-m-d', $time));
+        $dateTime->modify('-1 day');
         $params['create_on'] = $dateTime->format('Y-m-d');
         $this->getCurrentRegisters($dateTime->getTimestamp());
         $platformDetail = $this->getPlatformRegisters();
@@ -34,6 +35,7 @@ class RegisterRetainPCStat extends RegisterDetailRetain
     {
         $time = empty($extendStamp) ? time() : $extendStamp;
         $dateTime = new \DateTime(date('Y-m-d', $time));
+        $dateTime->modify('-1 day');
         $params['create_on'] = $dateTime->format('Y-m-d');
         $this->getCurrentRegisters($dateTime->getTimestamp());
         $channelDetail = $this->getChannelRegisters();
