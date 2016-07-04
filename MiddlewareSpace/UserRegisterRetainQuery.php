@@ -42,6 +42,7 @@ WHERE
 	AND TO_DAYS(u.create_on) <= %s 
 	AND TO_DAYS(u.visit_on) >= %s 
 	AND TO_DAYS(u.visit_on) <= %s
+	AND u.appid IN (1001, 1002, 1003)
 	",
             $loginStartString,
             $loginEndString,
@@ -80,6 +81,7 @@ WHERE
 	AND TO_DAYS(u.create_on) <= %s 
 	AND TO_DAYS(u.visit_on) >= %s 
 	AND TO_DAYS(u.visit_on) <= %s
+	AND u.appid IN (1001, 1002, 1003)
 	",
             $loginStartString,
             $loginEndString,

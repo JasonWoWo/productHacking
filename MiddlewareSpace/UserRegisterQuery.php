@@ -125,7 +125,8 @@ FROM
 	%s AS u 
 WHERE 
 	TO_DAYS(u.create_on) >= %s 
-	AND TO_DAYS(u.create_on) <= %s
+	AND TO_DAYS(u.create_on) <= %s 
+	AND u.appid IN (1001, 1002, 1003)
 	",
             $tableName,
             $loginStartString,
