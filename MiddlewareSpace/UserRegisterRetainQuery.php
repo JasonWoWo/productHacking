@@ -9,9 +9,12 @@
 namespace MiddlewareSpace;
 
 use CommonSpace\Common;
+use UtilSpace\UtilTool;
 
 class UserRegisterRetainQuery
 {
+    use UtilTool;
+    
     public $connectObj;
 
     public function __construct()
@@ -134,20 +137,5 @@ WHERE
             10 => 'ninth_month_user_cnt',
         );
         return $paramsKeys[$isRetain];
-    }
-
-    public function getIsRetainDailyParamsKey($isRetain = 0)
-    {
-        $paramsKey = array(
-            2 => 'second_day_cnt',
-            3 => 'third_day_cnt',
-            4 => 'fourth_day_cnt',
-            5 => 'fifth_day_cnt',
-            6 => 'sixth_day_cnt',
-            7 => 'seventh_day_cnt',
-            15 => 'fifteen_day_cnt',
-            30 => 'thirty_day_cnt',
-        );
-        return $paramsKey[$isRetain];
     }
 }

@@ -233,6 +233,39 @@ trait UtilTool
         return $paramKey[$isRetain];
     }
 
+    public function getProductPlatform()
+    {
+        return $platformDetailCnt = array(
+            1002 => 0,
+            1001 => 0,
+            1003 => 0,
+        );
+    }
+
+    public function getProductChannel()
+    {
+        return $channelDetailCnt = array(
+            2046 => 0,
+            0 => 0,
+            20533 => 0
+        );
+    }
+
+    public function getIsRetainDailyParamsKey($isRetain = 0)
+    {
+        $paramsKey = array(
+            2 => 'second_day_cnt',
+            3 => 'third_day_cnt',
+            4 => 'fourth_day_cnt',
+            5 => 'fifth_day_cnt',
+            6 => 'sixth_day_cnt',
+            7 => 'seventh_day_cnt',
+            15 => 'fifteen_day_cnt',
+            30 => 'thirty_day_cnt',
+        );
+        return $paramsKey[$isRetain];
+    }
+
     public function get_number_birthday_number($userId)
     {
         $table_num = floor( intval( $userId ) / 50000 );
