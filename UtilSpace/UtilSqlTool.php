@@ -288,7 +288,28 @@ trait UtilSqlTool
     public function getQueryRegisterByUserAndCreateOn($userIdString, $createOnTimeStamp)
     {
         $createOn = $this->fetchDateString($createOnTimeStamp);
-        $query = "SELECT u.id FROM oibirthday.users AS u WHERE u.id IN ( {$userIdString} ) AND TO_DAYS(u.create_on) = {$createOn} ";
+        $query = "SELECT u.id, u.appid, u.chnid FROM oibirthday.users AS u WHERE u.id IN ( {$userIdString} ) AND TO_DAYS(u.create_on) = {$createOn} ";
+        return $query;
+    }
+    
+    public function getQueryRegisterRetainByVisitOn($loginStartOnStamp = 0, $loginEndOnStamp = 0, $visitStartOnStamp = 0, $visitEndOnStamp = 0, $chnid = array(), $appid = array())
+    {
+        $loginStartOn = $this->fetchDateString($loginStartOnStamp);
+        $loginEndOn = $this->fetchDateString($loginEndOnStamp);
+        $visitStartOn = $this->fetchDateString($visitStartOnStamp);
+        $visitEndOn = $this->fetchDateString($visitEndOnStamp);
+        $query = "SELECT COUNT(*) AS cnt FROM oibirthday.users AS u 
+                  WHERE TO_DAYS(u.create_on) >= {$loginStartOn} 
+                  AND TO_DAYS(u.create_on) <= {$loginEndOn} AND TO_DAYS(u.visit_on) >= {$visitStartOn} AND TO_DAYS(u.visit_on) <= {$visitEndOn}";
+        if ($chnid) {
+            $channel = implode(',', $chnid);
+            $query .= " AND u.chnid IN ({$channel}) ";
+        }
+        if ($appid) {
+            $app = implode(',', $appid);
+            $query .= " AND u.appid IN ({$app}) ";
+        }
+        echo $query . "\n";
         return $query;
     }
 
