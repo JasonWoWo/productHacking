@@ -20,13 +20,14 @@ class UserBirthSummation extends AddBirthUpQuery
         $dateTime = new \DateTime(date('Y-m-d', $timeStamp));
         $dateTime->modify('-1 day');
         $insertParamKey = $this->getSrcParamInsertKey();
-        $srcValue = $this->getUserAddBirthCnt($dateTime);
+        $srcValueItems = $this->getUserAddBirthCnt($dateTime);
         $params['create_on'] = "'{$dateTime->format('Y-m-d')}'";
-        foreach ($srcValue as $key => $value) {
+        foreach ($srcValueItems['srcValue'] as $key => $value) {
             $insertSrcItem = $insertParamKey['srcItem'];
             $params[$insertSrcItem[$key]] = $value;
             echo "==== src: " . $key . " ==== value: " . $value . " ==== \n";
         }
+        echo "====== userCnt: " . $srcValueItems['userCnt'] . " ===== \n";
         $insertSql = $this->connectObj->insertParamsQuery(self::DAILY_ALL_ADD_USER_SUMMATION, $params);
         $query = $this->connectObj->fetchCakeStatQuery($insertSql);
         if ($query) {

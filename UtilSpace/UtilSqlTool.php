@@ -299,6 +299,14 @@ trait UtilSqlTool
         echo $query . "\n";
         return $query;
     }
+
+    public function getQueryAddBirthUniqueUserCnt($birthTable, $addOnStamp = 0)
+    {
+        $addOn = $this->fetchDateString($addOnStamp);
+        $query = "SELECT b.userid, COUNT(*) AS cnt FROM {$birthTable} AS b WHERE TO_DAYS(b.add_on) = {$addOn} GROUP BY b.userid ";
+        echo $query . "\n";
+        return $query;
+    }
     
     public function getQueryRegisterRetainByVisitOn($loginStartOnStamp = 0, $loginEndOnStamp = 0, $visitStartOnStamp = 0, $visitEndOnStamp = 0, $chnid = array(), $appid = array())
     {
