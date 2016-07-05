@@ -44,4 +44,12 @@ class baseController
         return $result['cnt'];
     }
 
+    public function getMaxUserId()
+    {
+        $query = $this->getQueryMaxUserId();
+        $query = $this->connectObj->fetchCnt($query);
+        echo " MAXUsersId: " . $query['id'] . " \n";
+        return $query['id'];
+    }
+
 }

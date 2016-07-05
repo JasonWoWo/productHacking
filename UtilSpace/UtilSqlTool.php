@@ -291,6 +291,14 @@ trait UtilSqlTool
         $query = "SELECT u.id, u.appid, u.chnid FROM oibirthday.users AS u WHERE u.id IN ( {$userIdString} ) AND TO_DAYS(u.create_on) = {$createOn} ";
         return $query;
     }
+
+    public function getQueryAddBirthDaySrcCnt($birthTable, $addOnStamp = 0, $src)
+    {
+        $addOn = $this->fetchDateString($addOnStamp);
+        $query = "SELECT COUNT(*) AS cnt FROM {$birthTable} AS b WHERE TO_DAYS(b.add_on) = {$addOn} AND b.src LIKE '{$src}%'";
+        echo $query . "\n";
+        return $query;
+    }
     
     public function getQueryRegisterRetainByVisitOn($loginStartOnStamp = 0, $loginEndOnStamp = 0, $visitStartOnStamp = 0, $visitEndOnStamp = 0, $chnid = array(), $appid = array())
     {
