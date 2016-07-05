@@ -21,7 +21,7 @@ class RegisterRetainPCStat extends RegisterDetailRetain
         $time = empty($extendStamp) ? time() : $extendStamp;
         $dateTime = new \DateTime(date('Y-m-d', $time));
         $dateTime->modify('-1 day');
-        $params['create_on'] = $dateTime->format('Y-m-d');
+        $params['create_on'] = "'{$dateTime->format('Y-m-d')}'";
         $this->getCurrentRegisters($dateTime->getTimestamp());
         $platformDetail = $this->getPlatformRegisters();
         foreach ($platformDetail as $appid => $productCnt) {
@@ -36,7 +36,7 @@ class RegisterRetainPCStat extends RegisterDetailRetain
         $time = empty($extendStamp) ? time() : $extendStamp;
         $dateTime = new \DateTime(date('Y-m-d', $time));
         $dateTime->modify('-1 day');
-        $params['create_on'] = $dateTime->format('Y-m-d');
+        $params['create_on'] = "'{$dateTime->format('Y-m-d')}'";
         $this->getCurrentRegisters($dateTime->getTimestamp());
         $channelDetail = $this->getChannelRegisters();
         foreach ($channelDetail as $channel => $channelCnt) {
