@@ -286,7 +286,7 @@ AND TO_DAYS(u.create_on) >= %s AND TO_DAYS(u.create_on) <= %s", $tableName, $log
                 $rankOne += 1;
             } elseif ($item['max_bct'] >= 2 && $item['max_bct'] <= 5) {
                 $rankFive += 1;
-            } elseif ($item['max_bct'] >= 6 && $item['max_bct'] <= 1000) {
+            } elseif ($item['max_bct'] >= 6 && $item['max_bct'] <= 10) {
                 $this->registerCoreTaskDevices[] = "'" . $item['udid'] . "'";
                 $rankTen += 1;
             } else {
