@@ -26,3 +26,5 @@
 0 0 * * * php ~/productHacking/DeviceAuthorize.php register > ~/log/log_deviceAuthorizeRegister.txt 2>&1
 0 0 * * * php ~/productHacking/DeviceAuthorize.php device > ~/log/log_deviceAuthorize.txt 2>&1
 0 0 * * * php ~/productHacking/SmsRegisterStat.php > ~/log/log_smsRegisterStat.txt 2>&1
+0 0 * * * php ~/productHacking/RegisterRetainPCStat.php > ~/log/registerChannelAndPlatform.txt 2>&1
+0 0 * * * php ~/productHacking/RegisterOnRetainPCStat.php > ~/log/registerChannelAndPlatformRetain.txt 2>&1
