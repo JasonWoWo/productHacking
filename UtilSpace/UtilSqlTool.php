@@ -315,7 +315,7 @@ trait UtilSqlTool
         $visitStartOn = $this->fetchDateString($visitStartOnStamp);
         $visitEndOn = $this->fetchDateString($visitEndOnStamp);
         $query = "SELECT COUNT(*) AS cnt FROM oibirthday.users AS u 
-                  WHERE TO_DAYS(u.create_on) >= {$loginStartOn} 
+                  WHERE u.id > 5400000 AND TO_DAYS(u.create_on) >= {$loginStartOn} 
                   AND TO_DAYS(u.create_on) <= {$loginEndOn} AND TO_DAYS(u.visit_on) >= {$visitStartOn} AND TO_DAYS(u.visit_on) <= {$visitEndOn}";
         if ($chnid) {
             $channel = implode(',', $chnid);
