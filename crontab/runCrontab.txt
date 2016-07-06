@@ -28,3 +28,4 @@
 0 0 * * * php ~/productHacking/SmsRegisterStat.php > ~/log/log_smsRegisterStat.txt 2>&1
 0 0 * * * php ~/productHacking/RegisterRetainPCStat.php > ~/log/registerChannelAndPlatform.txt 2>&1
 0 0 * * * php ~/productHacking/RegisterOnRetainPCStat.php > ~/log/registerChannelAndPlatformRetain.txt 2>&1
+0 5 * * * php ~/productHacking/UserBirthSummation.php > ~/log/log_userBirthSummation.txt 2>&1
