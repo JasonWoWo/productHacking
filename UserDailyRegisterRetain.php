@@ -25,6 +25,8 @@ class UserDailyRegisterRetain extends UserRegisterRetainQuery
         $this->updateBaseRegisterRetainCnt($extendStamp, 7);
         $this->updateBaseRegisterRetainCnt($extendStamp, 15);
         $this->updateBaseRegisterRetainCnt($extendStamp, 30);
+        $this->updateBaseRegisterRetainCnt($extendStamp, 60);
+        $this->updateBaseRegisterRetainCnt($extendStamp, 90);
         echo "========== userDailyRetainUpdate end ===== \n";
     }
 
