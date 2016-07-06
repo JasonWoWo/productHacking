@@ -27,6 +27,7 @@ class UserBirthSummation extends AddBirthUpQuery
             $params[$insertSrcItem[$key]] = $value;
             echo "==== src: " . $key . " ==== value: " . $value . " ==== \n";
         }
+        $params['daily_up_birthday_user_cnt'] = $srcValueItems['userCnt'];
         echo "====== userCnt: " . $srcValueItems['userCnt'] . " ===== \n";
         $insertSql = $this->connectObj->insertParamsQuery(self::DAILY_ALL_ADD_USER_SUMMATION, $params);
         $query = $this->connectObj->fetchCakeStatQuery($insertSql);
