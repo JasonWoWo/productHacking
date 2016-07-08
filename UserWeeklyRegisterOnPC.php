@@ -21,6 +21,8 @@ class UserWeeklyRegisterOnPC extends RegisterDetailRetain
         $timeStamp = empty($extendTimeStamp) ? time() : $extendTimeStamp;
         $dateTime = new \DateTime(date('Y-m-d', $timeStamp));
         $dateTime->modify("-1 day");
+        $loginEndStamp = $dateTime->getTimestamp() - 6 * self::DEFAULT_TIMESTAMP;
+        $this->getCurrentRegisters($dateTime->getTimestamp(), $loginEndStamp);
         $params['create_on'] = "'{$dateTime->format('Y-m-d')}'";
         $platformWeeklyRegisters = $this->getPlatformRegisters();
         foreach (array_keys($platformWeeklyRegisters) as $appId) {
@@ -30,20 +32,13 @@ class UserWeeklyRegisterOnPC extends RegisterDetailRetain
         }
     }
 
-    public function baseRegistersSource($extendStamp = 0)
-    {
-        $timeStamp = empty($extendStamp) ? time() : $extendStamp;
-        $dateTime = new \DateTime(date('Y-m-d', $timeStamp));
-        $dateTime->modify('-1 day');
-        $loginEndStamp = $dateTime->getTimestamp() - 6 * self::DEFAULT_TIMESTAMP;
-        $this->getCurrentRegisters($dateTime->getTimestamp(), $loginEndStamp);
-    }
-
     public function insertChannelWeeklyRegisters($extendTimeStamp = 0)
     {
         $timeStamp = empty($extendTimeStamp) ? time() : $extendTimeStamp;
         $dateTime = new \DateTime(date('Y-m-d', $timeStamp));
         $dateTime->modify("-1 day");
+        $loginEndStamp = $dateTime->getTimestamp() - 6 * self::DEFAULT_TIMESTAMP;
+        $this->getCurrentRegisters($dateTime->getTimestamp(), $loginEndStamp);
         $params['create_on'] = "'{$dateTime->format('Y-m-d')}'";
         $channelWeeklyRegisters = $this->getChannelRegisters();
         foreach (array_keys($channelWeeklyRegisters) as $channel) {
@@ -54,6 +49,5 @@ class UserWeeklyRegisterOnPC extends RegisterDetailRetain
     }
 }
 $weekly = new UserWeeklyRegisterOnPC();
-$weekly->baseRegistersSource();
 $weekly->insertChannelWeeklyRegisters();
 $weekly->insertPlatformWeeklyRegisters();
