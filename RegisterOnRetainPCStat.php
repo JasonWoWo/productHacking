@@ -76,15 +76,6 @@ class RegisterOnRetainPCStat extends RegisterDetailRetain
             $this->updateSqlCore(self::CHANNEL_REGISTER_STAT, array($paramKey => $channelDetailCnt[$channel]), $where, $isRetain);
         }
     }
-
-    public function updateSqlCore($table, $params = array(), $where = array(), $isRetain = 0)
-    {
-        $updateQuery = $this->connectObj->updateParamsQuery($table, $params, $where);
-        $query = $this->connectObj->fetchCakeStatQuery($updateQuery);
-        if ($query) {
-            echo " === " . $where['create_on'] . " week isRetain : " . $isRetain . " success !!! \n";
-        }
-    }
 }
 $retainDetail = new RegisterOnRetainPCStat();
 $retainDetail->updateRetainPlatform();

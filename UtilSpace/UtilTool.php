@@ -276,6 +276,22 @@ trait UtilTool
         return $paramsKey[$isRetain];
     }
 
+    public function getIsRetainWeekParamsKey($isRetain)
+    {
+        $paramsKeys = array(
+            7 => 'first_week_user_cnt',
+            14 => 'second_week_user_cnt',
+            21 => 'third_week_user_cnt',
+            28 => 'fourth_week_user_cnt',
+            35 => 'fifth_week_user_cnt',
+            42 => 'sixth_week_user_cnt',
+            49 => 'seventh_week_user_cnt',
+            56 => 'eighth_week_user_cnt',
+            63 => 'ninth_week_user_cnt',
+        );
+        return $paramsKeys[$isRetain];
+    }
+
     public function get_number_birthday_number($userId)
     {
         $table_num = floor( intval( $userId ) / 50000 );

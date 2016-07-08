@@ -278,10 +278,18 @@ trait UtilSqlTool
         return $query;
     }
 
-    public function getQueryRegisterByCreateOn($createOnTimeStamp = 0)
+    public function getQueryRegisterByCreateOn($createOnStartTimeStamp = 0, $createOnEndTimeStamp = 0)
     {
-        $createOn = $this->fetchDateString($createOnTimeStamp);
-        $query = "SELECT u.id, u.udid, DATE_FORMAT(u.create_on, '%Y-%m-%d') AS create_on, DATE_FORMAT(u.visit_on, '%Y-%m-%d') AS visit_on, u.appid, u.chnid FROM oibirthday.users AS u WHERE u.id > 5000000 AND TO_DAYS(u.create_on) = " . $createOn;
+        $createOn = $this->fetchDateString($createOnStartTimeStamp);
+        if (empty($createOnEndTimeStamp)) {
+            $createOnEnd = $createOn;
+        } else {
+            $createOnEnd = $this->fetchDateString($createOnEndTimeStamp);
+        }
+        $query = "SELECT u.id, u.udid, DATE_FORMAT(u.create_on, '%Y-%m-%d') AS create_on, DATE_FORMAT(u.visit_on, '%Y-%m-%d') AS visit_on, u.appid, u.chnid FROM oibirthday.users AS u WHERE u.id > 5000000 ";
+        if ($createOnStartTimeStamp) {
+            $query .= " AND TO_DAYS(u.create_on) >= {$createOn} AND TO_DAYS(u.create_on) <= {$createOnEnd}";
+        }
         return $query;
     }
     

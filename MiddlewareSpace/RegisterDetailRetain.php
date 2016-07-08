@@ -28,9 +28,9 @@ class RegisterDetailRetain
         $this->connectObj = new Common();
     }
 
-    public function getCurrentRegisters($currentTimeStamp = 0)
+    public function getCurrentRegisters($loginStartStamp = 0, $loginEndStamp = 0)
     {
-        $registersQuery = $this->getQueryRegisterByCreateOn($currentTimeStamp);
+        $registersQuery = $this->getQueryRegisterByCreateOn($loginStartStamp, $loginEndStamp);
         $registers = $this->connectObj->fetchAssoc($registersQuery);
         if ($registers) {
             $this->registersDetails = $registers;
@@ -85,7 +85,7 @@ class RegisterDetailRetain
         return $channelDetailCnt;
     }
     
-    public function fetchTimestamp($currentStamp = 0, $isRetain =0, $minCycle = 0) 
+    public function fetchTimestamp($currentStamp = 0, $isRetain = 0, $minCycle = 0)
     {
         $currentDate = date('Y-m-d', $currentStamp);
         $visitDate = new \DateTime($currentDate);
@@ -100,5 +100,23 @@ class RegisterDetailRetain
         }
         $visitEndStamp = $visitDate->getTimestamp();
         return array($loginStartStamp, $loginEndStamp, $visitStartStamp, $visitEndStamp);
+    }
+
+    public function insertCore($table, $params)
+    {
+        $insertSql = $this->connectObj->insertParamsQuery($table, $params);
+        $result = $this->connectObj->fetchCakeStatQuery($insertSql);
+        if ($result) {
+            echo "==== " . $params['create_on'] . " insert : " . $table . " Success ! \n";
+        }
+    }
+    
+    public function updateSqlCore($table, $params = array(), $where = array(), $isRetain = 0)
+    {
+        $updateQuery = $this->connectObj->updateParamsQuery($table, $params, $where);
+        $query = $this->connectObj->fetchCakeStatQuery($updateQuery);
+        if ($query) {
+            echo " === " . $where['create_on'] . " week isRetain : " . $isRetain . " success !!! \n";
+        }
     }
 }
