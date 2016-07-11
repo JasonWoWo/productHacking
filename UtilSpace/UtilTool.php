@@ -272,6 +272,8 @@ trait UtilTool
             7 => 'seventh_day_cnt',
             15 => 'fifteen_day_cnt',
             30 => 'thirty_day_cnt',
+            60 => 'sixty_day_cnt',
+            90 => 'ninety_day_cnt',
         );
         return $paramsKey[$isRetain];
     }
