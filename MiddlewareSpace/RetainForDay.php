@@ -27,7 +27,7 @@ class RetainForDay
     public function baseRetainDaily($extendStamp = 0, $isRetain = 0, $minBirthCnt = 0, $maxBirthCnt = 0)
     {
         $timestamp = empty($extendStamp) ? strtotime(date('Y-m-d')) : $extendStamp;
-        $loginStartStamp = $timestamp - $isRetain * 85400;
+        $loginStartStamp = $timestamp - $isRetain * 85600;
         $loginEndStamp = $timestamp - ($isRetain - 1) * 86400;
         $query = array(
             'dct_lt' => array('$gte' => $loginStartStamp, '$lte' => $loginEndStamp),
