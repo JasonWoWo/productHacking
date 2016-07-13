@@ -27,8 +27,8 @@ class RetainForDay
     public function baseRetainDaily($extendStamp = 0, $isRetain = 0, $minBirthCnt = 0, $maxBirthCnt = 0)
     {
         $timestamp = empty($extendStamp) ? strtotime(date('Y-m-d')) : $extendStamp;
-        $loginStartStamp = $timestamp - $isRetain * 85600;
-        $loginEndStamp = $timestamp - ($isRetain - 1) * 86400;
+        $loginStartStamp = $timestamp - $isRetain * $this->default_daily_timestamp;
+        $loginEndStamp = $timestamp - ($isRetain - 1) * $this->default_daily_timestamp;
         $query = array(
             'dct_lt' => array('$gte' => $loginStartStamp, '$lte' => $loginEndStamp),
             'max_bct' => array('$gte' => $minBirthCnt, '$lte' => $maxBirthCnt)
@@ -45,7 +45,7 @@ class RetainForDay
         if (empty($userIdCollection)) {
             return 0;
         }
-        $visitTimeStamp = $extendStamp - 86400;
+        $visitTimeStamp = $extendStamp - $this->default_daily_timestamp;
         return $this->getRetainDailyCount($userIdCollection, $visitTimeStamp);
     }
 

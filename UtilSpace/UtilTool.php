@@ -10,6 +10,8 @@ namespace UtilSpace;
 
 trait UtilTool
 {
+    public $default_daily_timestamp = 86400;
+    
     public function brandItemInit()
     {
         $currentBrandListCnt = array(
