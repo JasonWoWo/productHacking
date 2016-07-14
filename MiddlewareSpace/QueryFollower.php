@@ -32,7 +32,8 @@ class QueryFollower
         $defaultRank = 0;
         $userItems = array();
         while ($defaultRank < $maxTable) {
-            $currentRankUserId = mt_rand($defaultRank, ($defaultRank + 1) * 50000);
+            $currentRankUserId = ($defaultRank + 1) * 50000 - 15000;
+//            $currentRankUserId = mt_rand($defaultRank, ($defaultRank + 1) * 50000);
             $userLists = $this->getRankUserLists($currentRankUserId);
             foreach ($userLists as $item) {
                 if(!$item['phone']) {

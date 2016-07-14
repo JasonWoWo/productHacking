@@ -209,7 +209,7 @@ trait UtilSqlTool
     
     public function getQueryRandomRegisterStatic($useId = 0)
     {
-        $query = "SELECT u.id, u.phone FROM oibirthday.users AS u WHERE u.id >= " . $useId . " ORDER BY u.id ASC LIMIT 20";
+        $query = "SELECT u.id, u.phone FROM oibirthday.users AS u WHERE u.id >= " . $useId . " ORDER BY u.id ASC LIMIT 50";
         return $query;
     }
 
