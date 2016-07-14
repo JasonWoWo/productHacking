@@ -49,7 +49,8 @@ class ActivationQuery
             $userId = $item['user_id'];
             $isActive = true;
             $userDetail = $this->getUserDetails($userId);
-            if ($userDetail['visit_on']->format('Y-m-d') != $sendStartDate->format('Y-m-d')) {
+            $userVisitOn = new \DateTime($userDetail['visit_on']);
+            if ($userVisitOn->format('Y-m-d') != $sendStartDate->format('Y-m-d')) {
                 continue;
             }
             //获取用户的设备信息,是否是新设备
@@ -59,7 +60,7 @@ class ActivationQuery
                 $isNewDevice = false;
             }
             //更新用户的信息
-            $this->updateActivationInfo($userId, $isActive, $isNewDevice, $userDetail['visit_on']);
+            $this->updateActivationInfo($userId, $isActive, $isNewDevice, $userVisitOn);
         }
     }
     
