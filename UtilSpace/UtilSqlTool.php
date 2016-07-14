@@ -170,7 +170,7 @@ trait UtilSqlTool
 
     public function getQueryBirthZeroInProduct($userIdList)
     {
-        $query = "SELECT u.appid, u.udid, u.id, DATE_FORMAT(u.create_on, '%Y-%m-%d') AS create_on FROM oibirthday.users AS u WHERE u.id IN (" . $userIdList .") ";
+        $query = "SELECT u.appid, u.udid, u.id, DATE_FORMAT(u.create_on, '%Y-%m-%d') AS create_on, u.visit_on FROM oibirthday.users AS u WHERE u.id IN (" . $userIdList .") ";
         return $query;
     }
 
@@ -190,6 +190,14 @@ trait UtilSqlTool
         $query = "SELECT s.product_sk, s.udid FROM " . $currentTable ." AS s
         LEFT JOIN oistatistics.st_dim_date AS d ON s.create_date_sk = d.date_sk 
         WHERE TO_DAYS(d.datevalue) = " . $dayString;
+        return $query;
+    }
+    
+    public function getQueryDeviceDetailInfo($currentTable, $udid) 
+    {
+        $query = "SELECT s.product_sk, s.udid, DATE_FORMAT(d.datevalue, '%Y-%m-%d') AS create_on 
+                  FROM {$currentTable} AS s LEFT JOIN oistatistics.st_dim_date AS d ON s.create_date_sk = d.date_sk WHERE s.udid = '{$udid}'";
+        echo $query;
         return $query;
     }
 

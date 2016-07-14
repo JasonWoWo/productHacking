@@ -296,6 +296,23 @@ trait UtilTool
         return $paramsKeys[$isRetain];
     }
 
+    public function buildDeviceTableName($udid)
+    {
+        // $udid is lower case.
+        $ascii = ord($udid);
+        if ($ascii >= 48 && $ascii <= 57) {
+            $idx = floor(($ascii -48)/2);
+        } elseif ($ascii >= 97 && $ascii <= 102) {
+            $idx = floor(($ascii - 97)/2) + 5;
+        } elseif ($ascii >= 65 && $ascii <= 70) {
+            $idx = floor(($ascii - 65)/2) + 5;
+        } else {
+            return '';
+        }
+
+        return 'oistatistics.st_devices_'.$idx;
+    }
+
     public function get_number_birthday_number($userId)
     {
         $table_num = floor( intval( $userId ) / 50000 );
