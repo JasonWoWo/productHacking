@@ -61,3 +61,4 @@ class Activation extends ActivationQuery
     }
 }
 $awakenPlan = new Activation();
+$awakenPlan->updateActivationUsers();

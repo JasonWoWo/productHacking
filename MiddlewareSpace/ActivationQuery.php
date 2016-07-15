@@ -59,6 +59,7 @@ class ActivationQuery
             if ($deviceDetail['create_on'] != $sendStartDate->format('Y-m-d')) {
                 $isNewDevice = false;
             }
+            echo "userId: {$userId}, visit_on: {$userDetail['visit_on']}, isNewDevice:{$isNewDevice} \n";
             //更新用户的信息
             $this->updateActivationInfo($userId, $isActive, $isNewDevice, $userVisitOn);
         }
@@ -69,7 +70,6 @@ class ActivationQuery
         
         $userDetailQuery = $this->getQueryBirthZeroInProduct($userId);
         $userDetail = $this->connectObj->fetchCnt($userDetailQuery);
-        var_dump($userDetail);
         return $userDetail;
     }
 
