@@ -15,9 +15,6 @@ use UtilSpace\UtilTool;
 class AddBirthUpQuery extends baseController
 {
     const BIRTHDAY_TABLE_PREFIX = 'oibirthday.br_birthdays_';
-    
-    use UtilTool;
-    use UtilSqlTool;
 
     public function getUserAddBirthCnt(\DateTime $addOn)
     {

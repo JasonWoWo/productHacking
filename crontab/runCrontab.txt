@@ -29,3 +29,8 @@
 0 0 * * * php ~/productHacking/RegisterRetainPCStat.php > ~/log/registerChannelAndPlatform.txt 2>&1
 0 0 * * * php ~/productHacking/RegisterOnRetainPCStat.php > ~/log/registerChannelAndPlatformRetain.txt 2>&1
 0 5 * * * php ~/productHacking/UserBirthSummation.php > ~/log/log_userBirthSummation.txt 2>&1
+0 2 * * * php ~/productHacking/Activation.php > ~/log/log_activation_write.txt 2>&1
+40 3 * * * php ~/productHacking/EntireDeviceAuthorize.php > ~/log/log_entireDeviceAuthorize.txt 2>&1
+0 8 * * * python ~/statspy/daily_forecast_stat.py > ~/log/log_forecast.txt 2>&1
+0 4 * * 1 php ~/productHacking/UserWeeklyRegisterOnPC.php > ~/log/log_UserWeeklyRegisterOnPC.txt 2>&1
+0 6 * * * php ~/productHacking/UserWeeklyRegisterRetainOnPC.php > ~/log/log_UserWeeklyRegisterRetainOnPC.txt 2>&1
