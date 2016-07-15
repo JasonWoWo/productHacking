@@ -38,9 +38,8 @@ class ActivationQuery
         $sendEndDate = clone $currentDate;
         $sendStartDate = $currentDate->modify('-1 day');
         $query = array(
-            'send_on' => array('$gte' => $sendStartDate, '$lte' => $sendEndDate)
+            'send_on' => array('$gte' => $sendStartDate->format('Y-m-d H:i:s'), '$lte' => $sendEndDate->format('Y-m-d H:i:s'))
         );
-        var_dump($query);
         $sendedUsers = $this->activationCollection->find($query);
         if (empty($sendedUsers)) {
             return 0;
@@ -51,7 +50,6 @@ class ActivationQuery
                 echo "SendedUsers cant find index user_id \n";
             }
             $userId = $item['user_id'];
-            echo $userId;
             $isActive = true;
             $userDetail = $this->getUserDetails($userId);
             $userVisitOn = new \DateTime($userDetail['visit_on']);
@@ -59,10 +57,10 @@ class ActivationQuery
                 continue;
             }
             //获取用户的设备信息,是否是新设备
-            $isNewDevice = true;
+            $isNewDevice = 1;
             $deviceDetail = $this->getActivationDevice($userId);
             if ($deviceDetail['create_on'] != $sendStartDate->format('Y-m-d')) {
-                $isNewDevice = false;
+                $isNewDevice = 0;
             }
             echo "userId: {$userId}, visit_on: {$userDetail['visit_on']}, isNewDevice:{$isNewDevice} \n";
             //更新用户的信息
