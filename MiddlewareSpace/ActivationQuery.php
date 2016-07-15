@@ -40,13 +40,18 @@ class ActivationQuery
         $query = array(
             'send_on' => array('$gte' => $sendStartDate, '$lte' => $sendEndDate)
         );
+        var_dump($query);
         $sendedUsers = $this->activationCollection->find($query);
         if (empty($sendedUsers)) {
             return 0;
         }
         foreach ($sendedUsers as $item) {
             //查询用户的访问时间,更新数据
+            if (empty($item['user_id'])) {
+                echo "SendedUsers cant find index user_id \n";
+            }
             $userId = $item['user_id'];
+            echo $userId;
             $isActive = true;
             $userDetail = $this->getUserDetails($userId);
             $userVisitOn = new \DateTime($userDetail['visit_on']);
@@ -85,13 +90,15 @@ class ActivationQuery
     public function updateActivationInfo($uid, $isVisit = false, $isNewDevice = false, \DateTime $visitDate)
     {
         $query = array('user_id' => $uid);
-        $updateParams = array(
-            'active' => $isVisit,
-            'new_device' => $isNewDevice,
-            'visit_on' => $visitDate
-        );
+        $item = $this->activationCollection->findOne($query);
+        if (!$item) {
+            echo "Uncatch the user_id, Dont update \n";
+        }
+        $item['active'] = $isVisit ? 1 : 0;
+        $item['new_device'] = $isNewDevice ? 1 : 0;
+        $item['visit_on'] = $visitDate;
         try {
-            $this->activationCollection->update($query, $updateParams);
+            $this->activationCollection->update($query, $item);
         } catch (\MongoException $me) {
             echo 'Mongo Exception: '.$me->getMessage().' '.__FILE__.':'.__LINE__;
         }
