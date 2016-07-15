@@ -36,6 +36,15 @@ class Activation extends ActivationQuery
         }
     }
 
+    public function updateRetain($extendStamp = 0)
+    {
+        $this->baseActivationRetain($extendStamp, 2);
+        $this->baseActivationRetain($extendStamp, 3);
+        $this->baseActivationRetain($extendStamp, 7);
+        $this->baseActivationRetain($extendStamp, 15);
+        $this->baseActivationRetain($extendStamp, 30);
+    }
+    
     public function baseActivationRetain($extendStamp = 0, $isRetain = 0)
     {
         $timestamp = empty($extendStamp) ? time() : $extendStamp;
@@ -62,3 +71,5 @@ class Activation extends ActivationQuery
 }
 $awakenPlan = new Activation();
 $awakenPlan->updateActivationUsers();
+$awakenPlan->insertAwakenUsers();
+$awakenPlan->updateRetain();

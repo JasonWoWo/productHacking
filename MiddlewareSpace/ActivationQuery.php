@@ -56,6 +56,7 @@ class ActivationQuery
             if ($userVisitOn->format('Y-m-d') != $sendStartDate->format('Y-m-d')) {
                 continue;
             }
+            $this->activeUsers[] = $userId;
             //获取用户的设备信息,是否是新设备
             $isNewDevice = 0;
             $udid = $userDetail['udid'];
@@ -115,8 +116,8 @@ class ActivationQuery
         $query = array(
             'active' => 1,
             'send_on' => array(
-                '$gte' => $sendStartDate,
-                '$lte' => $sendEndDate
+                '$gte' => $sendStartDate->format('Y-m-d H:i:s'),
+                '$lte' => $sendEndDate->format('Y-m-d H:i:s')
             ),
         );
         $awakenUser = $this->activationCollection->find($query);
