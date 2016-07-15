@@ -57,10 +57,14 @@ class ActivationQuery
                 continue;
             }
             //获取用户的设备信息,是否是新设备
-            $isNewDevice = 1;
-            $deviceDetail = $this->getActivationDevice($userDetail['udid']);
-            if ($deviceDetail['create_on'] != $sendStartDate->format('Y-m-d')) {
-                $isNewDevice = 0;
+            $isNewDevice = 0;
+            $udid = $userDetail['udid'];
+            if (!empty($udid)) {
+                $isNewDevice = 1;
+                $deviceDetail = $this->getActivationDevice($udid);
+                if ($deviceDetail['create_on'] != $sendStartDate->format('Y-m-d')) {
+                    $isNewDevice = 0;
+                }
             }
             echo "userId: {$userId}, visit_on: {$userDetail['visit_on']}, isNewDevice:{$isNewDevice} \n";
             //更新用户的信息

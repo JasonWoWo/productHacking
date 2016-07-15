@@ -197,7 +197,7 @@ trait UtilSqlTool
     {
         $query = "SELECT s.product_sk, s.udid, DATE_FORMAT(d.datevalue, '%Y-%m-%d') AS create_on 
                   FROM {$currentTable} AS s LEFT JOIN oistatistics.st_dim_date AS d ON s.create_date_sk = d.date_sk WHERE s.udid = '{$udid}'";
-        echo $query;
+        echo $query . "\n";
         return $query;
     }
 
