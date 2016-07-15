@@ -58,7 +58,7 @@ class ActivationQuery
             }
             //获取用户的设备信息,是否是新设备
             $isNewDevice = 1;
-            $deviceDetail = $this->getActivationDevice($userId);
+            $deviceDetail = $this->getActivationDevice($userDetail['udid']);
             if ($deviceDetail['create_on'] != $sendStartDate->format('Y-m-d')) {
                 $isNewDevice = 0;
             }
