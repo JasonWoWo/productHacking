@@ -141,6 +141,7 @@ trait UtilTool
             'rr' => 0,
             'wx' => 0,
             'pyq' => 0,
+            'birthgroup' => 0,
         );
         return $srcParamsKey;
     }
@@ -158,6 +159,7 @@ trait UtilTool
                 'rr' => 'rr_import_cnt',
                 'wx' => 'wx_import_cnt',
                 'pyq' => 'pyq_import_cnt',
+                'birthgroup' => 'birth_group_import_cnt'
             ),
             'srcWithPhoneItem' => array(
                 'ab' => 'local_import_phone_cnt',
@@ -169,6 +171,7 @@ trait UtilTool
                 'rr' => 'rr_import_phone_cnt',
                 'wx' => 'wx_import_phone_cnt',
                 'pyq' => 'pyq_import_phone_cnt',
+                'birthgroup' => 'birth_group_import_phone_cnt'
             ),
         );
         return $paramItems;
@@ -185,6 +188,7 @@ trait UtilTool
         $currentSrc['rr'] += $summationSrc['rr'];
         $currentSrc['wx'] += $summationSrc['wx'];
         $currentSrc['pyq'] += $summationSrc['pyq'];
+        $currentSrc['birthgroup'] += $summationSrc['birthgroup'];
         return $currentSrc;
     }
 
@@ -222,7 +226,7 @@ trait UtilTool
         );
         return $paramKey[$isRetain];
     }
-    
+
     public function getSmsRetainParamKey($isRetain = 3)
     {
         $paramKey = array(

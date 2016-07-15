@@ -90,9 +90,9 @@ class UserRegisterBackUpBirthQuery
             $birthMinTable += 1;
         }
         echo "== ab: " . $srcItems['ab'] . " == add: " . $srcItems['add'] . " == yab: " . $srcItems['yab'] . " == of: " . $srcItems['of'] . " == oi: " . $srcItems['oi'] . 
-            " == qq: " . $srcItems['qq'] . " == rr: " . $srcItems['rr'] . " == wx: " . $srcItems['wx'] . " == pyq: " . $srcItems['pyq'] . " \n";
+            " == qq: " . $srcItems['qq'] . " == rr: " . $srcItems['rr'] . " == wx: " . $srcItems['wx'] . " == pyq: " . $srcItems['pyq'] . " == birthGroup: " . $srcItems['birthgroup'] . " \n";
         echo "phone == ab: " . $srcWithPhoneItems['ab'] . " == add: " . $srcWithPhoneItems['add'] . " == yab: " . $srcWithPhoneItems['yab'] . " == of: " . $srcWithPhoneItems['of'] . " == oi: " . $srcWithPhoneItems['oi'] .
-            " == qq: " . $srcWithPhoneItems['qq'] . " == rr: " . $srcWithPhoneItems['rr'] . " == wx: " . $srcWithPhoneItems['wx'] . " == pyq: " . $srcWithPhoneItems['pyq'] . " \n";;
+            " == qq: " . $srcWithPhoneItems['qq'] . " == rr: " . $srcWithPhoneItems['rr'] . " == wx: " . $srcWithPhoneItems['wx'] . " == pyq: " . $srcWithPhoneItems['pyq'] . " == birthGroup: " . $srcWithPhoneItems['birthgroup'] . " \n";;
         return array(
             'srcItems' => $srcItems,
             'srcWithPhoneItems' => $srcWithPhoneItems,
