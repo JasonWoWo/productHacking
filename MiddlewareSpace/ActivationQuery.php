@@ -47,7 +47,8 @@ class ActivationQuery
         foreach ($sendedUsers as $item) {
             //查询用户的访问时间,更新数据
             if (empty($item['user_id'])) {
-                echo "SendedUsers cant find index user_id \n";
+                echo "phone : {$item['_id']} - SendedUsers cant find index user_id \n";
+                continue;
             }
             $userId = $item['user_id'];
             $isActive = true;
