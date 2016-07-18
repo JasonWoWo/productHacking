@@ -294,9 +294,7 @@ trait UtilSqlTool
             $createOnEnd = $this->fetchDateString($createOnEndTimeStamp);
         }
         $query = "SELECT u.id, u.udid, DATE_FORMAT(u.create_on, '%Y-%m-%d') AS create_on, DATE_FORMAT(u.visit_on, '%Y-%m-%d') AS visit_on, u.appid, u.chnid FROM oibirthday.users AS u WHERE u.id > 5000000 ";
-        if ($createOnStartTimeStamp) {
-            $query .= " AND TO_DAYS(u.create_on) >= {$createOnEnd} AND TO_DAYS(u.create_on) <= {$createOn}";
-        }
+        $query .= " AND TO_DAYS(u.create_on) >= {$createOnEnd} AND TO_DAYS(u.create_on) <= {$createOn}";
         return $query;
     }
     
@@ -359,6 +357,23 @@ trait UtilSqlTool
         LEFT JOIN oiplatform.order_goods_list AS g ON o.id = g.order_id 
         LEFT JOIN oiplatform.product AS p ON g.goods_id = p.id 
         WHERE o.uid = {$userId} AND o.pay_time >= o.order_time AND TO_DAYS(o.pay_time) = {$consume} AND p.special_type = 1";
+        return $query;
+    }
+
+    public function getQueryUserBuildBirthGroup($users = array(), $pointStamp = 0)
+    {
+        $userItems = implode(',', $users);
+        $query = "SELECT g.masterid, COUNT(*) AS buildCnt FROM oibirthday.br_group AS g WHERE masterid IN ({$userItems}) AND g.delete_at IS NULL GROUP BY g.masterid";
+        echo $query . "\n";
+        return $query;
+    }
+
+    public function getQueryGroupMembers($users = array(), $pointStamp = 0)
+    {
+        $userItems = implode(',', $users);
+        $query = "SELECT g.masterid, count(*) AS member_cnt FROM oibirthday.br_group AS g LEFT JOIN oibirthday.br_group_member AS m ON g.id = m.group_id 
+                  WHERE g.masterid IN ({$userItems}) AND m.id IS NOT NULL AND m.delete_at IS NULL AND g.delete_at IS NULL GROUP BY g.masterid";
+        echo $query . "\n";
         return $query;
     }
     

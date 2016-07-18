@@ -24,6 +24,15 @@ class baseController
         $this->connectObj = new Common();
     }
 
+    public function insertCore($table, $params)
+    {
+        $insertSql = $this->connectObj->insertParamsQuery($table, $params);
+        $result = $this->connectObj->fetchCakeStatQuery($insertSql);
+        if ($result) {
+            echo "==== " . $params['create_on'] . " insert : " . $table . " Success ! \n";
+        }
+    }
+
     public function getContactAuthorize($udid)
     {
         $collection = $this->connectObj->fetchDeviceInfoCollection();
