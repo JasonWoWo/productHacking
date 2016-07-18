@@ -364,7 +364,6 @@ trait UtilSqlTool
     {
         $userItems = implode(',', $users);
         $query = "SELECT g.masterid, COUNT(*) AS buildCnt FROM oibirthday.br_group AS g WHERE masterid IN ({$userItems}) AND g.delete_at IS NULL GROUP BY g.masterid";
-        echo $query . "\n";
         return $query;
     }
 
@@ -373,7 +372,6 @@ trait UtilSqlTool
         $userItems = implode(',', $users);
         $query = "SELECT g.masterid, count(*) AS member_cnt FROM oibirthday.br_group AS g LEFT JOIN oibirthday.br_group_member AS m ON g.id = m.group_id 
                   WHERE g.masterid IN ({$userItems}) AND m.id IS NOT NULL AND m.delete_at IS NULL AND g.delete_at IS NULL GROUP BY g.masterid";
-        echo $query . "\n";
         return $query;
     }
     

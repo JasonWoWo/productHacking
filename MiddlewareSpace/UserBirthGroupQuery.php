@@ -54,13 +54,14 @@ class UserBirthGroupQuery extends baseController
 
     /**
      * 新增设备的新注册创建生日群的用户数
+     * @param $userItems
      * @param \Datetime
      * @return array
      */
-    public function getBuildBirthGroupUserCnt(\DateTime $pointDate)
+    public function getBuildBirthGroupUserCnt($userItems = array(), \DateTime $pointDate)
     {
         $birthGroupCnt = 0;
-        $userBuildQuery = $this->getQueryUserBuildBirthGroup($this->newFreshUsers, $pointDate->getTimestamp());
+        $userBuildQuery = $this->getQueryUserBuildBirthGroup($userItems, $pointDate->getTimestamp());
         $userBuilders = $this->connectObj->fetchAssoc($userBuildQuery);
         $userCnt = count($userBuilders);
         foreach ($userBuilders as $builder) {
@@ -72,10 +73,10 @@ class UserBirthGroupQuery extends baseController
         );
     }
 
-    public function getGroupMemberCnt(\DateTime $pointDate)
+    public function getGroupMemberCnt($userItems = array(), \DateTime $pointDate)
     {
         $memberCnt = 0;
-        $groupMemberQuery = $this->getQueryGroupMembers($this->newFreshUsers, $pointDate->getTimestamp());
+        $groupMemberQuery = $this->getQueryGroupMembers($userItems, $pointDate->getTimestamp());
         $groupMembers = $this->connectObj->fetchAssoc($groupMemberQuery);
         foreach ($groupMembers as $member) {
             $memberCnt += $member['member_cnt'];
