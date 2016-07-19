@@ -68,6 +68,7 @@ class UserBirthGroupQuery extends baseController
             $birthGroupCnt += $builder['buildCnt'];
         }
         return array(
+            'fresh_user_cnt' => count($userItems),
             'birth_group_cnt' => $birthGroupCnt,
             'user_build_cnt' => $userCnt,
         );

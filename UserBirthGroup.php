@@ -23,12 +23,13 @@ class UserBirthGroup extends UserBirthGroupQuery
         $this->getPointDayBirthGroupInfo($pointDate);
         $params['create_on'] = "{$pointDate->format('Y-m-d')}";
         $groupBuildItems = $this->getBuildBirthGroupUserCnt($this->newFreshUsers, $pointDate);
+        $params['fresh_user_cnt'] = $groupBuildItems['fresh_user_cnt'];
         $params['user_build_cnt'] = $groupBuildItems['user_build_cnt'];
         $params['birth_group_cnt'] = $groupBuildItems['birth_group_cnt'];
         $groupMembers = $this->getGroupMemberCnt($this->newFreshUsers, $pointDate);
         $params['group_member_cnt'] = $groupMembers;
         //$this->insertCore(self::BIRTH_GROUP_TABLE, $params);
-        echo "user_cnt: {$groupBuildItems['user_build_cnt']} | buildGroupCnt: {$groupBuildItems['birth_group_cnt']} | groupMemberCnt: {$groupMembers} \n";
+        echo "fresh_user_cnt: {$groupBuildItems['fresh_user_cnt']} user_cnt: {$groupBuildItems['user_build_cnt']} | buildGroupCnt: {$groupBuildItems['birth_group_cnt']} | groupMemberCnt: {$groupMembers} \n";
     }
     
     public function getWeChartGroupDetail($extendStamp = 0)
@@ -39,12 +40,13 @@ class UserBirthGroup extends UserBirthGroupQuery
         $this->getRegisterOnWeChart($pointDate);
         $params['create_on'] ="'{$pointDate->format('Y-m-d')}'";
         $weChartBuildItems = $this->getBuildBirthGroupUserCnt($this->weChartUsers, $pointDate);
+        $params['fresh_user_cnt'] = $weChartBuildItems['fresh_user_cnt'];
         $params['user_build_cnt'] = $weChartBuildItems['user_build_cnt'];
         $params['birth_group_cnt'] = $weChartBuildItems['birth_group_cnt'];
         $weChartGroupMembers = $this->getGroupMemberCnt($this->weChartUsers, $pointDate);
         $params['group_member_cnt'] = $weChartGroupMembers;
         //$this->insertCore(self::BIRTH_GROUP_TABLE, $params);
-        echo "user_cnt: {$weChartBuildItems['user_build_cnt']} | buildGroupCnt: {$weChartBuildItems['birth_group_cnt']} | groupMemberCnt: {$weChartGroupMembers} \n";
+        echo "fresh_user_cnt: {$weChartBuildItems['fresh_user_cnt']} user_cnt: {$weChartBuildItems['user_build_cnt']} | buildGroupCnt: {$weChartBuildItems['birth_group_cnt']} | groupMemberCnt: {$weChartGroupMembers} \n";
     }
 
 }
