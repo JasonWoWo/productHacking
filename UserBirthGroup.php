@@ -28,7 +28,7 @@ class UserBirthGroup extends UserBirthGroupQuery
         $params['birth_group_cnt'] = $groupBuildItems['birth_group_cnt'];
         $groupMembers = $this->getGroupMemberCnt($this->newFreshUsers, $pointDate);
         $params['group_member_cnt'] = $groupMembers;
-        //$this->insertCore(self::BIRTH_GROUP_TABLE, $params);
+        $this->insertCore(self::BIRTH_GROUP_TABLE, $params);
         echo "fresh_user_cnt: {$groupBuildItems['fresh_user_cnt']} user_cnt: {$groupBuildItems['user_build_cnt']} | buildGroupCnt: {$groupBuildItems['birth_group_cnt']} | groupMemberCnt: {$groupMembers} \n";
     }
     
