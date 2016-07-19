@@ -91,7 +91,7 @@ class ExchangerQuery extends baseController
         }
         $pushCollection = $this->connectObj->fetchUnRegisterInfoCollection();
         $pusher = $pushCollection->findOne($query);
-        if ($pusher) {
+        if ($pusher && $pusher['send']) {
             $send['push_send'] = $pusher['send'];
         }
         return $send;

@@ -34,9 +34,9 @@ class QueryExchangeDetail extends ExchangerQuery
     public function getOrderDetailPoint()
     {
         $orderDetails = $this->getOrderUidDetail($this->getOrderItems());
-        echo "orderId;id;create_on;visit_on;active_send;push_send \n";
+        echo "orderId;id;phone;create_on;visit_on;active_send;push_send \n";
         foreach ($orderDetails as $detail) {
-            echo "{$detail['orderId']};{$detail['id']};{$detail['create_on']};{$detail['visit_on']};{$detail['active_send']};{$detail['push_send']} \n";
+            echo "{$detail['orderId']};{$detail['id']};{$detail['phone']};{$detail['create_on']};{$detail['visit_on']};{$detail['active_send']};{$detail['push_send']} \n";
         }
     }
 
