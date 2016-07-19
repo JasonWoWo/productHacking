@@ -170,7 +170,7 @@ trait UtilSqlTool
 
     public function getQueryBirthZeroInProduct($userIdList)
     {
-        $query = "SELECT u.appid, u.udid, u.id, DATE_FORMAT(u.create_on, '%Y-%m-%d') AS create_on, u.visit_on FROM oibirthday.users AS u WHERE u.id IN (" . $userIdList .") ";
+        $query = "SELECT u.appid, u.phone, u.udid, u.id, DATE_FORMAT(u.create_on, '%Y-%m-%d') AS create_on, u.visit_on FROM oibirthday.users AS u WHERE u.id IN (" . $userIdList .") ";
         return $query;
     }
 
@@ -372,6 +372,13 @@ trait UtilSqlTool
         $userItems = implode(',', $users);
         $query = "SELECT g.masterid, count(*) AS member_cnt FROM oibirthday.br_group AS g LEFT JOIN oibirthday.br_group_member AS m ON g.id = m.group_id 
                   WHERE g.masterid IN ({$userItems}) AND m.id IS NOT NULL AND m.delete_at IS NULL AND g.delete_at IS NULL GROUP BY g.masterid";
+        return $query;
+    }
+
+    public function getQueryOrderUserDetail($orderItems = array())
+    {
+        $orders = implode(',', $orderItems);
+        $query = "SELECT o.uid, o.id AS orderId FROM oiplatform.order_details AS o WHERE o.id IN ({$orders})";
         return $query;
     }
     

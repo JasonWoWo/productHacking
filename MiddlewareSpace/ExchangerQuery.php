@@ -58,4 +58,50 @@ class ExchangerQuery extends baseController
         }
     }
     
+    public function getOrderUidDetail($orderItems = array())
+    {
+        $orderDetailInfo = array();
+        $orderUsersQuery = $this->getQueryOrderUserDetail($orderItems);
+        $users = $this->connectObj->fetchAssoc($orderUsersQuery);
+        foreach ($users as $user) {
+            $userDetails = $this->getUserDetail($user['uid']);
+            if (!preg_match('/^[1][35678][0-9]{9}$/', $userDetails['phone'])) {
+                continue;
+            }
+            $userDetails['orderId'] = $user['orderId'];
+            $send = $this->getUserSendSms($userDetails['phone']);
+            $userDetails['active_send'] = $send['active_send'];
+            $userDetails['push_send'] = $send['push_send'];
+            $orderDetailInfo[] = $userDetails;
+        }
+        return $orderDetailInfo;
+    }
+
+    public function getUserSendSms($phone)
+    {
+        $send = array(
+            'active_send' => 0,
+            'push_send' => 0
+        );
+        $activationCollection = $this->connectObj->fetchUsersAwakenCollection();
+        $query = array('_id' => $phone);
+        $activation = $activationCollection->findOne($query);
+        if ($activation) {
+            $send['active_send'] = is_null($activation['send_on']) ? 0 : 1;
+        }
+        $pushCollection = $this->connectObj->fetchUnRegisterInfoCollection();
+        $pusher = $pushCollection->findOne($query);
+        if ($pusher) {
+            $send['push_send'] = $pusher['send'];
+        }
+        return $send;
+    }
+
+    public function getUserDetail($uid)
+    {
+        $userDetailQuery = $this->getQueryBirthZeroInProduct($uid);
+        $users = $this->connectObj->fetchAssoc($userDetailQuery);
+        return $users;
+    }
+    
 }
