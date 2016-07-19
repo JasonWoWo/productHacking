@@ -100,7 +100,7 @@ class ExchangerQuery extends baseController
     public function getUserDetail($uid)
     {
         $userDetailQuery = $this->getQueryBirthZeroInProduct($uid);
-        $users = $this->connectObj->fetchAssoc($userDetailQuery);
+        $users = $this->connectObj->fetchCnt($userDetailQuery);
         return $users;
     }
     
