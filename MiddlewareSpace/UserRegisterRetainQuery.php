@@ -9,11 +9,13 @@
 namespace MiddlewareSpace;
 
 use CommonSpace\Common;
+use UtilSpace\UtilSqlTool;
 use UtilSpace\UtilTool;
 
 class UserRegisterRetainQuery
 {
     use UtilTool;
+    use UtilSqlTool;
     
     public $connectObj;
 
@@ -55,41 +57,10 @@ WHERE
 
     public function getCurrentRankRegisterRetainCnt($currentStamp = 0, $isRetain = 0, $minCycle = 0)
     {
-        $currentDate = date('Y-m-d', $currentStamp);
-        $visitDate = new \DateTime($currentDate);
-        $visitDate->modify('-1 days');
-        $loginEndDate = $this->connectObj->calculateLoginIn($currentStamp, $isRetain);
-        $startRank = $isRetain + $minCycle;
-        $loginStartDate = $this->connectObj->calculateLoginIn($currentStamp, $startRank);
-        $loginStartString = "TO_DAYS(" . $loginStartDate . ")";
-
-        $visitStartDate = "'" .$visitDate->format('Y-m-d') . "'";
-        if ($minCycle) {
-            $loginEndDate = $this->connectObj->calculateLoginIn($visitDate->getTimestamp(), $isRetain);
-            $visitStartDate = $this->connectObj->calculateLoginIn($currentStamp, $minCycle);
-        }
-        $loginEndString = "TO_DAYS(" . $loginEndDate . ")";
-        $visitStartString = "TO_DAYS(" . $visitStartDate . ")";
-        $visitEndString = "TO_DAYS('" . $visitDate->format('Y-m-d') . "')";
-        $sql = sprintf("
-        SELECT 
-	COUNT(*) AS cnt 
-FROM 
-	oibirthday.users AS u 
-WHERE 
-	TO_DAYS(u.create_on) >= %s 
-	AND TO_DAYS(u.create_on) <= %s 
-	AND TO_DAYS(u.visit_on) >= %s 
-	AND TO_DAYS(u.visit_on) <= %s
-	AND u.appid IN (1001, 1002, 1003)
-	",
-            $loginStartString,
-            $loginEndString,
-            $visitStartString,
-            $visitEndString);
-        echo $sql . "\n";
-        $query = $this->connectObj->fetchCnt($sql);
-        return $query['cnt'];
+        list($loginStartStamp, $loginEndStamp, $visitStartStamp, $visitEndStamp) = $this->fetchTimestamp($currentStamp, $isRetain, $minCycle);
+        $registerRetainQuery = $this->getQueryRegisterRetainByVisitOn($loginStartStamp, $loginEndStamp, $visitStartStamp, $visitEndStamp, array(), array(1001, 1002, 1003));
+        $RegistersCnt = $this->connectObj->fetchCnt($registerRetainQuery);
+        return $RegistersCnt['cnt'];
     }
 
     public function checkCurrentDateData($tableName, $dayString)

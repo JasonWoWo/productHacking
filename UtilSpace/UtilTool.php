@@ -353,6 +353,23 @@ trait UtilTool
         return $array;
     }
 
+    public function fetchTimestamp($currentStamp = 0, $isRetain = 0, $minCycle = 0)
+    {
+        $currentDate = date('Y-m-d', $currentStamp);
+        $visitDate = new \DateTime($currentDate);
+        $visitDate->modify('-1 day');
+        $loginEndStamp = $currentStamp - $isRetain * self::DEFAULT_TIMESTAMP;
+        $rank = $isRetain + $minCycle;
+        $loginStartStamp = $currentStamp - $rank * self::DEFAULT_TIMESTAMP;
+        $visitStartStamp = $visitDate->getTimestamp();
+        if ($minCycle) {
+            $loginEndStamp = $visitDate->getTimestamp() - $isRetain * self::DEFAULT_TIMESTAMP;
+            $visitStartStamp = $currentStamp - $minCycle * self::DEFAULT_TIMESTAMP;
+        }
+        $visitEndStamp = $visitDate->getTimestamp();
+        return array($loginStartStamp, $loginEndStamp, $visitStartStamp, $visitEndStamp);
+    }
+
     public function _follower_key( $number )
     {
         return "F:{$number}:follower";
