@@ -358,13 +358,13 @@ trait UtilTool
         $currentDate = date('Y-m-d', $currentStamp);
         $visitDate = new \DateTime($currentDate);
         $visitDate->modify('-1 day');
-        $loginEndStamp = $currentStamp - $isRetain * self::DEFAULT_TIMESTAMP;
+        $loginEndStamp = $currentStamp - $isRetain * $this->default_daily_timestamp;
         $rank = $isRetain + $minCycle;
-        $loginStartStamp = $currentStamp - $rank * self::DEFAULT_TIMESTAMP;
+        $loginStartStamp = $currentStamp - $rank * $this->default_daily_timestamp;
         $visitStartStamp = $visitDate->getTimestamp();
         if ($minCycle) {
-            $loginEndStamp = $visitDate->getTimestamp() - $isRetain * self::DEFAULT_TIMESTAMP;
-            $visitStartStamp = $currentStamp - $minCycle * self::DEFAULT_TIMESTAMP;
+            $loginEndStamp = $visitDate->getTimestamp() - $isRetain * $this->default_daily_timestamp;
+            $visitStartStamp = $currentStamp - $minCycle * $this->default_daily_timestamp;
         }
         $visitEndStamp = $visitDate->getTimestamp();
         return array($loginStartStamp, $loginEndStamp, $visitStartStamp, $visitEndStamp);
