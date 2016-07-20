@@ -27,9 +27,9 @@
 30 4 * * * php ~/productHacking/UserBrandBirthdayStat.php > ~/log/log_userBrandBirthdayStat.txt 2>&1
 25 4 * * * php ~/productHacking/UserBirthdayStat.php > ~/log/log_userBirthdayStat.txt 2>&1
 10 4 * * * php ~/productHacking/RegisterInformation.php > ~/log/log_registerInformation.txt 2>&1
+00 4 * * * python /opt/scripts/statspy/stat_reminder_statis.py > ~/log/log_statReminderStatis.txt 2>&1
 20 4 * * * python ~/statspy/PandoraSource.py > ~/log/log_pandoraSource.txt 2>&1
 10 4 * * * python ~/statspy/daily_forecast_stat.py > ~/log/log_forecast.txt 2>&1
-00 6 * * * python /opt/scripts/statspy/stat_reminder_statis.py > ~/log/log_statReminderStatis.txt 2>&1
 10 6 * * * python ~/statspy/pushClientDataStat.py > ~/log/log_pushOpenStat.txt 2>&1
 10 1 * * 1 php ~/productHacking/WeekCoreTask.php > ~/log/log_weekCoreTask.txt 2>&1
 00 1 * * 1 php ~/productHacking/UserWeeklyRegister.php > ~/log/log_UserWeeklyRegister.txt 2>&1
