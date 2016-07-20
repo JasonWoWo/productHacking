@@ -21,7 +21,7 @@ class UserBirthGroup extends UserBirthGroupQuery
         $pointDate->modify('-1 day');
         $params = array();
         $this->getPointDayBirthGroupInfo($pointDate);
-        $params['create_on'] = "{$pointDate->format('Y-m-d')}";
+        $params['create_on'] = "'{$pointDate->format('Y-m-d')}'";
         $groupBuildItems = $this->getBuildBirthGroupUserCnt($this->newFreshUsers, $pointDate);
         $params['fresh_user_cnt'] = $groupBuildItems['fresh_user_cnt'];
         $params['user_build_cnt'] = $groupBuildItems['user_build_cnt'];
