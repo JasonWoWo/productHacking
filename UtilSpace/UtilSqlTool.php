@@ -363,7 +363,7 @@ trait UtilSqlTool
     public function getQueryUserBuildBirthGroup($users = array(), $pointStamp = 0)
     {
         $userItems = implode(',', $users);
-        $query = "SELECT g.masterid, COUNT(*) AS buildCnt FROM oibirthday.br_group AS g WHERE masterid IN ({$userItems}) AND g.delete_at IS NULL GROUP BY g.masterid";
+        $query = "SELECT g.masterid, COUNT(*) AS buildCnt FROM oibirthday.br_group AS g WHERE g.masterid IN ({$userItems}) AND g.delete_at IS NULL GROUP BY g.masterid";
         return $query;
     }
 

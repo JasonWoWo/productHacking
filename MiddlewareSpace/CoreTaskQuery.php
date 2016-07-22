@@ -88,6 +88,7 @@ WHERE
 	TO_DAYS(d.datevalue) = %s
     AND TO_DAYS(u.create_on) = %s
     AND u.appid IN (1001, 1002, 1003)
+    AND u.id > 5000000
     ",
             $tableName,
             $dayString,
