@@ -44,6 +44,7 @@ class AddBirthUpQuery extends baseController
         $defaultTable = 0;
         while ($defaultTable <= $maxBirthTableNum) {
             $this->getTableAddBirthDetail($defaultTable, $addOn->getTimestamp());
+            $defaultTable += 1;
         }
     }
 
@@ -53,7 +54,7 @@ class AddBirthUpQuery extends baseController
         $keyQuery = $this->getQueryAddBirthDaySrcCnt($tableName, $addOnStamp, 'birthgroup');
         $result = $this->connectObj->fetchAssoc($keyQuery);
         foreach ($result as $item) {
-            echo "{$item['userid']};{$item['name']};{$item['src']};{$item['add_on']} \n";
+            echo "{$item['userid']};{$item['name']};{$item['src']};{$item['birth_y']};{$item['birth_m']};{$item['birth_d']};{$item['add_on']} \n";
         }
     }
     
