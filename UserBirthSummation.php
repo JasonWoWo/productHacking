@@ -35,6 +35,14 @@ class UserBirthSummation extends AddBirthUpQuery
             echo "==== " . $params['create_on'] . " Insert " . self::DAILY_ALL_ADD_USER_SUMMATION ." Success !!! \n";
         }
     }
+
+    public function getBirthGroupDetail($extendStamp = 0)
+    {
+        $timeStamp = empty($extendStamp) ? time() : $extendStamp;
+        $dateTime = new \DateTime(date('Y-m-d', $timeStamp));
+        $dateTime->modify('-1 day');
+        $this->getSrcFromBirthGroup($dateTime);
+    }
 }
 $summation = new UserBirthSummation();
 $summation->getSummationBirthCnt();

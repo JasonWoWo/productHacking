@@ -37,6 +37,25 @@ class AddBirthUpQuery extends baseController
             'userCnt' => $userCnt,
         );
     }
+
+    public function getSrcFromBirthGroup(\DateTime $addOn)
+    {
+        $maxBirthTableNum = $this->get_number_birthday_number($this->getMaxUserId());
+        $defaultTable = 0;
+        while ($defaultTable <= $maxBirthTableNum) {
+            $this->getTableAddBirthDetail($defaultTable, $addOn->getTimestamp());
+        }
+    }
+
+    public function getTableAddBirthDetail($table = 0, $addOnStamp = 0)
+    {
+        $tableName = self::BIRTHDAY_TABLE_PREFIX . $table;
+        $keyQuery = $this->getQueryAddBirthDaySrcCnt($tableName, $addOnStamp, 'birthgroup');
+        $result = $this->connectObj->fetchAssoc($keyQuery);
+        foreach ($result as $item) {
+            echo "{$item['userid']};{$item['name']};{$item['src']};{$item['add_on']} \n";
+        }
+    }
     
     public function getCurrentTableAddBirthCnt($table = 0, $addOnStamp = 0)
     {
