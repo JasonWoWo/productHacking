@@ -406,6 +406,7 @@ trait UtilSqlTool
             $customGroup = " g.localid IN (1000, 1001)";
         }
         $query = "SELECT g.masterid, COUNT(*) AS buildCnt FROM oibirthday.br_group AS g WHERE g.delete_at IS NULL AND TO_DAYS(g.create_at) = {$pointString} AND {$customGroup} GROUP BY g.masterid";
+        echo $query . " \n";
         return $query;
     }
 
