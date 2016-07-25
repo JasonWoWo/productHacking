@@ -52,7 +52,7 @@ class UserBirthGroup extends UserBirthGroupQuery
         $params['custom_group_summation'] = $groupBuildItems['custom_group_cnt'];
         $groupMembersItems = $this->getSummationDayGroupMemberCnt($pointDate);
         $params['default_group_members_summation'] = $groupMembersItems['default_group_members'];
-        $params['default_group_members_summation'] = $groupMembersItems['custom_group_members'];
+        $params['custom_group_members_summation'] = $groupMembersItems['custom_group_members'];
         foreach ($params as $key => $value) {
             echo "{$key} : {$value} \n";
         }
