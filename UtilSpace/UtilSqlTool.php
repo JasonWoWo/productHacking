@@ -418,7 +418,7 @@ trait UtilSqlTool
             $customGroup = " g.localid IN (1000, 1001)";
         }
         $query = "SELECT g.masterid, count(*) AS member_cnt FROM oibirthday.br_group AS g LEFT JOIN oibirthday.br_group_member AS m ON g.id = m.group_id 
-                  WHERE g.masterid IN ({$userItems}) AND {$customGroup} AND m.id IS NOT NULL AND TO_DAYS(g.create_on) = {$pointString} AND m.delete_at IS NULL AND g.delete_at IS NULL GROUP BY g.masterid";
+                  WHERE g.masterid IN ({$userItems}) AND {$customGroup} AND m.id IS NOT NULL AND TO_DAYS(g.create_at) = {$pointString} AND m.delete_at IS NULL AND g.delete_at IS NULL GROUP BY g.masterid";
         return $query;
     }
 
@@ -436,7 +436,7 @@ trait UtilSqlTool
             $customGroup = " g.localid IN (1000, 1001)";
         }
         $query = "SELECT g.masterid, count(*) AS member_cnt FROM oibirthday.br_group AS g LEFT JOIN oibirthday.br_group_member AS m ON g.id = m.group_id 
-                  WHERE m.id IS NOT NULL AND TO_DAYS(g.create_on) = {$pointString} AND {$customGroup} AND m.delete_at IS NULL AND g.delete_at IS NULL GROUP BY g.masterid";
+                  WHERE m.id IS NOT NULL AND TO_DAYS(g.create_at) = {$pointString} AND {$customGroup} AND m.delete_at IS NULL AND g.delete_at IS NULL GROUP BY g.masterid";
         return $query;
     }
 
