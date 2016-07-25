@@ -13,6 +13,7 @@ use MiddlewareSpace\UserBirthGroupQuery;
 class UserBirthGroup extends UserBirthGroupQuery
 {
     const BIRTH_GROUP_TABLE = 'daily_birth_group_statis';
+    const BIRTH_GROUP_SUMMATION = 'user_birth_group_summation';
     
     public function getGroupDetail($extendStamp = 0)
     {
@@ -25,12 +26,12 @@ class UserBirthGroup extends UserBirthGroupQuery
         $groupBuildItems = $this->getBuildBirthGroupUserCnt($this->newFreshUsers, $pointDate);
         $params['fresh_user_cnt'] = $groupBuildItems['fresh_user_cnt'];
         $params['user_build_cnt'] = $groupBuildItems['user_build_cnt'];
-        $params['birth_custom_group_cnt'] = $groupBuildItems['birth_custom_group_cnt'];
-        $params['birth_default_group_cnt'] = $groupBuildItems['birth_default_group_cnt'];
+        $params['group_default_group_cnt'] = $groupBuildItems['birth_custom_group_cnt'];
+        $params['group_custom_group_cnt'] = $groupBuildItems['birth_default_group_cnt'];
         $groupMembersItems = $this->getGroupMemberCnt($this->newFreshUsers, $pointDate);
         $params['group_custom_member_cnt'] = $groupMembersItems['custom_member'];
         $params['group_default_member_cnt'] = $groupMembersItems['default_member'];
-//        $this->insertCore(self::BIRTH_GROUP_TABLE, $params);
+        $this->insertCore(self::BIRTH_GROUP_TABLE, $params);
         echo "fresh_user_cnt: {$params['fresh_user_cnt']} 
         | user_cnt: {$params['user_build_cnt']} 
         | birth_custom_group_cnt: {$params['birth_custom_group_cnt']} 
@@ -48,11 +49,12 @@ class UserBirthGroup extends UserBirthGroupQuery
         $params['summation_users'] = $userSummation;
         $groupBuildItems = $this->getSummationDayGroupCnt($pointDate);
         $params['create_on'] = "'{$pointDate->format('Y-m-d')}'";
-        $params['default_group_summation'] = $groupBuildItems['default_group_cnt'];
-        $params['custom_group_summation'] = $groupBuildItems['custom_group_cnt'];
+        $params['group_default_summation'] = $groupBuildItems['default_group_cnt'];
+        $params['group_custom_summation'] = $groupBuildItems['custom_group_cnt'];
         $groupMembersItems = $this->getSummationDayGroupMemberCnt($pointDate);
-        $params['default_group_members_summation'] = $groupMembersItems['default_group_members'];
-        $params['custom_group_members_summation'] = $groupMembersItems['custom_group_members'];
+        $params['group_default_members'] = $groupMembersItems['default_group_members'];
+        $params['group_custom_members'] = $groupMembersItems['custom_group_members'];
+        $this->insertCore(self::BIRTH_GROUP_SUMMATION, $params);
         foreach ($params as $key => $value) {
             echo "{$key} : {$value} \n";
         }
