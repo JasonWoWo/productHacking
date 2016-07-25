@@ -364,11 +364,12 @@ trait UtilSqlTool
     {
         $userItems = implode(',', $users);
         $pointString = $this->fetchDateString($pointStamp);
-        $customGroup = " g.localid NOT IN (1000, 1001)";
+        $customGroup = " g.localid NOT IN (10000, 10001)";
         if ($defaultGroup) {
-            $customGroup = " g.localid IN (1000, 1001)";
+            $customGroup = " g.localid IN (10000, 10001)";
         }
         $query = "SELECT g.masterid, COUNT(*) AS buildCnt FROM oibirthday.br_group AS g WHERE g.masterid IN ({$userItems}) AND g.delete_at IS NULL AND TO_DAYS(g.create_at) = {$pointString} AND {$customGroup} GROUP BY g.masterid";
+        echo $query . "\n";
         return $query;
     }
 
@@ -401,9 +402,9 @@ trait UtilSqlTool
     public function getQueryPointUserBirthGroup($pointStamp = 0, $defaultGroup = false)
     {
         $pointString = $this->fetchDateString($pointStamp);
-        $customGroup = " g.localid NOT IN (1000, 1001)";
+        $customGroup = " g.localid NOT IN (10000, 10001)";
         if ($defaultGroup) {
-            $customGroup = " g.localid IN (1000, 1001)";
+            $customGroup = " g.localid IN (10000, 10001)";
         }
         $query = "SELECT g.masterid, COUNT(*) AS buildCnt FROM oibirthday.br_group AS g WHERE g.delete_at IS NULL AND TO_DAYS(g.create_at) = {$pointString} AND {$customGroup} GROUP BY g.masterid";
         echo $query . " \n";
@@ -414,12 +415,13 @@ trait UtilSqlTool
     {
         $userItems = implode(',', $users);
         $pointString = $this->fetchDateString($pointStamp);
-        $customGroup = " g.localid NOT IN (1000, 1001)";
+        $customGroup = " g.localid NOT IN (10000, 10001)";
         if ($defaultGroup) {
-            $customGroup = " g.localid IN (1000, 1001)";
+            $customGroup = " g.localid IN (10000, 10001)";
         }
         $query = "SELECT g.masterid, count(*) AS member_cnt FROM oibirthday.br_group AS g LEFT JOIN oibirthday.br_group_member AS m ON g.id = m.group_id 
                   WHERE g.masterid IN ({$userItems}) AND {$customGroup} AND m.id IS NOT NULL AND TO_DAYS(g.create_at) = {$pointString} AND m.delete_at IS NULL AND g.delete_at IS NULL GROUP BY g.masterid";
+        echo $query . "\n";
         return $query;
     }
 
@@ -432,9 +434,9 @@ trait UtilSqlTool
     public function getQueryPointUserGroupMember($pointStamp = 0, $defaultGroup = false)
     {
         $pointString = $this->fetchDateString($pointStamp);
-        $customGroup = " g.localid NOT IN (1000, 1001)";
+        $customGroup = " g.localid NOT IN (10000, 10001)";
         if ($defaultGroup) {
-            $customGroup = " g.localid IN (1000, 1001)";
+            $customGroup = " g.localid IN (10000, 10001)";
         }
         $query = "SELECT g.masterid, count(*) AS member_cnt FROM oibirthday.br_group AS g LEFT JOIN oibirthday.br_group_member AS m ON g.id = m.group_id 
                   WHERE m.id IS NOT NULL AND TO_DAYS(g.create_at) = {$pointString} AND {$customGroup} AND m.delete_at IS NULL AND g.delete_at IS NULL GROUP BY g.masterid";
