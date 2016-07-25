@@ -360,18 +360,83 @@ trait UtilSqlTool
         return $query;
     }
 
-    public function getQueryUserBuildBirthGroup($users = array(), $pointStamp = 0)
+    public function getQueryUserBuildBirthGroup($users = array(), $pointStamp = 0, $defaultGroup = false)
     {
         $userItems = implode(',', $users);
-        $query = "SELECT g.masterid, COUNT(*) AS buildCnt FROM oibirthday.br_group AS g WHERE g.masterid IN ({$userItems}) AND g.delete_at IS NULL GROUP BY g.masterid";
+        $pointString = $this->fetchDateString($pointStamp);
+        $customGroup = " g.localid NOT IN (1000, 1001)";
+        if ($defaultGroup) {
+            $customGroup = " g.localid IN (1000, 1001)";
+        }
+        $query = "SELECT g.masterid, COUNT(*) AS buildCnt FROM oibirthday.br_group AS g WHERE g.masterid IN ({$userItems}) AND g.delete_at IS NULL AND TO_DAYS(g.create_at) = {$pointString} AND {$customGroup} GROUP BY g.masterid";
         return $query;
     }
 
-    public function getQueryGroupMembers($users = array(), $pointStamp = 0)
+    /**
+     * 当日新增的用户中有多少参加生日群创建
+     * @param array $users
+     * @param int $pointStamp
+     * @return string
+     */
+    public function getQueryPointDayUserCnt($pointStamp = 0, $users = array())
+    {
+        
+        $pointString = $this->fetchDateString($pointStamp);
+        $query = "SELECT g.masterid, COUNT(*) AS buildCnt FROM oibirthday.br_group AS g WHERE ";
+        if (!empty($users)) {
+            $userItems = implode(',', $users);
+            $query .= " g.masterid IN ({$userItems}) AND ";
+        }
+        $query .= " g.delete_at IS NULL AND TO_DAYS(g.create_at) = {$pointString} GROUP BY g.masterid";
+        echo $query . "\n";
+        return $query;
+    }
+
+    /**
+     * 获取当天玩生日群的用户总群数(新老用户)
+     * @param int $pointStamp
+     * @param bool $defaultGroup
+     * @return string
+     */
+    public function getQueryPointUserBirthGroup($pointStamp = 0, $defaultGroup = false)
+    {
+        $pointString = $this->fetchDateString($pointStamp);
+        $customGroup = " g.localid NOT IN (1000, 1001)";
+        if ($defaultGroup) {
+            $customGroup = " g.localid IN (1000, 1001)";
+        }
+        $query = "SELECT g.masterid, COUNT(*) AS buildCnt FROM oibirthday.br_group AS g WHERE g.delete_at IS NULL AND TO_DAYS(g.create_at) = {$pointString} AND {$customGroup} GROUP BY g.masterid";
+        return $query;
+    }
+
+    public function getQueryGroupMembers($users = array(), $pointStamp = 0, $defaultGroup = false)
     {
         $userItems = implode(',', $users);
+        $pointString = $this->fetchDateString($pointStamp);
+        $customGroup = " g.localid NOT IN (1000, 1001)";
+        if ($defaultGroup) {
+            $customGroup = " g.localid IN (1000, 1001)";
+        }
         $query = "SELECT g.masterid, count(*) AS member_cnt FROM oibirthday.br_group AS g LEFT JOIN oibirthday.br_group_member AS m ON g.id = m.group_id 
-                  WHERE g.masterid IN ({$userItems}) AND m.id IS NOT NULL AND m.delete_at IS NULL AND g.delete_at IS NULL GROUP BY g.masterid";
+                  WHERE g.masterid IN ({$userItems}) AND {$customGroup} AND m.id IS NOT NULL AND TO_DAYS(g.create_on) = {$pointString} AND m.delete_at IS NULL AND g.delete_at IS NULL GROUP BY g.masterid";
+        return $query;
+    }
+
+    /***
+     * 获取当天玩生日群的总成员数(新老用户)
+     * @param int $pointStamp
+     * @param bool $defaultGroup
+     * @return string
+     */
+    public function getQueryPointUserGroupMember($pointStamp = 0, $defaultGroup = false)
+    {
+        $pointString = $this->fetchDateString($pointStamp);
+        $customGroup = " g.localid NOT IN (1000, 1001)";
+        if ($defaultGroup) {
+            $customGroup = " g.localid IN (1000, 1001)";
+        }
+        $query = "SELECT g.masterid, count(*) AS member_cnt FROM oibirthday.br_group AS g LEFT JOIN oibirthday.br_group_member AS m ON g.id = m.group_id 
+                  WHERE m.id IS NOT NULL AND TO_DAYS(g.create_on) = {$pointString} AND {$customGroup} AND m.delete_at IS NULL AND g.delete_at IS NULL GROUP BY g.masterid";
         return $query;
     }
 
