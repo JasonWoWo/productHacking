@@ -9,15 +9,11 @@
 namespace MiddlewareSpace;
 
 use BaseSpace\baseController;
-use UtilSpace\UtilSqlTool;
-use UtilSpace\UtilTool;
+
 
 
 class SmsRegisterCoreQuery extends baseController
 {
-    use UtilSqlTool;
-    use UtilTool;
-
     public function __construct()
     {
         parent::__construct();
