@@ -26,16 +26,16 @@ class UserBirthGroup extends UserBirthGroupQuery
         $groupBuildItems = $this->getBuildBirthGroupUserCnt($this->newFreshUsers, $pointDate);
         $params['fresh_user_cnt'] = $groupBuildItems['fresh_user_cnt'];
         $params['user_build_cnt'] = $groupBuildItems['user_build_cnt'];
-        $params['group_default_group_cnt'] = $groupBuildItems['birth_custom_group_cnt'];
-        $params['group_custom_group_cnt'] = $groupBuildItems['birth_default_group_cnt'];
+        $params['group_default_group_cnt'] = $groupBuildItems['birth_default_group_cnt'];
+        $params['group_custom_group_cnt'] = $groupBuildItems['birth_custom_group_cnt'];
         $groupMembersItems = $this->getGroupMemberCnt($this->newFreshUsers, $pointDate);
         $params['group_custom_member_cnt'] = $groupMembersItems['custom_member'];
         $params['group_default_member_cnt'] = $groupMembersItems['default_member'];
         $this->insertCore(self::BIRTH_GROUP_TABLE, $params);
         echo "fresh_user_cnt: {$params['fresh_user_cnt']} 
         | user_cnt: {$params['user_build_cnt']} 
-        | birth_custom_group_cnt: {$params['birth_custom_group_cnt']} 
-        | birth_default_group_cnt: {$params['birth_default_group_cnt']} 
+        | group_custom_group_cnt: {$params['birth_custom_group_cnt']} 
+        | group_default_group_cnt: {$params['birth_default_group_cnt']} 
         | group_custom_member_cnt: {$params['group_custom_member_cnt']} 
         | group_default_member_cnt: {$params['group_default_member_cnt']} \n";
     }
