@@ -34,8 +34,8 @@ class UserBirthGroup extends UserBirthGroupQuery
         $this->insertCore(self::BIRTH_GROUP_TABLE, $params);
         echo "fresh_user_cnt: {$params['fresh_user_cnt']} 
         | user_cnt: {$params['user_build_cnt']} 
-        | group_custom_group_cnt: {$params['birth_custom_group_cnt']} 
-        | group_default_group_cnt: {$params['birth_default_group_cnt']} 
+        | group_custom_group_cnt: {$params['group_custom_group_cnt']} 
+        | group_default_group_cnt: {$params['group_default_group_cnt']} 
         | group_custom_member_cnt: {$params['group_custom_member_cnt']} 
         | group_default_member_cnt: {$params['group_default_member_cnt']} \n";
     }
