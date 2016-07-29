@@ -8,20 +8,44 @@
 
 namespace MiddlewareSpace;
 
-use CommonSpace\Common;
-use UtilSpace\UtilTool;
-use UtilSpace\UtilSqlTool;
+use BaseSpace\baseController;
 
-class QueryFollower
+class QueryFollower extends baseController
 {
-    use UtilTool;
-    use UtilSqlTool;
-
-    public $connectObj;
-
-    public function __construct()
+    public static $defaultUdid = array('00000000000000000000000000000000');
+    /**
+     * @param $userId
+     * @return int
+     */
+    public function getUserBindWeChartPublicDetail($userId)
     {
-        $this->connectObj = new Common();
+        $hasBind = 0;
+        $result = $this->connectObj->fetchCnt($this->getQueryHasViewWeChartPublic($userId));
+        if ($result) {
+            $hasBind  = 1;
+        }
+        return $hasBind;
+    }
+    
+    public function getRegisterWeChartItem()
+    {
+        $result = $this->connectObj->fetchAssoc($this->getQueryWeChartRegisterList(5585077));
+        if (!$result) {
+            echo "UnCatch user List ! \n";
+        }
+        foreach ($result as &$item) {
+            $item['isDevice'] = 0;
+            $udid = $item['udid'];
+            if (!empty($udid) && !in_array($udid, self::$defaultUdid)) {
+                $item['isDevice'] = 1;
+            }
+            $phone = $item['phone'];
+            $item['followFans'] = $this->getPhoneFans($phone);
+            $userid = $item['id'];
+            $item['hasBind'] = $this->getUserBindWeChartPublicDetail($userid);
+            $item['backBirthCnt'] = $this->getBirthCntDetail($userid);
+        }
+        return $result;
     }
 
     public function getUserList()

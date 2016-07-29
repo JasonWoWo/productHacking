@@ -17,6 +17,16 @@ class QueryRegisterFollower extends QueryFollower
             echo sprintf("%d;%s;%s \n", $item['uid'], $item['phone'], $item['fc']);
         }
     }
+    
+    // 获取40万用户来源是微信注册,且关注微信公众账号的详细情况 : 记了多少条生日, 被记了多少条, 是否激活,
+    public function showWeChartRegisterDetail()
+    {
+        $weChartDetail = $this->getRegisterWeChartItem();
+        foreach ($weChartDetail as $item) {
+            echo sprintf("%s;%s;%s;%s;%s;%s \n", $item['id'], $item['isDevice'], $item['udid'], $item['hasBind'], $item['backBirthCnt'], $item['followFans']);
+        }
+    }
 }
 $query = new QueryRegisterFollower();
-$query->showRandomUserItems();
+//$query->showRandomUserItems();
+$query->showWeChartRegisterDetail();

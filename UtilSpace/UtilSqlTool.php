@@ -220,6 +220,21 @@ trait UtilSqlTool
         return $query;
     }
 
+    /**
+     * 来源于微信注册的用用户信息
+     * @param int $userid
+     * @param int $limit
+     * @return string
+     */
+    public function getQueryWeChartRegisterList($userid = 0, $limit = 0)
+    {
+        $query = "SELECT u.id, u.phone, u.udid FROM oibirthday.users AS u WHERE u.id >= {$userid} AND u.appid = 1007 ORDER BY u.id ASC ";
+        if ($limit) {
+            $query .= " LIMIT {$limit} ";
+        }
+        return $query;
+    }
+
     // 当日新增设备中完成核心任务的设备数据
     public function getQueryAddDevicesCoreTaskCount($currentTable, $udidLists, $pointTimeStamp = 0)
     {
@@ -282,6 +297,13 @@ trait UtilSqlTool
         if ($src) {
             $query .= " AND b.src LIKE '" . $src . "%'";
         }
+        return $query;
+    }
+
+    public function getQueryHasViewWeChartPublic($userId)
+    {
+        $query = "SELECT m.openid as openid FROM `oibirthday`.`mp_auth_info` m JOIN `oibirthday`.`sns_auth_info` s ON s.sns_id = m.unionid WHERE s.userid = {$userId} AND s.sns_type = 5 AND m.is_subscribe = 1 LIMIT 1";
+        echo $query . " \n";
         return $query;
     }
 
