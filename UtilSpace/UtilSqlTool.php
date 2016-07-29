@@ -330,9 +330,11 @@ trait UtilSqlTool
     public function getQueryAddBirthDaySrcCnt($birthTable, $addOnStamp = 0, $src)
     {
         $addOn = $this->fetchDateString($addOnStamp);
-        $query = "SELECT COUNT(*) AS cnt FROM {$birthTable} AS b WHERE TO_DAYS(b.add_on) = {$addOn} AND b.src LIKE '{$src}%'";
+        $query = "SELECT COUNT(*) AS cnt FROM {$birthTable} AS b WHERE TO_DAYS(b.add_on) = {$addOn} ";
         if ($src == "addIphone") {
-            $query .= " AND b.phone != ''";
+            $query .= " AND b.src LIKE 'add%' AND b.phone != ''";
+        } else {
+            $query .= "AND b.src LIKE '{$src}%'";
         }
         echo $query . "\n";
         return $query;
