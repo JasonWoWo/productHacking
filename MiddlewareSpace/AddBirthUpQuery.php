@@ -14,7 +14,7 @@ class AddBirthUpQuery extends baseController
 {
     const BIRTHDAY_TABLE_PREFIX = 'oibirthday.br_birthdays_';
     
-    const SPECIAL_ADD_SRC = array('addIphone' => 0);
+    public $specialAddSrc = array('addIphone' => 0);
 
     public function getUserAddBirthCnt(\DateTime $addOn)
     {
@@ -80,6 +80,6 @@ class AddBirthUpQuery extends baseController
     
     public function getSrcAddSpecial($src = array())
     {
-        return array_merge($src, self::SPECIAL_ADD_SRC);
+        return array_merge($src, $this->specialAddSrc);
     }
 }
