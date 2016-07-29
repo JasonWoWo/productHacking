@@ -309,6 +309,9 @@ trait UtilSqlTool
     {
         $addOn = $this->fetchDateString($addOnStamp);
         $query = "SELECT COUNT(*) AS cnt FROM {$birthTable} AS b WHERE TO_DAYS(b.add_on) = {$addOn} AND b.src LIKE '{$src}%'";
+        if ($src == "addIphone") {
+            $query .= " AND b.phone != ''";
+        }
         echo $query . "\n";
         return $query;
     }
@@ -440,6 +443,7 @@ trait UtilSqlTool
         }
         $query = "SELECT g.masterid, count(*) AS member_cnt FROM oibirthday.br_group AS g LEFT JOIN oibirthday.br_group_member AS m ON g.id = m.group_id 
                   WHERE m.id IS NOT NULL AND TO_DAYS(g.create_at) = {$pointString} AND {$customGroup} AND m.delete_at IS NULL AND g.delete_at IS NULL GROUP BY g.masterid";
+        echo $query . "\n";
         return $query;
     }
 

@@ -9,16 +9,16 @@
 namespace MiddlewareSpace;
 
 use BaseSpace\baseController;
-use UtilSpace\UtilSqlTool;
-use UtilSpace\UtilTool;
 
 class AddBirthUpQuery extends baseController
 {
     const BIRTHDAY_TABLE_PREFIX = 'oibirthday.br_birthdays_';
+    
+    const SPECIAL_ADD_SRC = array('addIphone' => 0);
 
     public function getUserAddBirthCnt(\DateTime $addOn)
     {
-        $srcSummationValue = $this->getSrcParamsKeyInit();
+        $srcSummationValue = $this->getSrcAddSpecial($this->getSrcParamsKeyInit());
         $maxBirthTableNum = $this->get_number_birthday_number($this->getMaxUserId());
         $userCnt = 0;
         $defaultTable = 0;
@@ -61,7 +61,7 @@ class AddBirthUpQuery extends baseController
     public function getCurrentTableAddBirthCnt($table = 0, $addOnStamp = 0)
     {
         $tableName = self::BIRTHDAY_TABLE_PREFIX . $table;
-        $srcValue = $this->getSrcParamsKeyInit();
+        $srcValue = $this->getSrcAddSpecial($this->getSrcParamsKeyInit());
         foreach ($srcValue as $key => &$value) {
             $keyQuery = $this->getQueryAddBirthDaySrcCnt($tableName, $addOnStamp, $key);
             $result = $this->connectObj->fetchCnt($keyQuery);
@@ -76,5 +76,10 @@ class AddBirthUpQuery extends baseController
         $userCntQuery = $this->getQueryAddBirthUniqueUserCnt($tableName, $addOnStamp);
         $result = $this->connectObj->fetchAssoc($userCntQuery);
         return count($result);
+    }
+    
+    public function getSrcAddSpecial($src = array())
+    {
+        return array_merge($src, self::SPECIAL_ADD_SRC);
     }
 }

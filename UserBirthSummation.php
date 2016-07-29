@@ -20,10 +20,11 @@ class UserBirthSummation extends AddBirthUpQuery
         $dateTime = new \DateTime(date('Y-m-d', $timeStamp));
         $dateTime->modify('-1 day');
         $insertParamKey = $this->getSrcParamInsertKey();
+        $insertSrcItem = $insertParamKey['srcItem'];
+        $insertSrcItem['addIphone'] = 'add_phone';
         $srcValueItems = $this->getUserAddBirthCnt($dateTime);
         $params['create_on'] = "'{$dateTime->format('Y-m-d')}'";
         foreach ($srcValueItems['srcValue'] as $key => $value) {
-            $insertSrcItem = $insertParamKey['srcItem'];
             $params[$insertSrcItem[$key]] = $value;
             echo "==== src: " . $key . " ==== value: " . $value . " ==== \n";
         }
