@@ -189,7 +189,7 @@ trait UtilTool
         $currentSrc['wx'] += $summationSrc['wx'];
         $currentSrc['pyq'] += $summationSrc['pyq'];
         $currentSrc['birthgroup'] += $summationSrc['birthgroup'];
-        if ($currentSrc['addIphone']) {
+        if (isset($currentSrc['addIphone'])) {
             $currentSrc['addIphone'] += $summationSrc['addIphone'];
         }
         return $currentSrc;

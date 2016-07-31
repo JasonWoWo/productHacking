@@ -31,7 +31,8 @@ class AddBirthUpQuery extends baseController
         echo "== ab: " . $srcSummationValue['ab'] . " == add: " . $srcSummationValue['add'] . " == yab: " . 
             $srcSummationValue['yab'] . " == of: " . $srcSummationValue['of'] . " == oi: " . $srcSummationValue['oi'] .
             " == qq: " . $srcSummationValue['qq'] . " == rr: " . $srcSummationValue['rr'] . " == wx: " . 
-            $srcSummationValue['wx'] . " == pyq: " . $srcSummationValue['pyq'] .  " == birthGroup: " . $srcSummationValue['birthgroup'] . " \n";
+            $srcSummationValue['wx'] . " == pyq: " . $srcSummationValue['pyq'] .  " == birthGroup: " . $srcSummationValue['birthgroup'] .
+            " == addIphone: " . $srcSummationValue['addIphone'] ." \n";
         return array(
             'srcValue' => $srcSummationValue,
             'userCnt' => $userCnt,
