@@ -8,6 +8,7 @@
 
 namespace QueryCollection;
 
+require __DIR__ . '/../Bootstrap.php';
 
 use MiddlewareSpace\UnCoreUseAuthorize;
 
