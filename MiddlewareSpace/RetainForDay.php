@@ -58,8 +58,6 @@ class RetainForDay
         foreach ($result as $item) {
             $userList[] = $item['id'];
         }
-        $user = implode(',', $userList);
-        echo "Suiter: {$user} \n";
         return count($result);
     }
 
