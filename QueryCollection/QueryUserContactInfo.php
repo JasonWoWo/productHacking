@@ -14,10 +14,9 @@ use MiddlewareSpace\UnCoreUseAuthorize;
 
 class QueryUserContactInfo extends UnCoreUseAuthorize
 {
-    public function main($extendStamp = 0)
+    public function main()
     {
-        $timestamp = empty($extendStamp) ? strtotime(date('Y-m-d')) : $extendStamp;
-        $currentDate = new \DateTime($timestamp);
+        $currentDate = new \DateTime(date('Y-m-d'));
         $currentDate->modify('-1 day');
         $this->getUnCoreUser($currentDate->getTimestamp(), 0, -1, 5);
         $this->getAuthorizeStatus();
