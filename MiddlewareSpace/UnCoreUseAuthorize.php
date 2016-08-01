@@ -55,7 +55,7 @@ class UnCoreUseAuthorize
                 $appId = $singleUserDetail['appid'];
             }
             $item['channelId'] = $appId;
-            $query = array('_id' => $item['_id']);
+            $query = array('_id' => $item['udid']);
             $userDeviceAuth = $deviceAuthorizeCollection->findOne($query);
             $contactAuth = -1;
             if (!empty($userDeviceAuth)) {
