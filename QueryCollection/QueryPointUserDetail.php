@@ -34,7 +34,7 @@ class QueryPointUserDetail extends UserDetails
     {
         $currentDate = new \DateTime($dateString);
         $currentDate->modify('-1 day');
-        $this->getUnCoreUser($currentDate->getTimestamp(), 45, 6, 1000);
+        $this->getUnCoreUser($currentDate->getTimestamp(), 0, 6, 1000);
         // 获取用户的通讯录授权
         $this->getAuthorizeStatus();
         // 获取用户备份生日的src分布
@@ -52,11 +52,11 @@ class QueryPointUserDetail extends UserDetails
 
     public function registerMain()
     {
-        $currentDate = new \DateTime('20160716');
-        $endDate = new \DateTime('20160601');
-        while ($currentDate->getTimestamp() >= $endDate->getTimestamp()) {
+        $currentDate = new \DateTime('20160601');
+        $endDate = new \DateTime('20160716');
+        while ($currentDate->getTimestamp() <= $endDate->getTimestamp()) {
             $this->getRegisterCoreTask($currentDate->format('Ymd'));
-            $currentDate->modify('-1 day');
+            $currentDate->modify('+1 day');
         }
     }
 
