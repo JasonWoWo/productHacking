@@ -117,7 +117,9 @@ class UserDetails
             $item['visit_on'] = $singleUserDetail['visit_on'];
             $item['create_on'] = $singleUserDetail['create_on'];
             $item['channelId'] = $channelId;
-            list($item['hasBind'], $item['hasView']) = $this->getUserBindWeChartPublicDetail($item['id']);
+            $weChartItems = $this->getUserBindWeChartPublicDetail($item['id']);
+            $item['hasBind'] = $weChartItems['hasBind'];
+            $item['hasView'] = $weChartItems['hasView'];
             $query = array('_id' => $item['udid']);
             $userDeviceAuth = $deviceAuthorizeCollection->findOne($query);
             $contactAuth = -1;
