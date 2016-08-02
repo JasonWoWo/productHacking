@@ -282,7 +282,7 @@ trait UtilSqlTool
     public function getQueryRegisterConsumeCnt($userId, $createOn)
     {
 
-        $query = "SELECT COUNT(*) AS consumeCnt FROM oiplatform.order_details AS o WHERE o.uid = " . $userId . " AND o.pay_time >= o.order_time AND TO_DAYS('o.pay_time') <= TO_DAYS({$createOn}) + 7";
+        $query = "SELECT COUNT(*) AS consumeCnt FROM oiplatform.order_details AS o WHERE o.uid = " . $userId . " AND o.pay_time >= o.order_time AND TO_DAYS(o.pay_time) <= TO_DAYS({$createOn}) + 7";
         return $query;
     }
 
