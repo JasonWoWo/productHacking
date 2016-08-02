@@ -85,7 +85,7 @@ class UserDetails
         $loginStartStamp = $extendStamp - $isRetain * $this->default_daily_timestamp;
         $loginEndStamp = $extendStamp - ($isRetain - 1) * $this->default_daily_timestamp;
         $query = array(
-            'dct_lt' => array('$gte' => $loginStartStamp, '$lte' => $loginEndStamp),
+            'dct_lt' => array('$gte' => $loginStartStamp, '$lte' => $extendStamp),
             'max_bct' => array('$gte' => $minBirthCnt, '$lte' => $maxBirthCnt)
         );
         $retainCollection = $this->connectObj->fetchRetainCollection();
