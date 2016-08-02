@@ -32,21 +32,21 @@ class QueryPointUserDetail extends UserDetails
     
     public function getRegisterCoreTask()
     {
-        $currentDate = new \DateTime(date('Y-m-d'));
+        $currentDate = new \DateTime('20160716');
         $currentDate->modify('-1 day');
-        $this->getUnCoreUser($currentDate->getTimestamp(), 0, -1, 5);
+        $this->getUnCoreUser($currentDate->getTimestamp(), 45, 6, 1000);
         // 获取用户的通讯录授权
         $this->getAuthorizeStatus();
         // 获取用户备份生日的src分布
         $this->getUserBackUpDetail();
         // 获取消费情况
         $this->getUserConsumeCnt();
-        echo "uid;udid;max_bct;yab;ab;add;onJuly;appId;channelId;hasBind;hasView;contactAuth;visitOn;consumeCnt \n";
+        echo "uid;udid;max_bct;yab;ab;add;onJuly;appId;channelId;hasBind;hasView;contactAuth;create_on;visitOn;consumeCnt \n";
         $userDetails = $this->getUserDetails();
         foreach ($userDetails as $item) {
-            echo sprintf("%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s \n", $item['id'], $item['udid'], $item['max_bct'], $item['yab'],
+            echo sprintf("%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s \n", $item['id'], $item['udid'], $item['max_bct'], $item['yab'],
                 $item['ab'], $item['add'], $item['onJuly'], $item['appId'], $item['channelId'],
-                $item['hasBind'], $item['hasView'], $item['contactAuth'], $item['visit_on'], $item['consumeCnt']);
+                $item['hasBind'], $item['hasView'], $item['contactAuth'],$item['create_on'], $item['visit_on'], $item['consumeCnt']);
         }
     }
 
