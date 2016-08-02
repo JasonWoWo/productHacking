@@ -30,9 +30,9 @@ class QueryPointUserDetail extends UserDetails
         }
     }
     
-    public function getRegisterCoreTask()
+    public function getRegisterCoreTask($dateString)
     {
-        $currentDate = new \DateTime('20160716');
+        $currentDate = new \DateTime($dateString);
         $currentDate->modify('-1 day');
         $this->getUnCoreUser($currentDate->getTimestamp(), 45, 6, 1000);
         // 获取用户的通讯录授权
@@ -50,6 +50,16 @@ class QueryPointUserDetail extends UserDetails
         }
     }
 
+    public function registerMain()
+    {
+        $currentDate = new \DateTime('20160716');
+        $endDate = new \DateTime('20160601');
+        while ($currentDate->getTimestamp() >= $endDate->getTimestamp()) {
+            $this->getRegisterCoreTask($currentDate->format('Ymd'));
+            $currentDate->modify('-1 day');
+        }
+    }
+
     public function getUserList()
     {
         $this->userList = array(378464,378460,135947);
@@ -57,4 +67,4 @@ class QueryPointUserDetail extends UserDetails
     }
 }
 $userDetail = new QueryPointUserDetail();
-$userDetail->getRegisterCoreTask();
+$userDetail->registerMain();
