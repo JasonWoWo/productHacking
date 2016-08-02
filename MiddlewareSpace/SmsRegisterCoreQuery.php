@@ -59,7 +59,7 @@ class SmsRegisterCoreQuery extends baseController
     {
         $registerList = implode(',', $taskRegisters);
         echo $registerList . " \n";
-        $detailItemsQuery = $this->getQueryRegisterBirthDetail($registerList);
+        $detailItemsQuery = $this->getQueryBirthZeroInProduct($registerList);
         $detailItems = $this->connectObj->fetchAssoc($detailItemsQuery);
         foreach ($detailItems as &$item) {
             $item['authorize'] = $this->getContactAuthorize($item['udid']);

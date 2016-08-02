@@ -170,7 +170,8 @@ trait UtilSqlTool
 
     public function getQueryBirthZeroInProduct($userIdList)
     {
-        $query = "SELECT u.appid, u.phone, u.udid, u.id, DATE_FORMAT(u.create_on, '%Y-%m-%d') AS create_on, u.visit_on FROM oibirthday.users AS u WHERE u.id IN (" . $userIdList .") ";
+        $query = "SELECT u.appid, u.chnid, u.phone, u.udid, u.id, DATE_FORMAT(u.create_on, '%Y-%m-%d') AS create_on, DATE_FORMAT(u.visit_on, '%Y-%m-%d') AS visit_on, 
+                         u.birth_y, u.birth_m, u.birth_d, u.birth_is_lunar FROM oibirthday.users AS u WHERE u.id IN (" . $userIdList .") ";
         return $query;
     }
 
@@ -278,15 +279,10 @@ trait UtilSqlTool
         return $query;
     }
 
-    public function getQueryRegisterBirthDetail($userList)
+    public function getQueryRegisterConsumeCnt($userId, $createOn)
     {
-        $query = "SELECT u.id, u.birth_y, u.birth_m, u.birth_d, u.birth_is_lunar, u.appid, u.chnid, u.udid FROM oibirthday.users AS u WHERE u.id IN ( " . $userList . " ) ";
-        return $query;
-    }
 
-    public function getQueryRegisterConsumeCnt($userId)
-    {
-        $query = "SELECT COUNT(*) AS consumeCnt FROM oiplatform.order_details AS o WHERE o.uid = " . $userId . " AND o.pay_time >= o.order_time ";
+        $query = "SELECT COUNT(*) AS consumeCnt FROM oiplatform.order_details AS o WHERE o.uid = " . $userId . " AND o.pay_time >= o.order_time AND TO_DAYS('o.pay_time') <= TO_DAYS({$createOn}) + 7";
         return $query;
     }
 
@@ -300,10 +296,22 @@ trait UtilSqlTool
         return $query;
     }
 
+    public function getQueryFriendOnJuly($birthNum = 0, $userId)
+    {
+        $oibirthdayTable = "oibirthday.br_birthdays_" . $birthNum;
+        $query = "SELECT COUNT(*) cnt FROM {$oibirthdayTable} AS b WHERE b.userid = {$userId} AND b.birth_m = 7 GROUP BY b.birth_m";
+        return $query;
+    }
+
+    public function getQueryHasBindWeChart($userId)
+    {
+        $query = "SELECT s.id FROM `oibirthday`.`sns_auth_info` AS s WHERE s.userid = {$userId} AND s.sns_type = 5 LIMIT 1";
+        return $query;
+    }
+    
     public function getQueryHasViewWeChartPublic($userId)
     {
         $query = "SELECT m.openid as openid FROM `oibirthday`.`mp_auth_info` m JOIN `oibirthday`.`sns_auth_info` s ON s.sns_id = m.unionid WHERE s.userid = {$userId} AND s.sns_type = 5 AND m.is_subscribe = 1 LIMIT 1";
-        echo $query . " \n";
         return $query;
     }
 
