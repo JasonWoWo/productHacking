@@ -53,8 +53,9 @@ class QueryPointUserDetail extends UserDetails
     public function registerMain()
     {
         $currentDate = new \DateTime('20160601');
-        $endDate = new \DateTime('20160716');
+        $endDate = new \DateTime('20160616');
         while ($currentDate->getTimestamp() <= $endDate->getTimestamp()) {
+            $this->userDetails = array();
             $this->getRegisterCoreTask($currentDate->format('Ymd'));
             $currentDate->modify('+1 day');
         }
