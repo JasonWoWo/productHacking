@@ -237,11 +237,17 @@ trait UtilSqlTool
     }
 
     // 当日新增设备中完成核心任务的设备数据
-    public function getQueryAddDevicesCoreTaskCount($currentTable, $udidLists, $pointTimeStamp = 0)
+    public function getQueryAddDevicesCoreTaskCount($currentTable, $dateSk = 0)
     {
-        $dayString = $this->fetchDateString($pointTimeStamp);
         $query = "SELECT COUNT(*) AS cnt FROM " . $currentTable . " AS s LEFT JOIN oistatistics.st_dim_date AS d ON s.create_date_sk = d.date_sk 
-        WHERE s.birthcnt >= 6 AND TO_DAYS(d.datevalue) = " . $dayString . " AND s.udid NOT IN ( " . $udidLists . " )";
+        WHERE s.birthcnt >= 6 AND s.create_date_sk = {$dateSk}";
+        return $query;
+    }
+
+    public function getStaticsDimDate($pointStamp) 
+    {
+        $dateString = $this->fetchDateString($pointStamp);
+        $query = "SELECT d.date_sk AS date_sk FROM istatistics.st_dim_date AS d WHERE TO_DAYS(d.datevalue) = {$dateString}";
         return $query;
     }
 

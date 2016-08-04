@@ -102,12 +102,13 @@ WHERE
     public function getCurrentDevicesCoreTaskCount($extendStamp = 0)
     {
         $defaultTable = 0;
-        $timestamp = empty($extendStamp) ? time() : $extendStamp;
+        $dateSkQuery = $this->getStaticsDimDate($extendStamp);
+        $dateResult = $this->connectObj->fetchCnt($dateSkQuery);
+        $dateSk = $dateResult['date_sk'];
         $currentDevicesCoreTaskCount = 0;
-        $udidLists = implode(',', $this->registerCoreTaskDevices);
         while ($defaultTable < 8) {
             $tableName = "oistatistics.st_devices_" . $defaultTable;
-            $query = $this->getQueryAddDevicesCoreTaskCount($tableName, $udidLists, $timestamp);
+            $query = $this->getQueryAddDevicesCoreTaskCount($tableName, $dateSk);
             $result = $this->connectObj->fetchCnt($query);
             $currentDevicesCoreTaskCount += $result['cnt'];
             $defaultTable ++;
