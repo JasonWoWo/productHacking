@@ -142,6 +142,7 @@ trait UtilTool
             'wx' => 0,
             'pyq' => 0,
             'birthgroup' => 0,
+            'guide' => 0,
         );
         return $srcParamsKey;
     }
@@ -159,7 +160,8 @@ trait UtilTool
                 'rr' => 'rr_import_cnt',
                 'wx' => 'wx_import_cnt',
                 'pyq' => 'pyq_import_cnt',
-                'birthgroup' => 'birth_group_import_cnt'
+                'birthgroup' => 'birth_group_import_cnt',
+                'guide' => 'guide_import_cnt',
             ),
             'srcWithPhoneItem' => array(
                 'ab' => 'local_import_phone_cnt',
@@ -188,6 +190,7 @@ trait UtilTool
         $currentSrc['rr'] += $summationSrc['rr'];
         $currentSrc['wx'] += $summationSrc['wx'];
         $currentSrc['pyq'] += $summationSrc['pyq'];
+        $currentSrc['guide'] += $summationSrc['guide'];
         $currentSrc['birthgroup'] += $summationSrc['birthgroup'];
         if (isset($currentSrc['addIphone'])) {
             $currentSrc['addIphone'] += $summationSrc['addIphone'];
