@@ -168,6 +168,23 @@ WHERE
         return $query['cnt'];
     }
 
+    public function totalDeviceRetain($currentDateStamp = 0, $isRetain =0, $minCycle = 0)
+    {
+        $defaultTable = 0;
+        $retainCTCnt = 0;
+        $retainUnCTCnt = 0;
+        while ($defaultTable < 8) {
+            $currentCounter = $this->fetchRangeBirthCntOnSchedule($defaultTable, $currentDateStamp, $isRetain, $minCycle);
+            $retainUnCTCnt += $currentCounter['rank_0000'] + $currentCounter['rank_0001'] + $currentCounter['rank_0205'];
+            $retainCTCnt += $currentCounter['rank_0610'] + $currentCounter['rank_1000'];
+            $defaultTable += 1;
+        }
+        return array(
+            'retainCTCnt' => $retainCTCnt,
+            'retainUnCTCnt' => $retainUnCTCnt,
+        );
+    }
+
     // 获取新增设备的注册用户在不同生日条数的数量
     public function fetchBirthLevelUsers($currentDateStamp = 0, $isRetain = 0, $forward = 0)
     {
@@ -178,7 +195,7 @@ WHERE
         $rankTen = 0;
         $rankMore = 0;
         while ($defaultTable < 8) {
-            $currentCounter = $this->fetchRangeBirthCntOnSchedule($defaultTable, $currentDateStamp, $isRetain, $forward);
+            $currentCounter = $this->fetchRangeBirthCntOnSchedule($defaultTable, $currentDateStamp, $isRetain, $forward, true);
             $rankZone += $currentCounter['rank_0000'];
             $rankOne += $currentCounter['rank_0001'];
             $rankFive += $currentCounter['rank_0205'];
@@ -197,7 +214,7 @@ WHERE
         return $birthLevelCntList;
     }
 
-    public function fetchRangeBirthCntOnSchedule($table, $currentDateStamp, $isRetain = 0, $forward = 0)
+    public function fetchRangeBirthCntOnSchedule($table, $currentDateStamp, $isRetain = 0, $forward = 0, $isInject = false)
     {
         
         $currentTable = 'oistatistics.st_devices_' . $table;
@@ -205,7 +222,6 @@ WHERE
         $loginEndString = "TO_DAYS('" . $loginDate ."')";
         $loginStartDate = $this->calculateLoginIn($currentDateStamp, $isRetain);
         $loginStartString = "TO_DAYS(" . $loginStartDate .")";
-        // $userRank['maxId'], $userRank['minId']
         $userRank = $this->getRankUserId($currentTable, $loginStartString, $loginEndString);
         $joinBlock = $this->joinBlock($userRank['maxId'], $userRank['minId']);
 
@@ -238,7 +254,9 @@ GROUP BY
             } elseif ($item['cnt'] < $item['birthcnt']) {
                 $item['max_bct'] = $item['birthcnt'];
             }
-            $this->connectObj->injectMongo($item, $forward);
+            if ($isInject) {
+                $this->connectObj->injectMongo($item, $forward);
+            }
         }
         $rankCounter = $this->getRankCounter($result);
         return $rankCounter;
@@ -347,7 +365,7 @@ WHERE TO_DAYS(u.create_on) >= %s AND TO_DAYS(u.create_on) <= %s AND TO_DAYS(d.da
         }
         return false;
     }
-    
+
     public function getRegisterCompleteCount($extendStamp = 0)
     {
         $timestamp = empty($extendStamp) ? time() : $extendStamp;

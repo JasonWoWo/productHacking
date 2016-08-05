@@ -45,12 +45,6 @@ class RegisterCoreTask extends CoreTaskQuery
             echo "==== " . $currentDate . " Insert " . self::USER_PROMOTION_TABLE_NAME ." Success !!! \n";
         }
     }
-
-    // 更新7日和30日的核心用户数量
-    public function updateCoreTaskPromotion()
-    {
-        
-    }
 }
 $register = new RegisterCoreTask();
 $register->insertUserPromotionList();
