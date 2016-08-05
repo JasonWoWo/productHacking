@@ -246,7 +246,7 @@ trait UtilSqlTool
     public function getStaticsDimDate($pointStamp) 
     {
         $dateString = $this->fetchDateString($pointStamp);
-        $query = "SELECT d.date_sk AS date_sk FROM istatistics.st_dim_date AS d WHERE TO_DAYS(d.datevalue) = {$dateString}";
+        $query = "SELECT d.date_sk AS date_sk FROM oistatistics.st_dim_date AS d WHERE TO_DAYS(d.datevalue) = {$dateString}";
         return $query;
     }
 
