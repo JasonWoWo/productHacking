@@ -239,8 +239,7 @@ trait UtilSqlTool
     // 当日新增设备中完成核心任务的设备数据
     public function getQueryAddDevicesCoreTaskCount($currentTable, $dateSk = 0)
     {
-        $query = "SELECT COUNT(*) AS cnt FROM " . $currentTable . " AS s LEFT JOIN oistatistics.st_dim_date AS d ON s.create_date_sk = d.date_sk 
-        WHERE s.birthcnt >= 6 AND s.create_date_sk = {$dateSk}";
+        $query = "SELECT COUNT(*) AS cnt FROM " . $currentTable . " AS s WHERE s.birthcnt >= 6 AND s.create_date_sk = {$dateSk}";
         return $query;
     }
 
