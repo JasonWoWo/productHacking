@@ -173,7 +173,8 @@ trait UtilTool
                 'rr' => 'rr_import_phone_cnt',
                 'wx' => 'wx_import_phone_cnt',
                 'pyq' => 'pyq_import_phone_cnt',
-                'birthgroup' => 'birth_group_import_phone_cnt'
+                'birthgroup' => 'birth_group_import_phone_cnt',
+                'guide' => 'guide_improt_cnt',
             ),
         );
         return $paramItems;
