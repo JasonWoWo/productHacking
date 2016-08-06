@@ -174,7 +174,7 @@ trait UtilTool
                 'wx' => 'wx_import_phone_cnt',
                 'pyq' => 'pyq_import_phone_cnt',
                 'birthgroup' => 'birth_group_import_phone_cnt',
-                'guide' => 'guide_improt_cnt',
+                'guide' => 'guide_import_phone_cnt',
             ),
         );
         return $paramItems;
