@@ -36,24 +36,27 @@ class QueryPointUserDetail extends UserDetails
         $currentDate->modify('-1 day');
         $this->getUnCoreUser($currentDate->getTimestamp(), 0, 6, 1000);
         // 获取用户的通讯录授权
-        $this->getAuthorizeStatus();
+//        $this->getAuthorizeStatus();
         // 获取用户备份生日的src分布
-        $this->getUserBackUpDetail();
+//        $this->getUserBackUpDetail();
         // 获取消费情况
-        $this->getUserConsumeCnt();
+//        $this->getUserConsumeCnt();
         echo "uid;udid;max_bct;yab;ab;add;onJuly;appId;channelId;hasBind;hasView;contactAuth;create_on;visitOn;consumeCnt \n";
         $userDetails = $this->getUserDetails();
         foreach ($userDetails as $item) {
-            echo sprintf("%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s \n", $item['id'], $item['udid'], $item['max_bct'], $item['yab'],
-                $item['ab'], $item['add'], $item['onJuly'], $item['appId'], $item['channelId'],
-                $item['hasBind'], $item['hasView'], $item['contactAuth'],$item['create_on'], $item['visit_on'], $item['consumeCnt']);
+            echo sprintf("%s;%s;%s \n", $item['id'], $item['udid'], $item['max_bct']);
         }
+//        foreach ($userDetails as $item) {
+//            echo sprintf("%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s \n", $item['id'], $item['udid'], $item['max_bct'], $item['yab'],
+//                $item['ab'], $item['add'], $item['onJuly'], $item['appId'], $item['channelId'],
+//                $item['hasBind'], $item['hasView'], $item['contactAuth'],$item['create_on'], $item['visit_on'], $item['consumeCnt']);
+//        }
     }
 
     public function registerMain()
     {
-        $currentDate = new \DateTime('20160601');
-        $endDate = new \DateTime('20160616');
+        $currentDate = new \DateTime('20160501');
+        $endDate = new \DateTime('20160601');
         while ($currentDate->getTimestamp() <= $endDate->getTimestamp()) {
             $this->userDetails = array();
             $this->getRegisterCoreTask($currentDate->format('Ymd'));
