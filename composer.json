@@ -2,8 +2,7 @@
     "name": "user/hacking",
     "description": "octinn register growth hacking",
     "require": {
-        "octinn/calendar": "dev-master",
-        "hellogerard/jobby": "^3.0"
+        "octinn/calendar": "dev-master"
     },
     "repositories": [
         {

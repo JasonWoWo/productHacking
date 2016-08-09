@@ -12,5 +12,4 @@ return array(
     'SuperClosure\\' => array($vendorDir . '/jeremeamia/SuperClosure/src'),
     'PhpParser\\' => array($vendorDir . '/nikic/php-parser/lib/PhpParser'),
     'Octinn\\Lib\\Date\\' => array($vendorDir . '/octinn/calendar/src'),
-    'Jobby\\' => array($vendorDir . '/hellogerard/jobby/src'),
 );
