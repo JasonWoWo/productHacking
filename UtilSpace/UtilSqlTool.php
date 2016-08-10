@@ -236,6 +236,12 @@ trait UtilSqlTool
         return $query;
     }
 
+    public function getQueryUserWithPhone($phone)
+    {
+        $query = "SELECT u.id FROM oibirthday.users AS u WHERE u.phone = {$phone} ORDER BY u.id ASC LIMIT 1 ";
+        return $query;
+    }
+
     // 当日新增设备中完成核心任务的设备数据
     public function getQueryAddDevicesCoreTaskCount($currentTable, $dateSk = 0)
     {

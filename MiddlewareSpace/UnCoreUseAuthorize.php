@@ -64,6 +64,15 @@ class UnCoreUseAuthorize
             $item['contactAuth'] = $contactAuth;
         }
     }
+
+    public function geTmpUserId($phoneItems = array())
+    {
+        foreach ($phoneItems as $item) {
+            $userQuery = $this->getQueryUserWithPhone($item);
+            $user = $this->connectObj->fetchCnt($userQuery);
+            echo "{$user['id']}\n";
+        }
+    }
     
     
 }
