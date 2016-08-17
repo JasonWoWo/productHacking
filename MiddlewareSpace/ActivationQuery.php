@@ -120,7 +120,7 @@ class ActivationQuery
                 }
             }
             echo "userId: {$userId}, visit_on: {$userDetail['visit_on']}, isNewDevice:{$isNewDevice} \n";
-            $this->updateInquiryActivationInfo($sender['phone'], $isActive, $isNewDevice, $productSk, $userVisitOn->getTimestamp());
+            $this->updateInquiryActivationInfo($sender['_id'], $isActive, $isNewDevice, $productSk, $userVisitOn->getTimestamp());
         }
     }
 
@@ -144,7 +144,10 @@ class ActivationQuery
 
     public function setInquiryIndex()
     {
-        $this->inquiryCollection->createIndex(array('send_on' => 1, 'click' => 1, 'appid' => 1, 'active' => 1));
+        $this->inquiryCollection->createIndex(array('send_on' => 1));
+        $this->inquiryCollection->createIndex(array('click' => 1));
+        $this->inquiryCollection->createIndex(array('appid' => 1));
+        $this->inquiryCollection->createIndex(array('active' => 1));
     }
 
     public function updateSendOnValue()
@@ -160,7 +163,7 @@ class ActivationQuery
         foreach ($senders as $item) {
             $sendOnTimeStamp = $item['send_on'];
             if ($sendOnTimeStamp > 201608117) {
-                $this->singleUpdate($item['phone'], intval(date('Ymd', $sendOnTimeStamp)));
+                $this->singleUpdate($item['_id'], intval(date('Ymd', $sendOnTimeStamp)));
             }
         }
     }

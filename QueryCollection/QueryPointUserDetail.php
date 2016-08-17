@@ -41,7 +41,7 @@ class QueryPointUserDetail extends UserDetails
 //        $this->getUserBackUpDetail();
         // 获取消费情况
 //        $this->getUserConsumeCnt();
-        echo "uid;udid;max_bct;yab;ab;add;onJuly;appId;channelId;hasBind;hasView;contactAuth;create_on;visitOn;consumeCnt \n";
+//        echo "uid;udid;max_bct;yab;ab;add;onJuly;appId;channelId;hasBind;hasView;contactAuth;create_on;visitOn;consumeCnt \n";
         $userDetails = $this->getUserDetails();
         foreach ($userDetails as $item) {
             echo sprintf("%s;%s;%s \n", $item['id'], $item['udid'], $item['max_bct']);
