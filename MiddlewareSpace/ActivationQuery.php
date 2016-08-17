@@ -134,7 +134,7 @@ class ActivationQuery
         $item['active'] = $isVisit;
         $item['new_device'] = $isNewDevice;
         $item['visit_on'] = intval(date('Ymd', $visitTimestamp));
-        $item['appid'] = $productSk;
+        $item['appid'] = intval($productSk);
         try {
             $this->inquiryCollection->update($query, $item);
         } catch (\MongoException $e) {
