@@ -24,6 +24,11 @@ class ActivationQuery
      * @var \MongoCollection
      */
     public $activationCollection;
+
+    /**
+     * @var \MongoCollection
+     */
+    public $inquiryCollection;
     
     public $activeUsers = array();
 
@@ -31,6 +36,7 @@ class ActivationQuery
     {
         $this->connectObj = new Common();
         $this->activationCollection = $this->connectObj->fetchUsersAwakenCollection();
+        $this->inquiryCollection = $this->connectObj->fetchInquiryAwakeCollection();
     }
 
     public function getActivationSendUsers(\DateTime $currentDate)
@@ -72,6 +78,47 @@ class ActivationQuery
             //更新用户的信息
             $this->updateActivationInfo($userId, $isActive, $isNewDevice, $userVisitOn);
         }
+    }
+
+    public function setInquiryIndex()
+    {
+        $this->inquiryCollection->createIndex(array('send_on' => 1, 'click' => 1, 'appid' => 1, 'active' => 1));
+    }
+
+    public function updateSendOnValue()
+    {
+        $currentDate = new \DateTime(date('Y-m-d'));
+        $currentDate->modify('-1 day');
+        $query = array(
+            'send_on' => array(
+                '$gt' => $currentDate->getTimestamp()
+            )
+        );
+        $senders = $this->inquiryCollection->findOne($query);
+        foreach ($senders as $item) {
+            $sendOnTimeStamp = $item['send_on'];
+            if ($sendOnTimeStamp > 201608117) {
+                $this->singleUpdate($item['phone'], intval(date('Ymd', $sendOnTimeStamp)));
+            }
+        }
+    }
+
+    public function singleUpdate($phone, $value)
+    {
+        $query = array(
+            '_id' => $phone
+        );
+        $update = array(
+            '$set' => array(
+                'send_on' => $value
+            )
+        );
+        try {
+            $this->inquiryCollection->update($query, $update);
+        } catch (\MongoException $e) {
+            echo 'Mongo Exception: '.$e->getMessage().' '.__FILE__.':'.__LINE__;
+        }
+
     }
     
     public function getUserDetails($userId)
