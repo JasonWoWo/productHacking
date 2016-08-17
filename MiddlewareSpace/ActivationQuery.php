@@ -31,6 +31,8 @@ class ActivationQuery
     public $inquiryCollection;
     
     public $activeUsers = array();
+    
+    public $inquiryActivityUser = array();
 
     public function __construct()
     {
@@ -77,6 +79,66 @@ class ActivationQuery
             echo "userId: {$userId}, visit_on: {$userDetail['visit_on']}, isNewDevice:{$isNewDevice} \n";
             //更新用户的信息
             $this->updateActivationInfo($userId, $isActive, $isNewDevice, $userVisitOn);
+        }
+    }
+
+    public function getInquiryAwakenUsers(\DateTime $currentData)
+    {
+        $sendEndDate = clone $currentData;
+        $sendStartDate = $currentData->modify('-1 day');
+        $query = array(
+            'send_on' => array(
+                '$gte' => intval($sendStartDate->format('Ymd')), '$lte' => intval($sendEndDate->format('Ymd'))
+            )
+        );
+        $sendSmsItems = $this->inquiryCollection->find($query);
+        if (empty($sendSmsItems)) {
+            return false;
+        }
+        foreach ($sendSmsItems as $sender) {
+            $userId = $sender['user_id'];
+            if (!$userId) {
+                echo "phone: {$sender['_id']} InquirySms cant find index user_id \n";
+                continue;
+            }
+            $isActive = 1;
+            $userDetail = $this->getUserDetails($userId);
+            $userVisitOn = new \DateTime($userDetail['visit_on']);
+            if ($userVisitOn->format('Ymd') != $sendStartDate->format('Ymd')) {
+                continue;
+            }
+            $this->inquiryActivityUser[] = $userId;
+            $isNewDevice = 0;
+            $productSk = 0;
+            $udid = $userDetail['udid'];
+            if (!empty($udid)) {
+                $isNewDevice = 1;
+                $deviceDetail = $this->getActivationDevice($udid);
+                $productSk = $deviceDetail['product_sk'];
+                if ($deviceDetail['create_on'] != $sendStartDate->format('Y-m-d')) {
+                    $isNewDevice = 0;
+                }
+            }
+            echo "userId: {$userId}, visit_on: {$userDetail['visit_on']}, isNewDevice:{$isNewDevice} \n";
+            $this->updateInquiryActivationInfo($sender['phone'], $isActive, $isNewDevice, $productSk, $userVisitOn->getTimestamp());
+        }
+    }
+
+    public function updateInquiryActivationInfo($phone, $isVisit = 0, $isNewDevice = 0, $productSk, $visitTimestamp)
+    {
+        $query = array('_id' => $phone);
+        $item = $this->inquiryCollection->findOne($query);
+        if (!$item) {
+            echo "Uncatch the _id on {$phone}, check please! \n";
+        }
+        $item['active'] = $isVisit;
+        $item['new_device'] = $isNewDevice;
+        $item['visit_on'] = intval(date('Ymd', $visitTimestamp));
+        $item['appid'] = $productSk;
+        try {
+            $this->inquiryCollection->update($query, $item);
+        } catch (\MongoException $e) {
+            echo 'Mongo Exception: '.$e->getMessage().' '.__FILE__.':'.__LINE__;
         }
     }
 
@@ -136,6 +198,25 @@ class ActivationQuery
         $deviceDetail = $this->connectObj->fetchCnt($deviceInfoQuery);
         
         return $deviceDetail;
+    }
+
+    public function fetchInquiryUserId(\DateTime $sendDate)
+    {
+        $inquiryUsers = array();
+        $sendStartDate = clone $sendDate;
+        $sendEndDate = $sendDate->modify('+1 day');
+        $query = array(
+            'active' => 1,
+            'send_on' => array(
+                '$gte' => intval($sendStartDate->format('Ymd')),
+                '$lte' => intval($sendEndDate->format('Ymd')),
+            ),
+        );
+        $inquiryItems = $this->inquiryCollection->find($query);
+        foreach ($inquiryItems as $item) {
+            $inquiryUsers[] = $item['user_id'];
+        }
+        return $inquiryUsers;
     }
     
     public function updateActivationInfo($uid, $isVisit = false, $isNewDevice = false, \DateTime $visitDate)
