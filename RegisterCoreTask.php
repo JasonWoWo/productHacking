@@ -40,11 +40,11 @@ class RegisterCoreTask extends CoreTaskQuery
         $params['register_complete_info_cnt'] = $this->getRegisterCompleteCount($dateTime->getTimestamp());
         $params = $params + $birthRankParams;
         $insertSql = $this->connectObj->insertParamsQuery(self::USER_PROMOTION_TABLE_NAME, $params);
-//        $query = $this->connectObj->fetchCakeStatQuery($insertSql);
-//        if ($query) {
-//            echo "==== " . $currentDate . " Insert " . self::USER_PROMOTION_TABLE_NAME ." Success !!! \n";
-//        }
+        $query = $this->connectObj->fetchCakeStatQuery($insertSql);
+        if ($query) {
+            echo "==== " . $currentDate . " Insert " . self::USER_PROMOTION_TABLE_NAME ." Success !!! \n";
+        }
     }
 }
 $register = new RegisterCoreTask();
-$register->insertUserPromotionList(1471513468);
+$register->insertUserPromotionList();
