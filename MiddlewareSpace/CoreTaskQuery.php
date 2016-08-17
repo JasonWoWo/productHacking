@@ -230,6 +230,7 @@ WHERE
 	COUNT(*) AS cnt, 
 	u.id AS uid, 
 	u.udid, 
+	u.appid,
 	s.birthcnt,
 	u.create_on
 FROM 
@@ -254,9 +255,9 @@ GROUP BY
             } elseif ($item['cnt'] < $item['birthcnt']) {
                 $item['max_bct'] = $item['birthcnt'];
             }
-            if ($isInject) {
-                $this->connectObj->injectMongo($item, $forward);
-            }
+//            if ($isInject) {
+//                $this->connectObj->injectMongo($item, $forward);
+//            }
         }
         $rankCounter = $this->getRankCounter($result);
         return $rankCounter;
@@ -300,6 +301,9 @@ AND TO_DAYS(u.create_on) >= %s AND TO_DAYS(u.create_on) <= %s", $tableName, $log
         $rankMore = 0;
 
         foreach ($resultItems as $item) {
+            if ($item['appid'] == 1003) {
+                continue;
+            }
             if ($item['max_bct'] <= 0) {
                 $rankZone += 1;
             } elseif ($item['max_bct'] ==  1) {
