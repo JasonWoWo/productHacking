@@ -88,7 +88,7 @@ class ActivationQuery
         $sendStartDate = $currentData->modify('-1 day');
         $query = array(
             'send_on' => array(
-                '$gte' => intval($sendStartDate->format('Ymd')), '$lte' => intval($sendEndDate->format('Ymd'))
+                '$gte' => intval($sendStartDate->format('Ymd')), '$lt' => intval($sendEndDate->format('Ymd'))
             )
         );
         $sendSmsItems = $this->inquiryCollection->find($query);

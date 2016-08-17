@@ -73,4 +73,4 @@ class ActivationForSmsInquiry extends ActivationQuery
 }
 $inquiry = new ActivationForSmsInquiry();
 $inquiry->getInquirySmsUsers();
-$inquiry->insertInquiryAwakenUsers();
+//$inquiry->insertInquiryAwakenUsers();
