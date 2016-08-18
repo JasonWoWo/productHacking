@@ -27,7 +27,8 @@ class UnCoreUseAuthorize
         $loginEndStamp = $extendStamp - ($isRetain - 1) * $this->default_daily_timestamp;
         $query = array(
             'dct_lt' => array('$gte' => $loginStartStamp, '$lte' => $loginEndStamp),
-            'max_bct' => array('$gte' => $minBirthCnt, '$lte' => $maxBirthCnt)
+            'max_bct' => array('$gte' => $minBirthCnt, '$lte' => $maxBirthCnt),
+            'appid' => array('$gte' => 1001, '$lte' => 1002),
         );
         $retainCollection = $this->connectObj->fetchRetainCollection();
         $retains = $retainCollection->find($query);
