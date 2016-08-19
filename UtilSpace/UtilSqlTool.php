@@ -238,7 +238,7 @@ trait UtilSqlTool
 
     public function getQueryUserWithPhone($phone)
     {
-        $query = "SELECT u.id FROM oibirthday.users AS u WHERE u.phone = {$phone} ORDER BY u.id ASC LIMIT 1 ";
+        $query = "SELECT u.id FROM oibirthday.users AS u WHERE u.phone = {$phone} AND u.id > 5124371 ORDER BY u.id ASC LIMIT 1 ";
         return $query;
     }
 
