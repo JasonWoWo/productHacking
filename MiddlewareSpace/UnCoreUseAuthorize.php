@@ -79,22 +79,29 @@ class UnCoreUseAuthorize
     {
         $appList = array(1001, 1002, 1003);
         $retainCollection = $this->connectObj->fetchRetainCollection();
-        $currentDate = new \DateTime(date('Y-m-d'));
+        $startDate = new \DateTime(date('Y-m-d', strtotime('-1 day')));
         $endDate = new \DateTime('2016-08-16'); // 核心用户的数据分平台从8月16日创建
         $dataItems = array();
-        while ($currentDate >= $endDate) {
+        while ($startDate > $endDate) {
             $dayItems = array();
+            $dayItems[] = $startDate->format('Y-m-d');
             foreach ($appList as $item) {
                 $query = array(
                     'appid' => $item,
-                    'dct_lt' => array('$gte' => $currentDate->getTimestamp(), '$lte' => $currentDate->getTimestamp() + 86400),
-                    'max_lt' => array('$gte' => 6, '$lte' => 1000),
+                    'dct_lt' => array('$gte' => $startDate->getTimestamp(), '$lte' => $startDate->getTimestamp() + 86400),
                 );
+                $query['max_bct'] = array('$gte' => -1, '$lte' => 1);
+                $itemCnt = $retainCollection->count($query);
+                $dayItems[] = $itemCnt;
+                $query['max_bct'] = array('$gte' => 2, '$lte' => 5);
+                $itemCnt = $retainCollection->count($query);
+                $dayItems[] = $itemCnt;
+                $query['max_bct'] = array('$gte' => 6, '$lte' => 1000);
                 $itemCnt = $retainCollection->count($query);
                 $dayItems[] = $itemCnt;
             }
             $dataItems['aaData'][] = $dayItems;
-            $currentDate->modify('-1 day');
+            $startDate->modify('-1 day');
         }
         var_dump($dataItems['aaData']);
     }
