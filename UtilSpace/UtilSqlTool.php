@@ -496,6 +496,53 @@ trait UtilSqlTool
         $query = "SELECT o.uid, o.id AS orderId FROM oiplatform.order_details AS o WHERE o.id IN ({$orders})";
         return $query;
     }
+
+    /**
+     * 获取新增设备的总数, 扩展按平台统计
+     * @param $tableNum
+     * @param $loginStamp
+     * @param array $products
+     * @return string
+     */
+    public function getQueryFreshDeviceSql($tableNum, $loginStamp, $products = array())
+    {
+        $tableName = "oistatistics.st_devices_" . $tableNum;
+        $productItems = implode(',', $products);
+        $loginFormat = $this->fetchDateString($loginStamp);
+        $query = "SELECT COUNT(s.udid) AS cnt FROM {$tableName} AS s LEFT JOIN  oistatistics.st_dim_date AS d ON s.create_date_sk = d.date_sk WHERE TO_DAYS(d.datevalue) = {$loginFormat} AND s.product_sk IN ({$productItems})";
+        return $query;
+    }
+
+    /**
+     * 获取新增设备的新用户数据 扩展按平台统计
+     * @param $tableNum
+     * @param $loginStamp
+     * @param array $products
+     * @return string
+     */
+    public function getQueryFreshDeviceFreshRegisterSql($tableNum, $loginStamp, $products = array())
+    {
+        $tableName = "oistatistics.st_devices_" . $tableNum;
+        $productItems = implode(',', $products);
+        $loginFormat = $this->fetchDateString($loginStamp);
+        $query = "SELECT COUNT(s.udid) AS cnt FROM oibirthday.users AS u 
+LEFT JOIN {$tableName} AS s ON s.udid = u.udid 
+LEFT JOIN oistatistics.st_dim_date AS d ON s.create_date_sk = d.date_sk 
+WHERE TO_DAYS(d.datevalue) = {$loginFormat} AND TO_DAYS(u.create_on) = {$loginFormat} AND u.appid IN ($productItems) AND u.id > 5000000";
+        return $query;
+    }
+
+    public function getQueryFreshDeviceSeniorRegisterSql($tableNum, $loginStamp, $products = array())
+    {
+        $tableName = "oistatistics.st_devices_" . $tableNum;
+        $productItems = implode(',', $products);
+        $loginFormat = $this->fetchDateString($loginStamp);
+        $query = "SELECT u.udid FROM {$tableName} AS s 
+LEFT JOIN oibirthday.users AS u ON s.udid = u.udid 
+LEFT JOIN oistatistics.st_dim_date AS d ON s.create_date_sk = d.date_sk 
+WHERE TO_DAYS(d.datevalue) = {$loginFormat} AND TO_DAYS(u.create_on) < TO_DAYS(u.visit_on) AND TO_DAYS(u.visit_on) = {$loginFormat} AND s.product_sk IN ($productItems)";
+        return $query;
+    }
     
     public function fetchDateString ($timeStamp = 0)
     {

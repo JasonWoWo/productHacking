@@ -17,86 +17,49 @@ class CoreTaskQuery
     use UtilSqlTool;
     public $connectObj;
     
-    public $registerCoreTaskDevices = array();
-
     public function __construct()
     {
         $this->connectObj = new Common();
     }
 
     // 获取当日新增的device设备数量
-    public function getCurrentCoreAddUdid($extendStamp = 0)
+    public function getCurrentCoreAddUdid($extendStamp = 0, $products = array(1001, 1002, 1003))
     {
         $defaultTable = 0;
-        $timestamp = empty($extendStamp) ? time() : $extendStamp;
-        $currentDate = date('Y-m-d', $timestamp);
-        $dayString = "TO_DAYS('" . $currentDate . "')";
         $addUdidTotal = 0;
         while ($defaultTable < 8) {
-            $addUdidTotal += $this->queryAddUdid($defaultTable, $dayString);
+            $addUdidTotal += $this->queryAddUdid($defaultTable, $extendStamp, $products);
             $defaultTable = $defaultTable + 1;
         }
-        echo "====== currentDate: " . $currentDate . " addUdidTotal: " . $addUdidTotal . " \n";
+        echo "====== currentDate: " . date('Y-m-d', $extendStamp) . " addUdidTotal: " . $addUdidTotal . " \n";
         return $addUdidTotal;
     }
 
-    public function queryAddUdid($table, $loginString)
+    public function queryAddUdid($table, $loginString, $products = array())
     {
-        $tableName = "oistatistics.st_devices_" . $table;
-        $sql = sprintf("
-SELECT 
-	COUNT(s.udid) AS cnt
-FROM 
-	%s AS s 
-	LEFT JOIN oistatistics.st_dim_date AS d ON s.create_date_sk = d.date_sk 
-WHERE 
-	TO_DAYS(d.datevalue) = %s",
-            $tableName,
-            $loginString
-        );
-        $query = $this->connectObj->fetchCnt($sql);
+        $freshDeviceSql = $this->getQueryFreshDeviceSql($table, $loginString, $products);
+        $query = $this->connectObj->fetchCnt($freshDeviceSql);
         return $query['cnt'];
     }
 
     // 获取当日新增的device设备中注册的用户数据(!!! 这个数据  < 当日新增的device设备数量)
-    public function getCurrentCoreAddUdidActivists($extendStamp = 0)
+    public function getCurrentCoreAddUdidActivists($extendStamp = 0, $products = array(1001, 1002, 1003))
     {
         $defaultTable = 0;
-        $timestamp = empty($extendStamp) ? time() : $extendStamp;
-        $currentDate = date('Y-m-d', $timestamp);
-        $dayString = "TO_DAYS('" . $currentDate . "')";
         $addUdidActivistsTotal = 0;
         while ($defaultTable < 8) {
-            $addUdidActivistsTotal += $this->queryAddUdidActivists($defaultTable, $dayString);
+            $addUdidActivistsTotal += $this->queryAddUdidActivists($defaultTable, $extendStamp, $products);
             $defaultTable = $defaultTable + 1;
         }
-        echo "=====" . $currentDate . " CurrentCoreAddUdidActivists: " . $addUdidActivistsTotal . " \n";
+        echo "=====" . date('Y-m-d', $extendStamp) . " CurrentCoreAddUdidActivists: " . $addUdidActivistsTotal . " \n";
         return $addUdidActivistsTotal;
     }
     
-    public function queryAddUdidActivists($table, $dayString)
+    public function queryAddUdidActivists($table, $loginStamp, $products = array())
     {
-        $tableName = "oistatistics.st_devices_" . $table;
-        $sql = sprintf("
-        SELECT 
-	COUNT(s.udid) AS cnt
-FROM 
-	oibirthday.users AS u 
-    LEFT JOIN %s AS s ON s.udid = u.udid
-	LEFT JOIN oistatistics.st_dim_date AS d ON s.create_date_sk = d.date_sk 
-WHERE 
-	TO_DAYS(d.datevalue) = %s
-    AND TO_DAYS(u.create_on) = %s
-    AND u.appid IN (1001, 1002, 1003)
-    AND u.id > 5000000
-    ",
-            $tableName,
-            $dayString,
-            $dayString
-        );
-
-        $query = $this->connectObj->fetchCnt($sql);
-        return $query['cnt'];
+        $freshDeviceFreshRegisterSql = $this->getQueryFreshDeviceFreshRegisterSql($table, $loginStamp, $products);
+        $result = $this->connectObj->fetchCnt($freshDeviceFreshRegisterSql);
+        return $result['cnt'];
     }
 
     public function getCurrentDevicesCoreTaskCount($extendStamp = 0)
@@ -117,45 +80,23 @@ WHERE
     }
 
     // 当日新增的device设备中已登陆的老用户
-    public function getCurrentNewUdidOldUsers($extendStamp = 0)
+    public function getCurrentNewUdidOldUsers($extendStamp = 0, $products = array(1001, 1002, 1003))
     {
         $defaultTable = 0;
-        $timestamp = empty($extendStamp) ? time() : $extendStamp;
-        $currentDate = date('Y-m-d', $timestamp);
-        $dayString = "TO_DAYS('" . $currentDate . "')";
         $newUdidOldUsers = 0;
         while ($defaultTable < 8) {
-            $newUdidOldUsers += $this->queryNewUdidOldUsers($defaultTable, $dayString);
+            $newUdidOldUsers += $this->queryNewUdidOldUsers($defaultTable, $extendStamp, $products);
             $defaultTable = $defaultTable + 1;
         }
-        echo "======" . $currentDate . " CurrentNewUdidOldUsers: " . $newUdidOldUsers . " \n";
+        echo "======" . date('Y-m-d', $extendStamp) . " FreshDevicesOnSeniorRegisters: " . $newUdidOldUsers . " \n";
         return $newUdidOldUsers;
     }
 
-    public function queryNewUdidOldUsers($table = 0, $dayString)
+    public function queryNewUdidOldUsers($table = 0, $loginStamp, $products = array())
     {
-        $tableName = "oistatistics.st_devices_" . $table;
-        $sql = sprintf("
-        SELECT 
-	u.udid
-FROM 
-	%s AS s 
-	LEFT JOIN oibirthday.users AS u ON s.udid = u.udid 
-	LEFT JOIN oistatistics.st_dim_date AS d ON s.create_date_sk = d.date_sk  
-WHERE 
-	TO_DAYS(d.datevalue) = %s
-    AND TO_DAYS(u.create_on) < TO_DAYS(u.visit_on)
-    AND TO_DAYS(u.visit_on) = %s
-        ",
-            $tableName,
-            $dayString,
-            $dayString
-        );
-        $query = $this->connectObj->fetchAssoc($sql);
-        foreach ($query as $item) {
-            $this->registerCoreTaskDevices[] = "'" . $item['udid'] . "'";
-        }
-        return count($query);
+        $freshDeviceSeniorRegisterSql = $this->getQueryFreshDeviceSeniorRegisterSql($table, $loginStamp, $products);
+        $result = $this->connectObj->fetchAssoc($freshDeviceSeniorRegisterSql);
+        return count($result);
     }
 
     // 获取当日新增的注册用户
@@ -311,7 +252,6 @@ AND TO_DAYS(u.create_on) >= %s AND TO_DAYS(u.create_on) <= %s", $tableName, $log
             } elseif ($item['max_bct'] >= 2 && $item['max_bct'] <= 5) {
                 $rankFive += 1;
             } elseif ($item['max_bct'] >= 6 && $item['max_bct'] <= 10) {
-                $this->registerCoreTaskDevices[] = "'" . $item['udid'] . "'";
                 $rankTen += 1;
             } else {
                 $rankMore += 1;
