@@ -86,19 +86,23 @@ class UnCoreUseAuthorize
             $dayItems = array();
             $dayItems[] = $startDate->format('Y-m-d');
             foreach ($appList as $item) {
-                $query = array(
-                    'appid' => $item,
-                    'dct_lt' => array('$gte' => $startDate->getTimestamp(), '$lte' => $startDate->getTimestamp() + 86400),
-                );
-                $query['max_bct'] = array('$gte' => -1, '$lte' => 1);
-                $itemCnt = $retainCollection->count($query);
-                $dayItems[] = $itemCnt;
+
+                $query['dct_lt'] = array('$gte' => $startDate->getTimestamp(), '$lte' => $startDate->getTimestamp() + 86400);
+                $query['max_bct'] = array('$gte' => -1, '$lte' => 0);
+                $dayItems[] = $retainCollection->count($query);
+                $query['max_bct'] = array('$gte' => 1, '$lte' => 1);
+                $dayItems[] = $retainCollection->count($query);
                 $query['max_bct'] = array('$gte' => 2, '$lte' => 5);
-                $itemCnt = $retainCollection->count($query);
-                $dayItems[] = $itemCnt;
-                $query['max_bct'] = array('$gte' => 6, '$lte' => 1000);
-                $itemCnt = $retainCollection->count($query);
-                $dayItems[] = $itemCnt;
+                $dayItems[] = $retainCollection->count($query);
+                $query['max_bct'] = array('$gte' => 6, '$lte' => 10);
+                $rankOn0610 = $retainCollection->count($query);
+                $dayItems[] = $rankOn0610;
+                $query['max_bct'] = array('$gte' => 10, '$lte' => 1000);
+                $rankOn1000 = $retainCollection->count($query);
+                $dayItems[] = $rankOn1000;
+                // 当日完成核心任务
+                $coreTaskCnt = $rankOn1000 + $rankOn0610;
+                $dayItems[] = $coreTaskCnt;
             }
             $dataItems['aaData'][] = $dayItems;
             $startDate->modify('-1 day');
